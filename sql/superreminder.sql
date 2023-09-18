@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 18 sep. 2023 à 12:01
+-- Généré le : lun. 18 sep. 2023 à 12:28
 -- Version du serveur : 5.7.36
 -- Version de PHP : 8.1.0
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : ` super-reminder`
+-- Base de données : `superreminder`
 --
 
 -- --------------------------------------------------------
@@ -99,6 +99,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `lastname` varchar(255) NOT NULL,
   `droits` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `avatar` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)

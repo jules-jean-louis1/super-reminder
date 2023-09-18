@@ -3,7 +3,7 @@
         <div>
             <div class="form_control flex relative rounded-14 flex-row items-center bg-[#a8b3cf14] h-12 px-4 overflow-hidden border-2 border-[#000] rounded cursor-text">
                 <label for="username" class="sr-only">Nom d'utilisateur</label>
-                <input type="text" name="username" id="username" placeholder="Nom d'utilisateur" class="bg-transparent text-black focus:outline-none w-full">
+                <input type="text" name="login" id="login" placeholder="Nom d'utilisateur" class="bg-transparent text-black focus:outline-none w-full">
             </div>
             <small id="errorUsername"></small>
         </div>
