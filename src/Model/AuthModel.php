@@ -5,18 +5,6 @@ use PDO;
 
 class AuthModel extends AbstractDatabase
 {
-    public function loginVerify(string $login): bool
-    {
-        $bdd = $this->getBdd();
-        $req = $bdd->prepare('SELECT login FROM users WHERE login = :login');
-        $req->execute(['username' => $login]);
-        $user = $req->fetch();
-        if ($user) {
-            return true;
-        } else {
-            return false;
-        }
-    }
     public function VerifyIfExist(string $field, string $nameOfField): bool
     {
         $bdd = $this->getBdd();
@@ -47,10 +35,10 @@ class AuthModel extends AbstractDatabase
         $req->bindParam(':avatar', $avatar, PDO::PARAM_STR);
         $req->execute();
     }
-    public function login(string $login, string $password): bool
+    public function login(string $email, string $password): bool
     {
         $bdd = $this->getBdd();
-        $req = $bdd->prepare("SELECT id, login, firstname, lastname, email, password, avatar, role, bio FROM users WHERE email = :email OR login = :email");
+        $req = $bdd->prepare("SELECT id, login, firstname, lastname, email, password, avatar, droits FROM users WHERE email = :email OR login = :email");
         $req->bindParam(':email', $email, PDO::PARAM_STR);
         $req->execute();
         $user = $req->fetch();

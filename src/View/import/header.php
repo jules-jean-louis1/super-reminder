@@ -6,7 +6,7 @@
     </ul>
     <div>
         <?php if (isset($_SESSION['user'])): ?>
-            <a href="index.php?page=logout">Logout</a>
+            <a href="/super-reminder/logout">Logout</a>
         <?php else: ?>
         <button id="btnLogin" class="btn btn-primary">Login</button>
         <?php endif; ?>

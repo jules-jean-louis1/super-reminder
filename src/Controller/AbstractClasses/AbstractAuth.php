@@ -4,9 +4,10 @@ namespace App\Controller\AbstractClasses;
 
 class AbstractAuth
 {
-    protected function verifyField($field): mixed
+    protected function verifyField($field): string|false
     {
         if (isset($_POST[$field]) && !empty(trim($_POST[$field]))) {
+            $_POST[$field] = $this->ValidFieldForm($_POST[$field]);
             return $_POST[$field];
         } else {
             return false;

@@ -89,6 +89,7 @@ export async function loginRegisterForm(btnLogin)
             formLogin.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const formData = new FormData(formLogin);
+                console.log(formData);
                 try {
                     const response = await fetch(`/super-reminder/login/submit`, {
                         method: 'POST',
