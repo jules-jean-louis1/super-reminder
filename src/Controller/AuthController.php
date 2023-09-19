@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
-use App\Model\AuthModel;
+use App\Model\{AuthModel,
+                User,
+};
+
 
 class AuthController extends AbstractClasses\AbstractAuth
 {
@@ -136,7 +139,7 @@ class AuthController extends AbstractClasses\AbstractAuth
         }
     }
 
-    public function login(): void
+    public function login()
     {
         $email = $this->verifyField('email');
         $password = $this->verifyField('password');
@@ -151,9 +154,18 @@ class AuthController extends AbstractClasses\AbstractAuth
         if (empty($errors)) {
             $email = $this->ValidFieldForm($email);
             $password = $this->ValidFieldForm($password);
-            $this->authModel->login($email, $password);
-            if ($this->authModel->login($email, $password)) {
+            $user = $this->authModel->login($email, $password);
+            if (!empty($user)) {
                 $errors['success'] = 'Vous êtes connecté';
+                $_SESSION['user'] = [
+                    'id' => $user['id'],
+                    'login' => $user['login'],
+                    'firstname' => $user['firstname'],
+                    'lastname' => $user['lastname'],
+                    'email' => $user['email'],
+                    'avatar' => $user['avatar'],
+                    'droits' => $user['droits']
+                ];
             } else {
                 $errors['error'] = 'Email ou mot de passe incorrect';
             }

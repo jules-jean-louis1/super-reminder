@@ -35,7 +35,7 @@ class AuthModel extends AbstractDatabase
         $req->bindParam(':avatar', $avatar, PDO::PARAM_STR);
         $req->execute();
     }
-    public function login(string $email, string $password): bool
+    public function login(string $email, string $password): false|array
     {
         $bdd = $this->getBdd();
         $req = $bdd->prepare("SELECT id, login, firstname, lastname, email, password, avatar, droits FROM users WHERE email = :email OR login = :email");
@@ -44,17 +44,7 @@ class AuthModel extends AbstractDatabase
         $user = $req->fetch();
         if ($user) {
             if (password_verify($password, $user['password'])) {
-                $_SESSION['user'] =
-                    [
-                        'id' => $user['id'],
-                        'login' => $user['login'],
-                        'firstname' => $user['firstname'],
-                        'lastname' => $user['lastname'],
-                        'email' => $user['email'],
-                        'avatar' => $user['avatar'],
-                        'droits' => $user['droits'],
-                    ];
-                return true;
+                return $user;
             } else {
                 return false;
             }

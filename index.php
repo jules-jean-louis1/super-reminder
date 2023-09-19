@@ -3,7 +3,7 @@ session_start();
 require 'vendor/autoload.php';
 
 use App\Controller\{
-    AuthController
+    AuthController,
 };
 
 $router = new AltoRouter();
@@ -15,7 +15,7 @@ $router->setBasePath('/super-reminder');
 $router->map('GET', '/login', function () {
     require_once 'src/View/import/form/loginForm.php';
 });
-$router->map('POST', '/login/submit', function () use ($authController) {
+$router->map('POST', '/login/submit', function () use ($authController,) {
     $authController->login();
 });
 // register
