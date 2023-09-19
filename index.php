@@ -4,10 +4,12 @@ require 'vendor/autoload.php';
 
 use App\Controller\{
     AuthController,
+    ProfilController
 };
 
 $router = new AltoRouter();
 $authController = new AuthController();
+$profilController = new ProfilController();
 $router->setBasePath('/super-reminder');
 
 
@@ -15,7 +17,7 @@ $router->setBasePath('/super-reminder');
 $router->map('GET', '/login', function () {
     require_once 'src/View/import/form/loginForm.php';
 });
-$router->map('POST', '/login/submit', function () use ($authController,) {
+$router->map('POST', '/login/submit', function () use ($authController) {
     $authController->login();
 });
 // register
@@ -32,6 +34,14 @@ $router->map('GET', '/logout', function () use ($authController) {
 // HomePage
 $router->map('GET', '/', function () {
     require_once 'src/View/homepage.php';
+});
+// Profil
+$router->map( 'GET', '/profil/[i:id]', function($id) {
+    require_once 'src/View/profil.php';
+});
+
+$router->map('GET', '/profil/[i:id]/infos', function ($id) use ($profilController) {
+    $profilController->getUserInfo($id);
 });
 
 
