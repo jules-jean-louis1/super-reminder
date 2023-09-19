@@ -79,10 +79,14 @@ async function addReminder() {
                     <label for="description">Description</label>
                     <textarea name="description" id="description" cols="30" rows="10"></textarea>
                     <label for="start">Début</label>
-                    <input type="date" name="start" id="start">
+                    <input type="datetime-local" name="start" id="start">
                     <label for="end">Fin</label>
-                    <input type="date" name="end" id="end">
+                    <input type="datetime-local" name="end" id="end">
                     <div id="listsOfReminders"></div>
+                    <p id="errorDisplay"></p>
+                    <div>
+                        <button type="submit" id="btnAddReminder">Ajouter un rappel</button>
+                    </div>
                 </form>
             </div>
         </dialog>
@@ -91,6 +95,16 @@ async function addReminder() {
     modalAddReminder.showModal();
 
     const listsOfReminders = document.getElementById('listsOfReminders');
+    getListOfUsers(id).then(data => {
+        for (let i = 0; i < data.length; i++) {
+            listsOfReminders.innerHTML += `
+                <div>
+                    <input type="checkbox" value="${data[i].id}">
+                    <label for="${data[i].name}">${data[i].name}</label>
+                </div>
+            `;
+        }
+    });
 
     const btnCloseAddReminder = document.getElementById('btnCloseAddReminder');
     btnCloseAddReminder.addEventListener('click', () => {
@@ -104,7 +118,6 @@ async function getListOfUsers(id) {
     console.log(data);
     return data;
 }
-getListOfUsers(id);
 
 btnAddReminder.addEventListener('click', addReminder);
 btnAddList.addEventListener('click', addList);

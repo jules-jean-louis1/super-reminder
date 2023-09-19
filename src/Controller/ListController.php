@@ -23,7 +23,9 @@ class ListController extends AbstractClasses\AbstractContoller
         } else if (strlen($name) <= 2 || strlen($name) >= 20) {
             $errors['error'] = 'Le nom doit contenir entre 2 et 20 caractères';
         }
-
+        if ($_SESSION['user']['id'] === $userId) {
+            $errors['error'] = 'Vous ne pouvez pas ajouter de liste à un autre utilisateur';
+        }
         if (empty($errors)) {
             $checkNumberList = $listModel->checkNumberList($userId);
             if (!$checkNumberList) {
