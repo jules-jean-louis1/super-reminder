@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Model;
-
-use App\Model\AbstractDatabase\PDOException;
 use PDO;
 
 abstract class AbstractDatabase
@@ -20,7 +18,6 @@ abstract class AbstractDatabase
             exit;
         }
         // Connexion a la base de données ONLINE
-
     }
     public function getBdd(): PDO
     {

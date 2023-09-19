@@ -1,8 +1,12 @@
 <nav>
     <ul>
         <li><a href="/super-reminder/">Home</a></li>
-        <li><a href="index.php?page=about">TodoList</a></li>
-        <li><a href="/super-reminder/profil/<?= $_SESSION['user']['id']?>">Profil</a></li>
+        <?php if (isset($_SESSION['user'])): ?>
+            <li><a href="/super-reminder/reminder/<?= $_SESSION['user']['id']?>">Reminder</a></li>
+            <li><a href="/super-reminder/profil/<?= $_SESSION['user']['id']?>">Profil</a></li>
+        <?php else: ?>
+            <li><a href="/super-reminder/todolist">TodoList</a></li>
+        <?php endif; ?>
     </ul>
     <div>
         <?php if (isset($_SESSION['user'])): ?>

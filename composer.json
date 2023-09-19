@@ -13,5 +13,7 @@
             "email": "jules.jean-louis@laplateforme.io"
         }
     ],
-    "require": {}
+    "require": {
+        "ext-pdo": "*"
+    }
 }

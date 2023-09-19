@@ -1,5 +1,5 @@
 <?php
-var_dump($_SESSION['user']);
+
 ?>
 <!DOCTYPE html>
 <html>

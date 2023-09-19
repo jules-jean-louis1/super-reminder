@@ -10,6 +10,7 @@ use App\Controller\{
 $router = new AltoRouter();
 $authController = new AuthController();
 $profilController = new ProfilController();
+$listController = new \App\Controller\ListController();
 $router->setBasePath('/super-reminder');
 
 
@@ -39,10 +40,22 @@ $router->map('GET', '/', function () {
 $router->map( 'GET', '/profil/[i:id]', function($id) {
     require_once 'src/View/profil.php';
 });
-
 $router->map('GET', '/profil/[i:id]/infos', function ($id) use ($profilController) {
     $profilController->getUserInfo($id);
 });
+$router->map('POST', '/profil/[i:id]/edit', function ($id) use ($profilController) {
+    $profilController->editUserInfo($id);
+});
+
+
+// TodoList
+$router->map('GET', '/reminder/[:id]', function ($id) {
+    require_once 'src/View/todolist.php';
+});
+
+$router->map('GET', '/reminder/[i:id]/getUserList', function ($id) use ($listController) {
+    $listController->getUserList($id);
+}, 'getUserList');
 
 
 $match = $router->match();
