@@ -50,12 +50,15 @@ $router->map('POST', '/profil/[i:id]/edit', function ($id) use ($profilControlle
 
 // TodoList
 $router->map('GET', '/reminder/[:id]', function ($id) {
-    require_once 'src/View/todolist.php';
+    require_once 'src/View/reminder.php';
 });
-
 $router->map('GET', '/reminder/[i:id]/getUserList', function ($id) use ($listController) {
     $listController->getUserList($id);
 }, 'getUserList');
+$router->map('POST', '/reminder/[i:id]/addList', function ($id) use ($listController) {
+    $listController->addList($id);
+});
+
 
 
 $match = $router->match();

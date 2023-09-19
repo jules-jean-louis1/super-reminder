@@ -7,7 +7,7 @@ use App\Model\{AuthModel,
 };
 
 
-class AuthController extends AbstractClasses\AbstractAuth
+class AuthController extends AbstractClasses\AbstractContoller
 {
     private AuthModel $authModel;
     public function __construct()

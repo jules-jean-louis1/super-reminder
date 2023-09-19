@@ -2,12 +2,11 @@
 
 namespace App\Controller\AbstractClasses;
 
-class AbstractAuth
+class AbstractContoller
 {
-    protected function verifyField($field): string|false
+    protected function verifyField($field): mixed
     {
         if (isset($_POST[$field]) && !empty(trim($_POST[$field]))) {
-            $_POST[$field] = $this->ValidFieldForm($_POST[$field]);
             return $_POST[$field];
         } else {
             return false;

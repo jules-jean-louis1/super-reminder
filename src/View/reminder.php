@@ -20,6 +20,7 @@
         <div>
             <div id="containerAutocompletion"></div>
             <div id="containerReminder">
+
                 <div id="containerReminderForm">
                     <form action="" method="post" id="listeSort">
                         <label for="Liste">Liste</label>
@@ -29,9 +30,13 @@
                     </form>
                 </div>
                 <div>
+                    <button id="btnAddList" class="btn btn-primary">Ajouter une liste</button>
+                </div>
+                <div>
                     <button id="btnAddReminder" class="btn btn-primary">Ajouter un rappel</button>
                 </div>
                 <div id="containerReminderList"></div>
+
             </div>
         </div>
     </main>

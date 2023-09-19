@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-class ProfilController extends AbstractClasses\AbstractAuth
+class ProfilController extends AbstractClasses\AbstractContoller
 {
     private \App\Model\profilModel $profilModel;
 
