@@ -75,19 +75,30 @@ async function addReminder() {
             <button type="button" id="btnCloseAddReminder">X</button>
             <div>
                 <form action="" method="post" id="formAddReminder">
-                    <label for="name">Titre</label>
-                    <input type="text" name="name" id="name">
-                    <label for="description">Description</label>
-                    <textarea name="description" id="description" cols="30" rows="10"></textarea>
-                    <label for="start">Début</label>
-                    <input type="datetime-local" name="start" id="start">
-                    <label for="end">Fin</label>
-                    <label for="status">Status</label>
-                    <select name="status" id="status">
-                        <option value="0">En cours</option>
-                        <option value="1">Terminé</option>
-                    </select>
-                    <input type="datetime-local" name="end" id="end">
+                    <div>
+                        <label for="name">Titre</label>
+                        <input type="text" name="name" id="name">
+                        <p id="errorName"></p>
+                    </div>
+                    <div>
+                        <label for="description">Description</label>
+                        <textarea name="description" id="description" cols="30" rows="10"></textarea>
+                        <p id="errorDescription"></p>
+                    </div>
+                    <div>
+                        <button type="button" id="btnAddDate">Ajouter une date</button>
+                        <button type="button" id="btnAddPriority">Ajouter une priorité</button>
+                        <div id="addDate"></div>
+                        <div id="addPriority"></div>
+                    </div>
+                    <div>
+                        <label for="status">Status</label>
+                        <select name="status" id="status">
+                            <option value="0">Pas commencer</option>
+                            <option value="1">En cours</option>
+                            <option value="2">Terminé</option>
+                        </select>
+                    </div>
                     <div id="listsOfReminders"></div>
                     <p id="errorDisplay"></p>
                     <div>
@@ -100,6 +111,64 @@ async function addReminder() {
     const modalAddReminder = document.getElementById('modalAddReminder');
     modalAddReminder.showModal();
 
+    const btnAddDate = document.getElementById('btnAddDate');
+    const addDate = document.getElementById('addDate');
+    btnAddDate.addEventListener('click', () => {
+        const hasHours = addDate.querySelector('#btnAddHours');
+
+        if (!hasHours) {
+            // Les champs de date et d'heure ne sont pas affichés, affichez-les
+            addDate.innerHTML = `
+        <h3>Heures</h3>
+        <div>
+            <label for="start">Début</label>
+            <input type="date" name="start" id="start">
+        </div>
+        <div>
+            <label for="end">Fin</label>                    
+            <input type="date" name="end" id="end">
+        </div>
+        <p id="errorDate"></p>
+        <button type="button" id="btnAddHours">Ajouter des heures</button>
+        `;
+        } else {
+            // Les champs de date et d'heure sont déjà affichés, supprimez-les
+            addDate.innerHTML = '';
+        }
+        const btnAddHours = document.getElementById('btnAddHours');
+        if (btnAddHours) {
+            btnAddHours.addEventListener('click', () => {
+                const inputStart = document.getElementById('start');
+                const inputEnd = document.getElementById('end');
+                if (btnAddHours.textContent === 'Ajouter des heures') {
+                    inputStart.setAttribute('type', 'datetime-local');
+                    inputEnd.setAttribute('type', 'datetime-local');
+                    btnAddHours.textContent = 'Supprimer les heures';
+                } else {
+                    inputStart.setAttribute('type', 'date');
+                    inputEnd.setAttribute('type', 'date');
+                    btnAddHours.textContent = 'Ajouter des heures';
+                }
+            });
+        }
+    });
+    const btnAddPriority = document.getElementById('btnAddPriority');
+    const addPriority = document.getElementById('addPriority');
+    btnAddPriority.addEventListener('click', () => {
+        const hasPriority = addPriority.querySelector('#priority');
+        if (!hasPriority) {
+            addPriority.innerHTML = `
+            <h3>Priorité</h3>
+            <select name="priority" id="priority">
+                <option value="0">Basse</option>
+                <option value="1">Moyenne</option>
+                <option value="2">Haute</option>
+            </select>
+            `;
+        } else {
+            addPriority.innerHTML = '';
+        }
+    });
     const listsOfReminders = document.getElementById('listsOfReminders');
     getListOfUsers(id).then(data => {
         for (let i = 0; i < data.length; i++) {
@@ -111,7 +180,12 @@ async function addReminder() {
             `;
         }
     });
+
     const errorDisplay = document.getElementById('errorDisplay');
+    const errorName = document.getElementById('errorName');
+    const errorDescription = document.getElementById('errorDescription');
+    const errorDate = document.getElementById('errorDate');
+
     const formAddReminder = document.getElementById('formAddReminder');
     formAddReminder.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -122,7 +196,41 @@ async function addReminder() {
             });
             const data = await response.json();
             console.log(data);
-
+            if (data.success) {
+                errorDisplay.innerHTML = '';
+                errorDisplay.innerHTML = data.success;
+                setTimeout(() => {
+                    modalAddReminder.close();
+                }, 1000);
+            }
+            if (data.error) {
+                errorDisplay.innerHTML = '';
+                errorDisplay.innerHTML = data.error;
+            }
+            if (data.name) {
+                errorName.innerHTML = '';
+                errorName.innerHTML = data.name;
+            }
+            if (data.description) {
+                errorDescription.innerHTML = '';
+                errorDescription.innerHTML = data.description;
+            }
+            if (data.start) {
+                errorDate.innerHTML = '';
+                errorDate.innerHTML = data.start;
+            }
+            if (data.end) {
+                errorDate.innerHTML = '';
+                errorDate.innerHTML = data.end;
+            }
+            if (data.date) {
+                errorDate.innerHTML = '';
+                errorDate.innerHTML = data.date;
+            }
+            if (data.error) {
+                errorDisplay.innerHTML = '';
+                errorDisplay.innerHTML = data.error;
+            }
         } catch (error) {
             console.log(error);
         }
@@ -137,7 +245,6 @@ async function addReminder() {
 async function getListOfUsers(id) {
     const response = await fetch(`/super-reminder/reminder/${id}/getUserList`);
     const data = await response.json();
-    console.log(data);
     return data;
 }
 
