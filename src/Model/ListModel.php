@@ -25,12 +25,18 @@ class ListModel extends AbstractDatabase
         $req->bindParam(':users_id', $userId, \PDO::PARAM_INT);
         $req->execute();
     }
-    public function deleteList(int $id): void
+    public function deleteList(int $id): bool
     {
         $bdd = $this->getBdd();
         $req = $bdd->prepare('DELETE FROM list WHERE id = :id');
         $req->bindParam(':id', $id, \PDO::PARAM_INT);
-        $req->execute();
+        $result = $req->execute();
+
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
     }
     public function editList(string $name, int $id): void
     {

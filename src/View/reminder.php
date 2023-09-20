@@ -18,9 +18,17 @@
         <div id="dialogModal_Overlay"></div>
         <div id="containerModal"></div>
         <div>
-            <div id="containerAutocompletion"></div>
+            <div id="containerAutocompletion">
+                <div id="containerAutocompletionForm">
+                    <form action="" method="post" id="autocompletionForm">
+                        <label for="autocompletion">Autocompletion</label>
+                        <input type="text" name="autocompletion" id="autocompletion">
+                    </form>
+                </div>
+                <div id="containerAutocompletionList"></div>
+                <div id="ListeUserWarpper"></div>
+            </div>
             <div id="containerReminder">
-
                 <div id="containerReminderForm">
                     <form action="" method="post" id="listeSort">
                         <label for="Liste">Liste</label>
@@ -36,7 +44,6 @@
                     <button id="btnAddReminder" class="btn btn-primary">Ajouter un rappel</button>
                 </div>
                 <div id="containerReminderList"></div>
-
             </div>
         </div>
     </main>

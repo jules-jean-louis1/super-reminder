@@ -55,9 +55,16 @@ $router->map('GET', '/reminder/[:id]', function ($id) {
 $router->map('GET', '/reminder/[i:id]/getUserList', function ($id) use ($listController) {
     $listController->getUserList($id);
 }, 'getUserList');
-$router->map('POST', '/reminder/[i:id]/addList', function ($id) use ($listController) {
+$router->map('POST', '/reminder/[:id]/addList', function ($id) use ($listController) {
     $listController->addList($id);
 });
+$router->map('GET', '/reminder/[:id]/deleteList', function ($id) use ($listController) {
+    $listController->deleteList($id);
+});
+$router->map('POST', '/reminder/edit/[:id]', function ($id) use ($listController){
+    $listController->editList($id);
+});
+
 
 
 

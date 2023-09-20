@@ -1,5 +1,6 @@
 const btnAddReminder = document.getElementById('btnAddReminder');
-const btnAddList = document.getElementById('btnAddList')
+const btnAddList = document.getElementById('btnAddList');
+const ListeUserWarpper = document.getElementById('ListeUserWarpper');
 
 const url = window.location.href;
 let segments = url.split('/');
@@ -121,3 +122,48 @@ async function getListOfUsers(id) {
 
 btnAddReminder.addEventListener('click', addReminder);
 btnAddList.addEventListener('click', addList);
+
+async function manageReminder(){
+    ListeUserWarpper.innerHTML = '';
+    getListOfUsers(id).then(list => {
+        for (let i = 0; i < list.length; i++) {
+            ListeUserWarpper.innerHTML += `
+                <div class="listUser">
+                    <h3>${list[i].name}</h3>
+                    <div class="reminderActionBtn">
+                        <button class="deleteList" data-id="${list[i].id}">Suppr</button>
+                        <button class="updateList" data-id="${list[i].id}">Modif</button>
+                    </div>
+                </div>
+            `;
+        }
+        const deleteList = document.querySelectorAll('.deleteList');
+        const updateList = document.querySelectorAll('.updateList');
+        deleteList.forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const idList = btn.getAttribute('data-id');
+                const response = await fetch(`/super-reminder/reminder/${idList}/deleteList`);
+                const data = await response.json();
+                console.log(data);
+                if(data.success){
+                    manageReminder();
+                }
+            });
+        });
+        updateList.forEach(btn => {
+            btn.addEventListener('click', () => {
+                containerModal.innerHTML = '';
+                containerModal.innerHTML = `
+                <dialog>
+                    <form action="" method="post" id="formEditList">
+                        <label for="name">Name</label>
+                        <input value="">
+                        <button type="submit">Modifier</button>
+                    </form>
+                </dialog>
+                `;
+            })
+        })
+    });
+}
+manageReminder();
