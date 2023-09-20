@@ -11,6 +11,7 @@ $router = new AltoRouter();
 $authController = new AuthController();
 $profilController = new ProfilController();
 $listController = new \App\Controller\ListController();
+$taskController = new \App\Controller\TaskController();
 $router->setBasePath('/super-reminder');
 
 
@@ -64,7 +65,13 @@ $router->map('GET', '/reminder/[:id]/deleteList', function ($id) use ($listContr
 $router->map('POST', '/reminder/edit/[:id]', function ($id) use ($listController){
     $listController->editList($id);
 });
-
+// Task
+$router->map('GET', '/reminder/[:id]/getTask', function ($id) use ($taskController) {
+    $taskController->getTask($id);
+});
+$router->map('POST', '/reminder/[:id]/addTask', function ($id) use ($taskController) {
+    $taskController->addTask($id);
+});
 
 
 

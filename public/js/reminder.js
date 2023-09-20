@@ -75,13 +75,18 @@ async function addReminder() {
             <button type="button" id="btnCloseAddReminder">X</button>
             <div>
                 <form action="" method="post" id="formAddReminder">
-                    <label for="title">Titre</label>
-                    <input type="text" name="title" id="title">
+                    <label for="name">Titre</label>
+                    <input type="text" name="name" id="name">
                     <label for="description">Description</label>
                     <textarea name="description" id="description" cols="30" rows="10"></textarea>
                     <label for="start">Début</label>
                     <input type="datetime-local" name="start" id="start">
                     <label for="end">Fin</label>
+                    <label for="status">Status</label>
+                    <select name="status" id="status">
+                        <option value="0">En cours</option>
+                        <option value="1">Terminé</option>
+                    </select>
                     <input type="datetime-local" name="end" id="end">
                     <div id="listsOfReminders"></div>
                     <p id="errorDisplay"></p>
@@ -100,10 +105,26 @@ async function addReminder() {
         for (let i = 0; i < data.length; i++) {
             listsOfReminders.innerHTML += `
                 <div>
-                    <input type="checkbox" value="${data[i].id}">
+                    <input type="radio" value="${data[i].id}" name="list">
                     <label for="${data[i].name}">${data[i].name}</label>
                 </div>
             `;
+        }
+    });
+    const errorDisplay = document.getElementById('errorDisplay');
+    const formAddReminder = document.getElementById('formAddReminder');
+    formAddReminder.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch(`/super-reminder/reminder/${id}/addTask`, {
+                method: 'POST',
+                body: new FormData(formAddReminder)
+            });
+            const data = await response.json();
+            console.log(data);
+
+        } catch (error) {
+            console.log(error);
         }
     });
 
@@ -152,16 +173,45 @@ async function manageReminder(){
         });
         updateList.forEach(btn => {
             btn.addEventListener('click', () => {
+                const idList = btn.getAttribute('data-id');
                 containerModal.innerHTML = '';
                 containerModal.innerHTML = `
-                <dialog>
+                <dialog id="modalEditList" tabindex="-1" aria-labelledby="modalEditListLabel" aria-hidden="true" class="dialog_fixed">
+                    <h2 id="modalEditListLabel">Modifier une liste</h2>
+                    <button type="button" id="btnCloseEditList">X</button>
                     <form action="" method="post" id="formEditList">
                         <label for="name">Name</label>
-                        <input value="">
+                        <input type="text" name="name" id="name">
                         <button type="submit">Modifier</button>
+                        <div id="errorDisplay"></div>
                     </form>
                 </dialog>
                 `;
+                const modalEditList = document.getElementById('modalEditList');
+                modalEditList.showModal();
+                const btnCloseEditList = document.getElementById('btnCloseEditList');
+                btnCloseEditList.addEventListener('click', () => {
+                    modalEditList.close();
+                });
+                const errorDisplay = document.getElementById('errorDisplay');
+                const formEditList = document.getElementById('formEditList');
+                formEditList.addEventListener('submit', async (ev) => {
+                    ev.preventDefault();
+                    const response = await fetch(`/super-reminder/reminder/edit/${idList}`,{
+                        method: 'POST',
+                        body: new FormData(formEditList)
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                        modalEditList.close();
+                        manageReminder();
+                    }
+                    if (data.error) {
+                        errorDisplay.innerHTML = '';
+                        errorDisplay.innerHTML = data.error;
+                    }
+                    console.log(data);
+                });
             })
         })
     });

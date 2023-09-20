@@ -22,7 +22,7 @@ class AbstractContoller
     protected function VerifyPassword(string $password): bool
     {
         // 8 caractères minimum, 3 lettres minuscules minimum, 2 lettres majuscules minimum, 2 chiffres minimum, 1 caractère spécial minimum
-        if (preg_match("/^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){2,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/", $password)) {
+        if (preg_match(pattern: "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/", subject: $password)) {
             return true;
         } else {
             return false;

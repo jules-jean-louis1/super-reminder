@@ -54,15 +54,13 @@ class ListController extends AbstractClasses\AbstractContoller
     public function editList(int $id)
     {
         $listModel = new ListModel();
-        $name = $this->ValidFieldForm('name');
+        $name = $this->ValidFieldForm2('name');
         $errors = [];
 
-        if (!empty($name)) {
-            if (strlen($name) < 2 || strlen($name) > 20) {
-                $errors['name'] = 'Le nom doit contenir entre 3 et 20 caractères';
-            }
-        } else {
+        if (!$name) {
             $errors['name'] = 'Veuillez entrer un nom';
+        } else if (strlen($name) < 2 || strlen($name) > 20) {
+            $errors['name'] = 'Le nom doit contenir entre 3 et 20 caractères';
         }
         if (empty($errors)){
             $listModel->editList($name, $id);
