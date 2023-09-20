@@ -72,6 +72,12 @@ $router->map('GET', '/reminder/[:id]/getTask', function ($id) use ($taskControll
 $router->map('POST', '/reminder/[:id]/addTask', function ($id) use ($taskController) {
     $taskController->addTask($id);
 });
+$router->map('GET', '/reminder/[:id]/deleteTask', function ($id) use ($taskController) {
+    $taskController->deleteTask($id);
+});
+$router->map('POST', '/reminder/[:id]/searchTask', function ($id) use ($taskController) {
+    $taskController->searchTask($id);
+});
 
 
 

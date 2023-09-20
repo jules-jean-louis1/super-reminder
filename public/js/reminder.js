@@ -1,6 +1,7 @@
 const btnAddReminder = document.getElementById('btnAddReminder');
 const btnAddList = document.getElementById('btnAddList');
 const ListeUserWarpper = document.getElementById('ListeUserWarpper');
+const listeFormSelect = document.getElementById('listeFormSelect');
 
 const url = window.location.href;
 let segments = url.split('/');
@@ -324,3 +325,56 @@ async function manageReminder(){
     });
 }
 manageReminder();
+
+getListOfUsers(id).then(data => {
+    for (let i = 0; i < data.length; i++) {
+        listeFormSelect.innerHTML += `
+            <option value="${data[i].id}">${data[i].name}</option>
+        `;
+    }
+});
+
+function getReminder(id) {
+
+}
+async function dislpayReminder() {
+    const response = await fetch(`/super-reminder/reminder/${id}/searchTask`, {
+        method: 'POST',
+        body: new FormData(listSortForm)
+    });
+    const data = await response.json();
+    console.log(data);
+}
+async function formReminder() {
+    const inputSearch = document.getElementById('autocompletion')
+    const inputSearchValue = inputSearch.value;
+    const listeValue = listeFormSelect.value;
+    const dateFormSelect = document.getElementById('dateFormSelect').value;
+    const statusFormSelect = document.getElementById('statusFormSelect').value;
+    const priorityFormSelect = document.getElementById('priorityFormSelect').value;
+
+    const listSortForm = document.getElementById('listSortForm');
+
+    const autocompletion = document.getElementById('autocompletion');
+    autocompletion.addEventListener('keyup', async () => {
+        dislpayReminder();
+    });
+    const selectList = document.getElementById('listeFormSelect');
+    selectList.addEventListener('change', () => {
+        dislpayReminder();
+    });
+    const selectDate = document.getElementById('dateFormSelect');
+    selectDate.addEventListener('change', () => {
+        dislpayReminder();
+    });
+    const selectStatus = document.getElementById('statusFormSelect');
+    selectStatus.addEventListener('change', () => {
+        dislpayReminder();
+    });
+    const selectPriority = document.getElementById('priorityFormSelect');
+    selectPriority.addEventListener('change', () => {
+        dislpayReminder();
+    });
+}
+formReminder();
+

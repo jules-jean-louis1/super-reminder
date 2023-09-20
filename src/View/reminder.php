@@ -19,22 +19,41 @@
         <div id="containerModal"></div>
         <div>
             <div id="containerAutocompletion">
-                <div id="containerAutocompletionForm">
-                    <form action="" method="post" id="autocompletionForm">
-                        <label for="autocompletion">Autocompletion</label>
-                        <input type="text" name="autocompletion" id="autocompletion">
-                    </form>
-                </div>
                 <div id="containerAutocompletionList"></div>
                 <div id="ListeUserWarpper"></div>
             </div>
             <div id="containerReminder">
                 <div id="containerReminderForm">
-                    <form action="" method="post" id="listeSort">
+                    <form action="" method="get" id="listSortForm">
+                        <label for="autocompletion">Autocompletion</label>
+                        <input type="text" name="autocompletion" id="autocompletion">
                         <label for="Liste">Liste</label>
-                        <select name="Liste" id="Liste"></select>
+                        <select name="list" id="listeFormSelect">
+                            <option value="all">Toutes</option>
+                        </select>
                         <label for="date">Date</label>
-                        <select name="date" id="date"></select>
+                        <select name="date" id="dateFormSelect">
+                            <option value="all">Toutes</option>
+                            <option value="today">Aujourd'hui</option>
+                            <option value="tomorrow">Demain</option>
+                            <option value="week">Cette semaine</option>
+                            <option value="month">Ce mois</option>
+                            <option value="year">Cette année</option>
+                        </select>
+                        <label for="status">Status</label>
+                        <select name="status" id="statusFormSelect">
+                            <option value="all">Toutes</option>
+                            <option value="todo">A faire</option>
+                            <option value="inprogress">En cours</option>
+                            <option value="done">Terminé</option>
+                        </select>
+                        <label for="priority">Priorité</label>
+                        <select name="priority" id="priorityFormSelect">
+                            <option value="all">Toutes</option>
+                            <option value="0">Basse</option>
+                            <option value="1">Moyenne</option>
+                            <option value="2">Haute</option>
+                        </select>
                     </form>
                 </div>
                 <div>

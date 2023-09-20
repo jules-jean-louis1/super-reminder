@@ -91,4 +91,18 @@ class TaskController
         echo json_encode($errors);
     }
 
+    public function searchTask(int $id)
+    {
+        $search = $_POST['search'];
+        $list = $_POST['list'];
+        $date = $_POST['date'];
+        $status = $_POST['status'];
+        $priority = $_POST['priority'];
+
+
+        $taskModel = new TaskModel();
+        $search = $taskModel->searchTask();
+        echo json_encode($search);
+    }
+
 }
