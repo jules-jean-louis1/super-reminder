@@ -93,7 +93,7 @@ class TaskController
 
     public function searchTask(int $id)
     {
-        $search = $_POST['search'];
+        $search = $_POST['autocompletion'];
         $list = $_POST['list'];
         $date = $_POST['date'];
         $status = $_POST['status'];
@@ -101,8 +101,12 @@ class TaskController
 
 
         $taskModel = new TaskModel();
-        $search = $taskModel->searchTask();
-        echo json_encode($search);
+        $searchResult = $taskModel->searchTask($search, $list, $date, $status, $priority, $id);
+        if (!empty($searchResult)) {
+            echo json_encode($searchResult);
+        } else {
+            echo json_encode(false);
+        }
     }
 
 }
