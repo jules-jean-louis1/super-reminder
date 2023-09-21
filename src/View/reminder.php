@@ -43,7 +43,7 @@
                         <label for="status">Status</label>
                         <select name="status" id="statusFormSelect">
                             <option value="all">Toutes</option>
-                            <option value="todo">A faire</option>
+                            <option value="todo">Pas commencer</option>
                             <option value="inprogress">En cours</option>
                             <option value="done">Terminé</option>
                         </select>
@@ -55,6 +55,7 @@
                             <option value="2">Haute</option>
                         </select>
                     </form>
+                    <div id="resetFormSort"></div>
                 </div>
                 <div>
                     <button id="btnAddList" class="btn btn-primary">Ajouter une liste</button>

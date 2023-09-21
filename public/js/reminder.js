@@ -1,7 +1,10 @@
+import { formatDate } from './function/function.js';
+
 const btnAddReminder = document.getElementById('btnAddReminder');
 const btnAddList = document.getElementById('btnAddList');
 const ListeUserWarpper = document.getElementById('ListeUserWarpper');
 const listeFormSelect = document.getElementById('listeFormSelect');
+const containerReminderList = document.getElementById('containerReminderList');
 
 const url = window.location.href;
 let segments = url.split('/');
@@ -338,12 +341,83 @@ function getReminder(id) {
 
 }
 async function dislpayReminder() {
-    const response = await fetch(`/super-reminder/reminder/${id}/searchTask`, {
+    let response = await fetch(`/super-reminder/reminder/${id}/searchTask`, {
         method: 'POST',
         body: new FormData(listSortForm)
     });
-    const data = await response.json();
+    let data = await response.json();
     console.log(data);
+    containerReminderList.innerHTML = '';
+    if (data === false) {
+        containerReminderList.innerHTML = `
+            <p>Aucun résultat</p>
+        `;
+    } else {
+        for (let i = 0; i < data.length; i++) {
+            containerReminderList.innerHTML += `
+                <div class="reminder">
+                    <h3>${data[i].task_name}</h3>
+                    <p>${data[i].description}</p>
+                    <div id="created_at">
+                        <p>${formatDate(data[i].task_created_at)}</p>
+                    </div>
+                    <div id="dateStart"></div>
+                    <div id="dateEnd"></div>
+                    <div id="priority"></div>
+                    <div id="status"></div>
+                    <div id="list">
+                        <p>${data[i].list_name}</p>
+                    </div>
+                    <div class="reminderActionBtn">
+                        <button class="deleteReminder" data-id="${data[i].task_id}">Suppr</button>
+                        <button class="updateReminder" data-id="${data[i].task_id}">Modif</button>
+                    </div>
+                </div>`;
+            const dateStart = document.querySelectorAll('#dateStart')[i];
+            const dateEnd = document.querySelectorAll('#dateEnd')[i];
+            const priority = document.querySelectorAll('#priority')[i];
+            const status = document.querySelectorAll('#status')[i];
+            const list = document.querySelectorAll('#list')[i];
+            if (data[i].start !== null) {
+                dateStart.innerHTML = `
+                    <p>Début: ${formatDate(data[i].start)}</p>
+                `;
+            }
+            if (data[i].end !== null) {
+                dateEnd.innerHTML = `
+                    <p>Fin: ${formatDate(data[i].end)}</p>
+                `;
+            }
+            if (data[i].priority !== null) {
+                if (data[i].priority === 0) {
+                    priority.innerHTML = `
+                        <p>Priorité: Basse</p>
+                    `;
+                } else if (data[i].priority === 1) {
+                    priority.innerHTML = `
+                        <p>Priorité: Moyenne</p>
+                    `;
+                } else if (data[i].priority === 2) {
+                    priority.innerHTML = `
+                        <p>Priorité: Haute</p>
+                    `;
+                }
+            }
+            if (data[i].status === 'todo') {
+                status.innerHTML = `
+                    <p>Status: Pas commencer</p>
+                `;
+            } else if (data[i].status === 'inprogress') {
+                status.innerHTML = `
+                    <p>Status: En cours</p>
+                `;
+            } else if (data[i].status === 'done') {
+                status.innerHTML = `
+                    <p>Status: Terminé</p>
+                `;
+            }
+        }
+    }
 }
 async function formReminder() {
     const inputSearch = document.getElementById('autocompletion')
@@ -354,6 +428,7 @@ async function formReminder() {
     const priorityFormSelect = document.getElementById('priorityFormSelect').value;
 
     const listSortForm = document.getElementById('listSortForm');
+    const resetFormSort = document.getElementById('resetFormSort');
 
     const autocompletion = document.getElementById('autocompletion');
     autocompletion.addEventListener('keyup', async () => {
@@ -375,6 +450,16 @@ async function formReminder() {
     selectPriority.addEventListener('change', () => {
         dislpayReminder();
     });
+
+    if (inputSearchValue !== '' || listeValue !== 'all' || dateFormSelect !== 'all' || statusFormSelect !== 'all' || priorityFormSelect !== 'all') {
+        listSortForm.innerHTML += `<button type="button" id="btnResetFormSort">Réinitialiser</button>`;
+        const btnReset = document.getElementById('btnResetFormSort');
+        btnReset.addEventListener('click', () => {
+            listSortForm.reset();
+            dislpayReminder();
+        });
+    }
+    dislpayReminder();
 }
 formReminder();
 

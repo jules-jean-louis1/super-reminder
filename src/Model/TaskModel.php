@@ -25,13 +25,14 @@ class TaskModel extends AbstractDatabase
     public function searchTask(string $search, mixed $list, mixed $date, mixed $status, mixed $priority, int $id)
     {
         $bdd = $this->getBdd();
-        $sql = 'SELECT * FROM task WHERE users_id = :id';
+        $sql = "SELECT task.id AS task_id, task.name AS task_name, task.description, task.status, task.start, task.end, task.priority, task.created_at AS task_created_at, task.updated_at AS task_updated_at, task.users_id AS task_users_id, task.list_id, 
+                IFNULL(list.name, 'Aucune liste') AS list_name FROM task LEFT JOIN list ON task.list_id = list.id WHERE task.users_id = :id";
 
         if ($search !== '') {
-            $sql .= ' AND name LIKE :search';
+            $sql .= ' AND task.name LIKE :search';
         }
         if ($list !== 'all') {
-            $sql .= ' AND list_id = :list';
+            $sql .= ' AND list.list_id = :list';
         }
         if ($date !== 'all') {
             if ($date === 'today') {
@@ -47,10 +48,10 @@ class TaskModel extends AbstractDatabase
             }
         }
         if ($status !== 'all') {
-            $sql .= ' AND status = :status';
+            $sql .= ' AND task.status = :status';
         }
         if ($priority !== 'all') {
-            $sql .= ' AND priority = :priority';
+            $sql .= ' AND task.priority = :priority';
         }
         $req = $bdd->prepare($sql);
         $req->bindParam(':id', $id, PDO::PARAM_INT);
