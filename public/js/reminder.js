@@ -377,6 +377,7 @@ async function dislpayReminder() {
                     <div class="reminderActionBtn">
                         <button id="deleteReminder_${data[i].task_id}" data-id="${data[i].task_id}">Suppr</button>
                         <button id="updateReminder_${data[i].task_id}" data-id="${data[i].task_id}">Modif</button>
+                        <button id="addUserToReminder_${data[i].task_id}" data-id="${data[i].task_id}">Ajouter un utilisateur</button>
                     </div>
                 </div>`;
             const descriptionReminder = document.querySelectorAll('#descriptionReminder')[i];
@@ -617,6 +618,48 @@ async function dislpayReminder() {
                 const btnCloseEditReminder = document.getElementById('btnCloseEditReminder');
                 btnCloseEditReminder.addEventListener('click', () => {
                     modalEditReminder.close();
+                });
+            });
+        }
+        for (let i = 0; i < data.length; i++) {
+            const addUserToReminder = document.querySelectorAll(`#addUserToReminder_${data[i].task_id}`);
+            addUserToReminder.forEach(btn => {
+                containerModal.innerHTML = '';
+                btn.addEventListener('click', async () => {
+                    let response = await fetch(`/super-reminder/reminder/${id}/getUserTask/${data[i].task_id}`)
+                    let dataResponse = await response.json();
+                    console.log(dataResponse);
+                    containerModal.innerHTML = `
+                        <dialog id="modalAddUserToReminder" tabindex="-1" aria-labelledby="modalAddUserToReminderLabel" aria-hidden="true" class="dialog_fixed">
+                            <h2 id="modalAddUserToReminderLabel">Ajouter un utilisateur</h2>
+                            <button type="button" id="btnCloseAddUserToReminder">X</button>
+                            <div id="listUser"></div>
+                        </dialog>
+                    `;
+                    const listUser = document.getElementById('listUser');
+                    let allUser = dataResponse.user;
+                    let userTask = dataResponse.userTask;
+
+                    for (let i = 0; i < allUser.length; i++) {
+                        listUser.innerHTML += `
+                            <div>
+                                <input type="checkbox" name="user" id="user_${allUser[i].id}" value="${allUser[i].id}">
+                                <label for="user_${allUser[i].id}">${allUser[i].login}</label>
+                            </div>
+                        `;
+                        for (let j = 0; j < userTask.length; j++) {
+                            if (userTask[j].id === allUser[i].id) {
+                                const user = document.getElementById(`user_${allUser[i].id}`);
+                                user.setAttribute('checked', 'checked');
+                            }
+                        }
+                    }
+                    const modalAddUserToReminder = document.getElementById('modalAddUserToReminder');
+                    modalAddUserToReminder.showModal();
+                    const btnCloseAddUserToReminder = document.getElementById('btnCloseAddUserToReminder');
+                    btnCloseAddUserToReminder.addEventListener('click', () => {
+                        modalAddUserToReminder.close();
+                    });
                 });
             });
         }

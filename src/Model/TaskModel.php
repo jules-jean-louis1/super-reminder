@@ -81,4 +81,26 @@ class TaskModel extends AbstractDatabase
         $req->bindParam(':id', $id, PDO::PARAM_INT);
         $req->execute();
     }
+
+    public function getAllUser(int $id)
+    {
+        $bdd = $this->getBdd();
+        $sql = 'SELECT id, login, firstname, lastname, email, avatar FROM users WHERE id != :id';
+        $req = $bdd->prepare($sql);
+        $req->bindParam(':id', $id, PDO::PARAM_INT);
+        $req->execute();
+        $user = $req->fetchAll(PDO::FETCH_ASSOC);
+        return $user;
+    }
+
+    public function getUserTask(int $task_id)
+    {
+        $bdd = $this->getBdd();
+        $sql = 'SELECT u.id, u.login, u.avatar, u.email FROM users AS u JOIN task_users AS tu ON u.id = tu.users_id WHERE tu.task_id = :task';
+        $req = $bdd->prepare($sql);
+        $req->bindParam(':task', $task_id, PDO::PARAM_INT);
+        $req->execute();
+        $task = $req->fetchAll(PDO::FETCH_ASSOC);
+        return $task;
+    }
 }

@@ -144,4 +144,26 @@ class TaskController
         echo json_encode($errors);
     }
 
+    public function getUserTask(int $id, int $id_task)
+    {
+        $taskModel = new TaskModel();
+        $user = $taskModel->getAllUser($id);
+
+        $userTask = $taskModel->getUserTask($id_task);
+
+        $data = [];
+
+        if (empty($userTask)) {
+            $data = [
+                'user' => $user,
+                'userTask' => false
+            ];
+        } else {
+            $data = [
+                'user' => $user,
+                'userTask' => $userTask
+            ];
+        }
+        echo json_encode($data);
+    }
 }
