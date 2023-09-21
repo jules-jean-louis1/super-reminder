@@ -5,7 +5,7 @@ use PDO;
 class TaskModel extends AbstractDatabase
 {
 
-    public function createTask(string $name, string $description, ?string $start, ?string $end, string $status, ?int $list, int $id, ?int $priority): void
+    public function createTask(string $name, ?string $description, ?string $start, ?string $end, string $status, ?int $list, int $id, ?int $priority): void
     {
         $bdd = $this->getBdd();
         $sql = 'INSERT INTO task (name, description, status, start, end, priority, created_at, users_id, list_id) 
@@ -70,5 +70,15 @@ class TaskModel extends AbstractDatabase
         $req->execute();
         $task = $req->fetchAll(PDO::FETCH_ASSOC);
         return $task;
+    }
+
+    public function changeStatus(int $id, string $string)
+    {
+        $bdd = $this->getBdd();
+        $sql = 'UPDATE task SET status = :status WHERE id = :id';
+        $req = $bdd->prepare($sql);
+        $req->bindParam(':status', $string, PDO::PARAM_STR);
+        $req->bindParam(':id', $id, PDO::PARAM_INT);
+        $req->execute();
     }
 }

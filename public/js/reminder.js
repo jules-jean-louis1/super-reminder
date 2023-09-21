@@ -1,4 +1,7 @@
-import { formatDate } from './function/function.js';
+import {
+    formatDate,
+    formatDateWithoutH
+} from './function/function.js';
 
 const btnAddReminder = document.getElementById('btnAddReminder');
 const btnAddList = document.getElementById('btnAddList');
@@ -337,9 +340,6 @@ getListOfUsers(id).then(data => {
     }
 });
 
-function getReminder(id) {
-
-}
 async function dislpayReminder() {
     let response = await fetch(`/super-reminder/reminder/${id}/searchTask`, {
         method: 'POST',
@@ -357,27 +357,39 @@ async function dislpayReminder() {
             containerReminderList.innerHTML += `
                 <div class="reminder">
                     <h3>${data[i].task_name}</h3>
-                    <p>${data[i].description}</p>
+                    <div id="descriptionReminder"></div>
                     <div id="created_at">
                         <p>${formatDate(data[i].task_created_at)}</p>
                     </div>
                     <div id="dateStart"></div>
                     <div id="dateEnd"></div>
                     <div id="priority"></div>
-                    <div id="status"></div>
+                    <div id="statusContainer">
+                        <form action="" method="post" id="changeStatusOnFly_${data[i].task_id}">
+                            <input type="hidden" name="id" value="${data[i].task_id}">
+                            <select name="status" id="status">
+                            </select>
+                        </form>
+                    </div>
                     <div id="list">
                         <p>${data[i].list_name}</p>
                     </div>
                     <div class="reminderActionBtn">
-                        <button class="deleteReminder" data-id="${data[i].task_id}">Suppr</button>
-                        <button class="updateReminder" data-id="${data[i].task_id}">Modif</button>
+                        <button id="deleteReminder_${data[i].task_id}" data-id="${data[i].task_id}">Suppr</button>
+                        <button id="updateReminder_${data[i].task_id}" data-id="${data[i].task_id}">Modif</button>
                     </div>
                 </div>`;
+            const descriptionReminder = document.querySelectorAll('#descriptionReminder')[i];
             const dateStart = document.querySelectorAll('#dateStart')[i];
             const dateEnd = document.querySelectorAll('#dateEnd')[i];
             const priority = document.querySelectorAll('#priority')[i];
             const status = document.querySelectorAll('#status')[i];
-            const list = document.querySelectorAll('#list')[i];
+
+            if (data[i].description !== null) {
+                descriptionReminder.innerHTML = `
+                    <p>Description: ${data[i].description}</p>
+                `;
+            }
             if (data[i].start !== null) {
                 dateStart.innerHTML = `
                     <p>Début: ${formatDate(data[i].start)}</p>
@@ -405,17 +417,208 @@ async function dislpayReminder() {
             }
             if (data[i].status === 'todo') {
                 status.innerHTML = `
-                    <p>Status: Pas commencer</p>
+                    <option value="0" selected>Pas commencer</option>
+                    <option value="1">En cours</option>
+                    <option value="2">Terminé</option>
                 `;
             } else if (data[i].status === 'inprogress') {
                 status.innerHTML = `
-                    <p>Status: En cours</p>
-                `;
+                    <option value="0">Pas commencer</option>
+                    <option value="1" selected>En cours</option>
+                    <option value="2">Terminé</option>`;
             } else if (data[i].status === 'done') {
                 status.innerHTML = `
-                    <p>Status: Terminé</p>
-                `;
+                    <option value="0">Pas commencer</option>
+                    <option value="1">En cours</option>
+                    <option value="2" selected>Terminé</option>`;
             }
+        }
+        for (let i = 0; i < data.length; i++) {
+            const changeStatusOnFly = document.querySelectorAll(`#changeStatusOnFly_${data[i].task_id}`);
+            changeStatusOnFly.forEach(form => {
+                form.addEventListener('change', async () => {
+                    const response = await fetch(`/super-reminder/reminder/${id}/changeStatus`, {
+                        method: 'POST',
+                        body: new FormData(form)
+                    });
+                    const data = await response.json();
+                    console.log(data);
+                    if (data.success) {
+                        dislpayReminder();
+                    }
+                });
+            });
+        }
+        for (let i = 0; i < data.length; i++) {
+            const deleteReminder = document.querySelectorAll(`.deleteReminder_${data[i].task_id}`);
+            deleteReminder.forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const idTask = btn.getAttribute('data-id');
+                    const response = await fetch(`/super-reminder/reminder/${idTask}/deleteTask`);
+                    const data = await response.json();
+                    console.log(data);
+                    if (data.success) {
+                        dislpayReminder();
+                    }
+                });
+            });
+        }
+        for (let i = 0; i < data.length; i++) {
+            let updateReminder = document.getElementById(`updateReminder_${data[i].task_id}`)
+            updateReminder.addEventListener('click', () => {
+                const idTask = updateReminder.getAttribute('data-id');
+                containerModal.innerHTML = '';
+                containerModal.innerHTML = `
+                    <dialog id="modalEditReminder" tabindex="-1" aria-labelledby="modalEditReminderLabel" aria-hidden="true" class="dialog_fixed">
+                        <div style="display: flex; justify-content: space-between;">
+                            <h2 id="modalEditReminderLabel">Modifier un rappel</h2>
+                            <button type="button" id="btnCloseEditReminder">X</button>
+                        </div>
+                        <div>
+                            <form action="" method="post" id="formEditReminder">
+                                <div>
+                                    <label for="name">Titre</label>
+                                    <input type="text" name="name" id="name" value="${data[i].task_name}">
+                                    <p id="errorName"></p>
+                                </div>
+                                <div>
+                                    <label for="description">Description</label>
+                                    <textarea name="description" id="description" cols="30" rows="10"></textarea>
+                                    <p id="errorDescription"></p>
+                                </div>
+                                <div>
+                                    <button type="button" id="btnAddDate">Ajouter une date</button>
+                                    <button type="button" id="btnAddPriority">Ajouter une priorité</button>
+                                    <div id="addDate"></div>
+                                    <div id="addPriority"></div>
+                                </div>
+                                <div>
+                                    <label for="status">Status</label>
+                                    <select name="status" id="status">
+                                        <option value="0">Pas commencer</option>
+                                        <option value="1">En cours</option>
+                                        <option value="2">Terminé</option>
+                                    </select>
+                                </div>
+                                <div id="listsOfReminders"></div>
+                                <p id="errorDisplay"></p>
+                                <div>
+                                    <button type="submit" id="btnAddReminder">Modifier votre rappel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </dialog>`;
+                // Modification
+                const btnAddDate = document.getElementById('btnAddDate');
+                const addDate = document.getElementById('addDate');
+                btnAddDate.addEventListener('click', () => {
+                    const hasHours = addDate.querySelector('#btnAddHours');
+
+                    if (!hasHours) {
+                        if (data[i].start !== null) {
+                            addDate.innerHTML = `
+                            <h3>Heures</h3>
+                            <div id="hoursEdit">
+                                <div>
+                                    <p>Début: ${formatDate(data[i].start)}</p>
+                                    <label for="start">Début</label>
+                                    <input type="date" name="start" id="start">
+                                </div>
+                                <div>
+                                    <p>Début: ${formatDate(data[i].end)}</p>
+                                    <label for="end">Fin</label>                    
+                                    <input type="date" name="end" id="end">
+                                </div>
+                            </div>
+                            <p id="errorDate"></p>
+                            <button type="button" id="btnAddHours">Ajouter des heures</button>`;
+                        }
+                    } else {
+                        // Les champs de date et d'heure sont déjà affichés, supprimez-les
+                        addDate.innerHTML = '';
+                    }
+                    const btnAddHours = document.getElementById('btnAddHours');
+                    if (btnAddHours) {
+                        btnAddHours.addEventListener('click', () => {
+                            const inputStart = document.getElementById('start');
+                            const inputEnd = document.getElementById('end');
+                            if (btnAddHours.textContent === 'Ajouter des heures') {
+                                inputStart.setAttribute('type', 'datetime-local');
+                                inputEnd.setAttribute('type', 'datetime-local');
+                                btnAddHours.textContent = 'Supprimer les heures';
+                            } else {
+                                inputStart.setAttribute('type', 'date');
+                                inputEnd.setAttribute('type', 'date');
+                                btnAddHours.textContent = 'Ajouter des heures';
+                            }
+                        });
+                    }
+                });
+                const btnAddPriority = document.getElementById('btnAddPriority');
+                const addPriority = document.getElementById('addPriority');
+                btnAddPriority.addEventListener('click', () => {
+                    const hasPriority = addPriority.querySelector('#priority');
+                    if (!hasPriority) {
+                        if (data[i].priority === 0) {
+                            addPriority.innerHTML = `
+                        <h3>Priorité</h3>
+                        <select name="priority" id="priority">
+                            <option value="0" selected>Basse</option>
+                            <option value="1">Moyenne</option>
+                            <option value="2">Haute</option>
+                        </select>`;
+                        }
+                        if (data[i].priority === 1) {
+                            addPriority.innerHTML = `
+                            <h3>Priorité</h3>
+                            <select name="priority" id="priority">
+                                <option value="0">Basse</option>
+                                <option value="1" selected>Moyenne</option>
+                                <option value="2">Haute</option>
+                            </select>`;
+                        }
+                        if (data[i].priority === 2) {
+                            addPriority.innerHTML = `
+                            <h3>Priorité</h3>
+                            <select name="priority" id="priority">
+                                <option value="0">Basse</option>
+                                <option value="1">Moyenne</option>
+                                <option value="2" selected>Haute</option>
+                            </select>`;
+                        }
+                    } else {
+                        addPriority.innerHTML = '';
+                    }
+                });
+                const listsOfReminders = document.getElementById('listsOfReminders');
+                let listId = data[i].list_id;
+                getListOfUsers(id).then(data => {
+                    for (let j = 0; j < data.length; j++) {
+                        listsOfReminders.innerHTML += `
+                    <div>
+                        <input type="radio" value="${data[j].id}" name="list" data-id="${data[j].id}" id="list_${data[j].id}">
+                        <label for="${data[j].name}">${data[j].name}</label>
+                    </div>`;
+                        const radio = document.getElementById('list_' + data[j].id);
+                        const radioId = radio.getAttribute('data-id');
+                        if (radioId === listId.toString()) {
+                            radio.setAttribute('checked', 'checked');
+                        }
+                    }
+                });
+
+                // Preremplir les champs
+                if (data[i].description !== null) {
+                    const description = document.getElementById('description');
+                    description.innerHTML = data[i].description;
+                }
+                const modalEditReminder = document.getElementById('modalEditReminder');
+                modalEditReminder.showModal();
+                const btnCloseEditReminder = document.getElementById('btnCloseEditReminder');
+                btnCloseEditReminder.addEventListener('click', () => {
+                    modalEditReminder.close();
+                });
+            });
         }
     }
 }

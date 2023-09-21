@@ -28,21 +28,24 @@ class TaskController
         $status = $_POST['status'];
         $errors = [];
 
+        if ($_SESSION['user']['id'] !== $id) {
+            $errors['right'] = 'Vous n\'avez pas le droit de faire ça';
+        }
         if (!$name) {
             $errors['name'] = 'Veuillez entrer un titre';
         } else if (strlen($name) <= 2 || strlen($name) >= 60) {
             $errors['name'] = 'Le titre doit contenir entre 2 et 60 caractères';
-        }
-        if (!$description) {
-            $errors['description'] = 'Veuillez entrer une description';
-        } else if (strlen($description) <= 2 || strlen($description) >= 300) {
-            $errors['description'] = 'La description doit contenir entre 2 et 330 caractères';
         }
 
         if(empty($erros)) {
             if ($_SESSION['user']['id'] !== $id) {
                 $errors['right'] = 'Vous n\'avez pas le droit de faire ça';
             } else {
+                if (!$description) {
+                    $description = null;
+                } else {
+                    $description = htmlspecialchars($description);
+                }
                 if (!$list) {
                     $list = null;
                 } else {
@@ -107,6 +110,38 @@ class TaskController
         } else {
             echo json_encode(false);
         }
+    }
+
+    /**
+     * Récupère la tâche qui doit être édité est comparé les données envoyé pour la maj si nécessaire
+     * @param int $id
+     * @return void
+     */
+    public function editTask(int $id)
+    {
+    }
+
+    public function changeStatus(int $id)
+    {
+        $taskModel = new TaskModel();
+        $task = $taskModel->getTaskById($id);
+        $errors = [];
+
+        if ($task['users_id'] !== $_SESSION['user']['id']) {
+            $errors['error'] = 'Vous n\'avez pas le droit de faire ça';
+        } else {
+            if ($task['status'] === 'todo') {
+                $taskModel->changeStatus($id, 'inprogress');
+                $errors['success'] = 'La tâche a bien été mise en cours';
+            } else if ($task['status'] === 'inprogress') {
+                $taskModel->changeStatus($id, 'done');
+                $errors['success'] = 'La tâche a bien été terminé';
+            } else if ($task['status'] === 'done') {
+                $taskModel->changeStatus($id, 'todo');
+                $errors['success'] = 'La tâche a bien été remise en todo';
+            }
+        }
+        echo json_encode($errors);
     }
 
 }
