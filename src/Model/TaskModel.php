@@ -32,7 +32,7 @@ class TaskModel extends AbstractDatabase
             $sql .= ' AND task.name LIKE :search';
         }
         if ($list !== 'all') {
-            $sql .= ' AND list.list_id = :list';
+            $sql .= ' AND list.id = :list';
         }
         if ($date !== 'all') {
             if ($date === 'today') {
@@ -72,7 +72,7 @@ class TaskModel extends AbstractDatabase
         return $task;
     }
 
-    public function changeStatus(int $id, string $string)
+    public function changeStatus(int $id, string $string): void
     {
         $bdd = $this->getBdd();
         $sql = 'UPDATE task SET status = :status WHERE id = :id';
@@ -82,7 +82,7 @@ class TaskModel extends AbstractDatabase
         $req->execute();
     }
 
-    public function getAllUser(int $id)
+    public function getAllUser(int $id): false|array
     {
         $bdd = $this->getBdd();
         $sql = 'SELECT id, login, firstname, lastname, email, avatar FROM users WHERE id != :id';
@@ -93,7 +93,7 @@ class TaskModel extends AbstractDatabase
         return $user;
     }
 
-    public function getUserTask(int $task_id)
+    public function getUserTask(int $task_id): array
     {
         $bdd = $this->getBdd();
         $sql = 'SELECT u.id, u.login, u.avatar, u.email FROM users AS u JOIN task_users AS tu ON u.id = tu.users_id WHERE tu.task_id = :task';
@@ -102,5 +102,62 @@ class TaskModel extends AbstractDatabase
         $req->execute();
         $task = $req->fetchAll(PDO::FETCH_ASSOC);
         return $task;
+    }
+    public function getUserTaskReturn(int $task_id): array
+    {
+        $bdd = $this->getBdd();
+        $sql = 'SELECT u.id FROM users AS u JOIN task_users AS tu ON u.id = tu.users_id WHERE tu.task_id = :task';
+        $req = $bdd->prepare($sql);
+        $req->bindParam(':task', $task_id, PDO::PARAM_INT);
+        $req->execute();
+        $task = $req->fetchAll(PDO::FETCH_ASSOC);
+        for ($i = 0; $i < count($task); $i++) {
+            $task[$i] = $task[$i]['id'];
+        }
+        return $task;
+    }
+    public function getTaskById(int $id)
+    {
+        $bdd = $this->getBdd();
+        $sql = 'SELECT * FROM task WHERE id = :id';
+        $req = $bdd->prepare($sql);
+        $req->bindParam(':id', $id, PDO::PARAM_INT);
+        $req->execute();
+        $task = $req->fetch(PDO::FETCH_ASSOC);
+        return $task;
+    }
+
+    public function addUserToTask(int $task_id, int $user): void
+    {
+        $bdd = $this->getBdd();
+        $sql = 'INSERT INTO task_users (task_id, users_id, created_at) VALUES (:task_id, :user, NOW())';
+        $req = $bdd->prepare($sql);
+        $req->bindParam(':task_id', $task_id, PDO::PARAM_INT);
+        $req->bindParam(':user', $user, PDO::PARAM_INT);
+        $req->execute();
+    }
+
+    public function removeUserToTask(int $task_id, int $user): void
+    {
+        $bdd = $this->getBdd();
+        $sql = 'DELETE FROM task_users WHERE task_id = :task_id AND users_id = :user';
+        $req = $bdd->prepare($sql);
+        $req->bindParam(':task_id', $task_id, PDO::PARAM_INT);
+        $req->bindParam(':user', $user, PDO::PARAM_INT);
+        $req->execute();
+    }
+
+    public function deleteTask(int $id): void
+    {
+        $bdd = $this->getBdd();
+        $sql = 'DELETE FROM task WHERE id = :id';
+        $req = $bdd->prepare($sql);
+        $req->bindParam(':id', $id, PDO::PARAM_INT);
+        $req->execute();
+
+        $sql2 = 'DELETE FROM task_users WHERE task_id = :id';
+        $req2 = $bdd->prepare($sql2);
+        $req2->bindParam(':id', $id, PDO::PARAM_INT);
+        $req2->execute();
     }
 }

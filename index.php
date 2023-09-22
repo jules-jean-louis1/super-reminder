@@ -75,7 +75,7 @@ $router->map('POST', '/reminder/[:id]/addTask', function ($id) use ($taskControl
 $router->map('POST', '/reminder/[:id]/editTask', function ($id) use ($taskController) {
     $taskController->editTask($id);
 });
-$router->map('GET', '/reminder/[:id]/changeStatus', function ($id) use ($taskController) {
+$router->map('POST', '/reminder/[i:id]/changeStatus', function ($id) use ($taskController) {
     $taskController->changeStatus($id);
 });
 $router->map('GET', '/reminder/[:id]/deleteTask', function ($id) use ($taskController) {
@@ -87,8 +87,8 @@ $router->map('POST', '/reminder/[i:id]/searchTask', function ($id) use ($taskCon
 $router->map('GET', '/reminder/[i:id]/getUserTask/[i:id_task]', function ($id ,$id_task) use ($taskController) {
     $taskController->getUserTask($id ,$id_task);
 });
-$router->map('GET', '/reminder/[i:id]/addUserToReminder/[i:task]', function ($id, $task) use ($taskController) {
-    $taskController->addUserToReminder($id, $task);
+$router->map('POST', '/reminder/addUserToTask/[i:id]', function ($id) use ($taskController) {
+    $taskController->addUserToTask($id);
 });
 
 

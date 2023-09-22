@@ -151,8 +151,6 @@ class TaskController
 
         $userTask = $taskModel->getUserTask($id_task);
 
-        $data = [];
-
         if (empty($userTask)) {
             $data = [
                 'user' => $user,
@@ -165,5 +163,47 @@ class TaskController
             ];
         }
         echo json_encode($data);
+    }
+
+    public function addUserToTask(int $id): void
+    {
+        $task_id = $_POST['task_id'];
+        $taskModel = new TaskModel();
+
+        $taskUsers = $taskModel->getUserTaskReturn($task_id);
+        $errors = [];
+
+        $usersToAdd = array_diff($_POST['users'], $taskUsers);
+        $usersToRemove = array_diff($taskUsers, $_POST['users']);
+
+        if ($_SESSION['user']['id'] !== $id) {
+            $errors['right'] = 'Vous n\'avez pas le droit de faire ça.';
+        } else {
+            foreach ($usersToAdd as $user) {
+                $taskModel->addUserToTask($task_id, $user);
+            }
+            foreach ($usersToRemove as $user) {
+                $taskModel->removeUserToTask($task_id, $user);
+            }
+            $errors['success'] = 'Modification effectuée.';
+        }
+        $errors = json_encode($errors);
+
+        echo $errors;
+
+    }
+    public function deleteTask(int $id)
+    {
+        $taskModel = new TaskModel();
+        $task = $taskModel->getTaskById($id);
+        $errors = [];
+
+        if ($task['users_id'] !== $_SESSION['user']['id']) {
+            $errors['error'] = 'Vous n\'avez pas le droit de faire ça';
+        } else {
+            $taskModel->deleteTask($id);
+            $errors['success'] = 'La tâche a bien été supprimé';
+        }
+        echo json_encode($errors);
     }
 }

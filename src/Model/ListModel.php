@@ -11,7 +11,7 @@ class ListModel extends AbstractDatabase
         $req->bindParam(':id', $userId, \PDO::PARAM_INT);
         $req->execute();
         $numberList = $req->fetch();
-        if (count($numberList)<= 5) {
+        if ($numberList[0] >= 5) {
             return true;
         } else {
             return false;
