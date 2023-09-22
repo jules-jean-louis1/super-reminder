@@ -1,5 +1,5 @@
 <nav>
-    <div class="flex justify-between px-4 py-2 bg-slate-300">
+    <div class="flex justify-between px-4 py-2 bg-white border-b border-[#52586633]">
         <ul class="flex space-x-2">
             <li><a href="/super-reminder/">Homepage</a></li>
             <?php if (isset($_SESSION['user'])): ?>

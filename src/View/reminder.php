@@ -18,8 +18,9 @@
         <div id="containerFormLoginRegister"></div>
         <div id="dialogModal_Overlay"></div>
         <div id="containerModal"></div>
+        <div id="containerPushNotif"></div>
         <div class="flex h-[96vh]">
-            <div id="containerAutocompletion" class="bg-slate-300 px-4 w-1/6 flex flex-col space-y-2 h-[100%]">
+            <div id="containerAutocompletion" class="bg-white border-l border-[#52586633] px-4 w-1/6 flex flex-col space-y-2 h-[100%]">
                 <div id="containerAutocompletionList"></div>
                 <div>
                     <h3 class="flex items-center space-x-2">

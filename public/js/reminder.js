@@ -1,6 +1,7 @@
 import {
     formatDate,
-    formatDateWithoutH
+    formatDateWithoutH,
+    notifPush
 } from './function/function.js';
 
 const btnAddReminder = document.getElementById('btnAddReminder');
@@ -8,6 +9,7 @@ const btnAddList = document.getElementById('btnAddList');
 const ListeUserWarpper = document.getElementById('ListeUserWarpper');
 const listeFormSelect = document.getElementById('listeFormSelect');
 const containerReminderList = document.getElementById('containerReminderList');
+const containerPushNotif = document.getElementById('containerPushNotif');
 
 const url = window.location.href;
 let segments = url.split('/');
@@ -61,6 +63,9 @@ async function addList() {
             if (data.success) {
                 modalAddList.close();
                 manageReminder();
+                setTimeout(() => {
+                    notifPush(containerPushNotif, 'success', data.success);
+                }, 1000);
             }
             if (data.error) {
                 errorDisplay.innerHTML = '';

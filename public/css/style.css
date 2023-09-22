@@ -15,3 +15,13 @@
     top: 45%;
     transform: translate(-50%, -50%);
 }
+
+#notifPush {
+    width: 385px;
+    height: 60px;
+    position: absolute;
+    border-radius: 10px;
+    left: 50%;
+    top: 94%;
+    transform: translate(-50%, -50%);
+}
