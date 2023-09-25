@@ -288,7 +288,7 @@ async function manageReminder(){
     getListOfUsers(id).then(list => {
         for (let i = 0; i < list.length; i++) {
             ListeUserWarpper.innerHTML += `
-                <div class="listUser border border-[#848484] rounded p-1">
+                <div class="listUser border border-[#848484] rounded-[10px] p-1 my-2">
                     <h3 class="flex items-center">
                         <span class="listUserSpan">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -412,65 +412,108 @@ async function dislpayReminder() {
     } else {
         for (let i = 0; i < data.length; i++) {
             containerReminderList.innerHTML += `
-                <div class="reminder p-2 m-3 w-1/3 rounded-[10px] bg-white my-2 border-2" id="rappel_${data[i].task_id}">
-                    <h3 class="font-bold text-xl">${data[i].task_name}</h3>
-                    <div id="descriptionReminder"></div>
-                    <div id="created_at" class="flex items-center">
-                        <span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                              <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-5 2.66a1 1 0 0 0 -.993 .883l-.007 .117v5l.009 .131a1 1 0 0 0 .197 .477l.087 .1l3 3l.094 .082a1 1 0 0 0 1.226 0l.094 -.083l.083 -.094a1 1 0 0 0 0 -1.226l-.083 -.094l-2.707 -2.708v-4.585l-.007 -.117a1 1 0 0 0 -.993 -.883z" stroke-width="0" fill="currentColor"/>
-                            </svg>
-                        </span>
-                        <p class="text-sm">${formatDate(data[i].task_created_at)}</p>
-                    </div>
-                    <div id="dateStart"></div>
-                    <div id="dateEnd"></div>
-                    <div id="priority"></div>
-                    <div class="flex justify-around">
-                        <div id="statusContainer">
-                            <form action="" method="post" id="changeStatusOnFly_${data[i].task_id}">
-                                <input type="hidden" name="id" value="${data[i].task_id}">
-                                <select name="status" id="status">
-                                </select>
-                            </form>
+                <div class="reminder bg-[#f5f8fc] p-1 m-3 min-h-[20.5rem] min-w-[15.5rem] lg:w-[31%] h-1/3 rounded-[10px] bg-white my-2 border-2" id="rappel_${data[i].task_id}">
+                    <div class="flex flex-col justify-between rounded-[10px] m-0.5 h-full">
+                        <h3 class="font-bold text-xl">${data[i].task_name}</h3>
+                        <div id="list" class="flex items-center">
+                            <p>
+                                <span>${data[i].list_name} - </span>
+                                <div id="created_at" class="flex items-center">
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                          <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-5 2.66a1 1 0 0 0 -.993 .883l-.007 .117v5l.009 .131a1 1 0 0 0 .197 .477l.087 .1l3 3l.094 .082a1 1 0 0 0 1.226 0l.094 -.083l.083 -.094a1 1 0 0 0 0 -1.226l-.083 -.094l-2.707 -2.708v-4.585l-.007 -.117a1 1 0 0 0 -.993 -.883z" stroke-width="0" fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                    <p class="text-sm">${formatDate(data[i].task_created_at)}</p>
+                                </div>
+                            </p>
                         </div>
-                        <div id="list">
-                            <p>${data[i].list_name}</p>
+                        <div id="descriptionReminder"></div>
+                        <div id="dateStart"></div>
+                        <div id="dateEnd"></div>
+                        <div id="priority"></div>
+                        <div class="flex flex-col gap-1">
+                            <div class="flex justify-between">
+                                <div id="statusContainer" class="border border-[#52586633] rounded-[10px] w-full">
+                                    <form action="" method="post" id="changeStatusOnFly_${data[i].task_id}" class="flex justify-between items-center px-2 py-2">
+                                        <input type="hidden" name="id" value="${data[i].task_id}">
+                                        <button type="button" name="status" value="todo" id="todo_${data[i].task_id}" class="flex items-center px-2 gap-3 text-slate-700 hover:text-[#15ce5c] group">
+                                            <span class="p-1 hover:bg-[#1ddc6f3d] rounded group-hover:bg-[#1ddc6f3d]">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play w-6 h-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M7 4v16l13 -8z"/>
+                                                </svg>
+                                            </span>
+                                            <span class="hidden xl:flex font-semibold">A faire</span>
+                                        </button>
+                                        <button type="button" name="status" value="inprogress" id="inprogress_${data[i].task_id}" class="flex items-center px-2 gap-3 text-slate-700 hover:text-[#fa6620] group">
+                                            <span class="p-1 hover:bg-[#ff7a2b3d] rounded group-hover:bg-[#ff7a2b3d]">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-progress-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M10 20.777a8.942 8.942 0 0 1 -2.48 -.969"/>
+                                                    <path d="M14 3.223a9.003 9.003 0 0 1 0 17.554"/>
+                                                    <path d="M4.579 17.093a8.961 8.961 0 0 1 -1.227 -2.592"/>
+                                                    <path d="M3.124 10.5c.16 -.95 .468 -1.85 .9 -2.675l.169 -.305"/>
+                                                    <path d="M6.907 4.579a8.954 8.954 0 0 1 3.093 -1.356"/>
+                                                    <path d="M9 12l2 2l4 -4"/>
+                                                </svg>
+                                            </span>
+                                            <span class="hidden xl:flex font-semibold">En cours</span>
+                                        </button>
+                                        <button type="button" name="status" id="done_${data[i].task_id}" value="done" class="flex items-center px-2 gap-3 text-slate-700 hover:text-[#fa2020] group">
+                                            <span class="p-1 hover:bg-[#ff2b2b3d] rounded group-hover:bg-[#ff2b2b3d]">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
+                                                    <path d="M9 12l2 2l4 -4"/>
+                                                </svg>
+                                            </span>
+                                            <span class="hidden xl:flex font-semibold">Terminé</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="reminderActionBtn flex justify-between bg-[#e0e4ec] rounded-[10px] w-full py-0.5  px-2">
+                                <button id="deleteReminder_${data[i].task_id}" data-id="${data[i].task_id}" class="flex items-center px-2 gap-3 text-slate-700 hover:text-[#fa2020] group">
+                                    <span class="p-1 hover:bg-[#ff2b2b3d] rounded group-hover:bg-[#ff2b2b3d]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                          <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-6.489 5.8a1 1 0 0 0 -1.218 1.567l1.292 1.293l-1.292 1.293l-.083 .094a1 1 0 0 0 1.497 1.32l1.293 -1.292l1.293 1.292l.094 .083a1 1 0 0 0 1.32 -1.497l-1.292 -1.293l1.292 -1.293l.083 -.094a1 1 0 0 0 -1.497 -1.32l-1.293 1.292l-1.293 -1.292l-.094 -.083z" stroke-width="0" fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                    <span class="hidden xl:flex ">Supprimer</span>
+                                </button>
+                                <button id="updateReminder_${data[i].task_id}" data-id="${data[i].task_id}" class="flex items-center px-2 gap-3 text-slate-700 hover:text-[#15ce5c] group">
+                                    <span class="p-1 hover:bg-[#1ddc6f3d] rounded group-hover:bg-[#1ddc6f3d]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                          <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"/>
+                                          <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"/>
+                                          <path d="M16 5l3 3"/>
+                                        </svg>
+                                    </span>
+                                    <span class="hidden xl:flex ">Modifier</span>
+                                </button>
+                                <button id="addUserToReminder_${data[i].task_id}" data-id="${data[i].task_id}" class="flex items-center px-2 gap-3 text-slate-700 hover:text-[#ac1de4] group">
+                                    <span class="p-1 hover:bg-[#c029f03d] rounded group-hover:bg-[#c029f03d]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                          <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
+                                          <path d="M9 12l6 0"/>
+                                          <path d="M12 9l0 6"/>
+                                        </svg>
+                                    </span>
+                                    <span class="hidden xl:flex ">Utilisateurs</span>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="reminderActionBtn flex justify-around">
-                        <button id="deleteReminder_${data[i].task_id}" data-id="${data[i].task_id}" class="text-red-500">
-                            <span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                              <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-6.489 5.8a1 1 0 0 0 -1.218 1.567l1.292 1.293l-1.292 1.293l-.083 .094a1 1 0 0 0 1.497 1.32l1.293 -1.292l1.293 1.292l.094 .083a1 1 0 0 0 1.32 -1.497l-1.292 -1.293l1.292 -1.293l.083 -.094a1 1 0 0 0 -1.497 -1.32l-1.293 1.292l-1.293 -1.292l-.094 -.083z" stroke-width="0" fill="currentColor"/>
-                            </svg>
-                            </span>
-                        </button>
-                        <button id="updateReminder_${data[i].task_id}" data-id="${data[i].task_id}">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                              <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"/>
-                              <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"/>
-                              <path d="M16 5l3 3"/>
-                            </svg>
-                        </button>
-                        <button id="addUserToReminder_${data[i].task_id}" data-id="${data[i].task_id}" class="flex gap-1 items-center font-semibold text-[#0C79FE]">
-                            <span>
-                                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 24.4922C13.6328 24.4922 15.168 24.1797 16.6055 23.5547C18.0508 22.9297 19.3242 22.0664 20.4258 20.9648C21.5273 19.8633 22.3906 18.5938 23.0156 17.1562C23.6406 15.7109 23.9531 14.1719 23.9531 12.5391C23.9531 10.9062 23.6406 9.37109 23.0156 7.93359C22.3906 6.48828 21.5273 5.21484 20.4258 4.11328C19.3242 3.01172 18.0508 2.14844 16.6055 1.52344C15.1602 0.898438 13.6211 0.585938 11.9883 0.585938C10.3555 0.585938 8.81641 0.898438 7.37109 1.52344C5.93359 2.14844 4.66406 3.01172 3.5625 4.11328C2.46875 5.21484 1.60937 6.48828 0.984375 7.93359C0.359375 9.37109 0.046875 10.9062 0.046875 12.5391C0.046875 14.1719 0.359375 15.7109 0.984375 17.1562C1.60937 18.5938 2.47266 19.8633 3.57422 20.9648C4.67578 22.0664 5.94531 22.9297 7.38281 23.5547C8.82812 24.1797 10.3672 24.4922 12 24.4922ZM6.28125 12.5508C6.28125 12.2461 6.37891 12 6.57422 11.8125C6.76953 11.6172 7.01953 11.5195 7.32422 11.5195H10.9922V7.85156C10.9922 7.54688 11.082 7.29688 11.2617 7.10156C11.4492 6.90625 11.6914 6.80859 11.9883 6.80859C12.293 6.80859 12.5391 6.90625 12.7266 7.10156C12.9219 7.29688 13.0195 7.54688 13.0195 7.85156V11.5195H16.6992C17.0039 11.5195 17.25 11.6172 17.4375 11.8125C17.6328 12 17.7305 12.2461 17.7305 12.5508C17.7305 12.8477 17.6328 13.0898 17.4375 13.2773C17.2422 13.457 16.9961 13.5469 16.6992 13.5469H13.0195V17.2266C13.0195 17.5312 12.9219 17.7812 12.7266 17.9766C12.5391 18.1641 12.293 18.2578 11.9883 18.2578C11.6914 18.2578 11.4492 18.1641 11.2617 17.9766C11.082 17.7812 10.9922 17.5312 10.9922 17.2266V13.5469H7.32422C7.01953 13.5469 6.76953 13.457 6.57422 13.2773C6.37891 13.0898 6.28125 12.8477 6.28125 12.5508Z" fill="#0C79FE"/>
-                                </svg>
-                            </span>
-                            <span>Utilisateurs</span>
-                        </button>
                     </div>
                 </div>`;
             const descriptionReminder = document.querySelectorAll('#descriptionReminder')[i];
             const dateStart = document.querySelectorAll('#dateStart')[i];
             const dateEnd = document.querySelectorAll('#dateEnd')[i];
             const priority = document.querySelectorAll('#priority')[i];
-            const status = document.querySelectorAll('#status')[i];
             const reminder = document.getElementById(`rappel_${data[i].task_id}`)
 
             if (data[i].description !== null) {
@@ -513,41 +556,46 @@ async function dislpayReminder() {
                     `;
                 }
             }
+
             if (data[i].status === 'todo') {
-                status.innerHTML = `
-                    <option value="0" selected>Pas commencer</option>
-                    <option value="1">En cours</option>
-                    <option value="2">Terminé</option>
-                `;
-                reminder.classList.add('border', 'border-green-500');
+                reminder.classList.add('border', 'border-[#15ce5c]');
             } else if (data[i].status === 'inprogress') {
-                status.innerHTML = `
-                    <option value="0">Pas commencer</option>
-                    <option value="1" selected>En cours</option>
-                    <option value="2">Terminé</option>`;
-                reminder.classList.add('border', 'border-yellow-500');
+                reminder.classList.add('border', 'border-[#fad820]');
             } else if (data[i].status === 'done') {
-                status.innerHTML = `
-                    <option value="0">Pas commencer</option>
-                    <option value="1">En cours</option>
-                    <option value="2" selected>Terminé</option>`;
-                reminder.classList.add('border', 'border-red-400');
+                reminder.classList.add('border', 'border-[#fa2020]');
             }
         }
         for (let i = 0; i < data.length; i++) {
-            const changeStatusOnFly = document.querySelectorAll(`#changeStatusOnFly_${data[i].task_id}`);
-            changeStatusOnFly.forEach(form => {
-                form.addEventListener('change', async () => {
-                    const response = await fetch(`/super-reminder/reminder/${id}/changeStatus`, {
-                        method: 'POST',
-                        body: new FormData(form)
-                    });
+            async function editStatus(selectorValue) {
+                try {
+                    const response = await fetch(`/super-reminder/reminder/${id}/changeStatus/${selectorValue}`);
                     const data = await response.json();
                     console.log(data);
                     if (data.success) {
                         dislpayReminder();
                     }
-                });
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+
+            const todo = document.getElementById(`todo_${data[i].task_id}`);
+            const todoValue = todo.getAttribute('value');
+            todo.addEventListener('click', async (e) => {
+                e.preventDefault();
+                await editStatus(todoValue);
+            });
+            const inprogress = document.getElementById(`inprogress_${data[i].task_id}`);
+            const inprogressValue = inprogress.getAttribute('value');
+            inprogress.addEventListener('click', async (e) => {
+                e.preventDefault();
+                await editStatus(inprogressValue);
+            });
+            const done = document.getElementById(`done_${data[i].task_id}`);
+            const doneValue = done.getAttribute('value');
+            done.addEventListener('click', async (e) => {
+                e.preventDefault();
+                await editStatus(doneValue);
             });
         }
         for (let i = 0; i < data.length; i++) {
@@ -571,7 +619,7 @@ async function dislpayReminder() {
                 containerModal.innerHTML = '';
                 containerModal.innerHTML = `
                     <dialog id="modalEditReminder" tabindex="-1" aria-labelledby="modalEditReminderLabel" aria-hidden="true" class="dialog_fixed">
-                        <div style="display: flex; justify-content: space-between;">
+                        <div class="flex justify-between">
                             <h2 id="modalEditReminderLabel">Modifier un rappel</h2>
                             <button type="button" id="btnCloseEditReminder">X</button>
                         </div>

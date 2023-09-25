@@ -121,30 +121,29 @@ class TaskController
     {
     }
 
-    public function changeStatus(int $id)
+    public function changeStatus(int $id, string $status): void
     {
         $taskModel = new TaskModel();
         $task = $taskModel->getTaskById($id);
         $errors = [];
-
-        if ($task['users_id'] !== $_SESSION['user']['id']) {
+        if ($id !== $_SESSION['user']['id']) {
             $errors['error'] = 'Vous n\'avez pas le droit de faire ça';
         } else {
-            if ($task['status'] === 'todo') {
-                $taskModel->changeStatus($id, 'inprogress');
-                $errors['success'] = 'La tâche a bien été mise en cours';
-            } else if ($task['status'] === 'inprogress') {
-                $taskModel->changeStatus($id, 'done');
-                $errors['success'] = 'La tâche a bien été terminé';
-            } else if ($task['status'] === 'done') {
+            if ($status === 'todo') {
                 $taskModel->changeStatus($id, 'todo');
-                $errors['success'] = 'La tâche a bien été remise en todo';
+                $errors['success'] = 'La tâche a bien été mise en attente.';
+            } else if ($status === 'inprogress') {
+                $taskModel->changeStatus($id, 'inprogress');
+                $errors['success'] = 'La tâche a bien été mise en cours.';
+            } else if ($status === 'done') {
+                $taskModel->changeStatus($id, 'done');
+                $errors['success'] = 'La tâche a bien été terminé.';
             }
         }
         echo json_encode($errors);
     }
 
-    public function getUserTask(int $id, int $id_task)
+    public function getUserTask(int $id, int $id_task): void
     {
         $taskModel = new TaskModel();
         $user = $taskModel->getAllUser($id);

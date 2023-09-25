@@ -14,13 +14,13 @@
     <header>
         <?php require_once 'src/View/import/header.php'; ?>
     </header>
-    <main class="bg-slate-100 h-[100%]">
+    <main class="bg-white h-[100%]">
         <div id="containerFormLoginRegister"></div>
         <div id="dialogModal_Overlay"></div>
         <div id="containerModal"></div>
         <div id="containerPushNotif"></div>
         <div class="flex h-[96vh]">
-            <div id="containerAutocompletion" class="bg-white border-l border-[#52586633] px-4 w-1/6 flex flex-col space-y-2 h-[100%]">
+            <div id="containerAutocompletion" class="bg-white border-r border-[#52586633] px-4 w-1/6 flex flex-col space-y-2 h-[100%]">
                 <div id="containerAutocompletionList"></div>
                 <div>
                     <h3 class="flex items-center space-x-2">
@@ -62,7 +62,7 @@
                             <span>Nouveau rappel</span>
                         </button>
                     </div>
-                    <form action="" method="get" id="listSortForm" class="flex items-center bg-slate-200 rounded p-2">
+                    <form action="" method="get" id="listSortForm" class="flex items-center bg-[#e0e4ec] rounded-[10px] p-2">
                         <div class="flex items-center bg-slate-200 rounded p-2">
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -115,7 +115,7 @@
                     </form>
                     <div id="resetFormSort"></div>
                 </div>
-                <div id="containerReminderList" class="w-full flex flex-warp px-6"></div>
+                <div id="containerReminderList" class="w-full h-full flex flex-wrap justify-around px-6"></div>
             </div>
         </div>
     </main>
