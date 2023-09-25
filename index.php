@@ -62,9 +62,6 @@ $router->map('POST', '/reminder/[:id]/addList', function ($id) use ($listControl
 $router->map('GET', '/reminder/[:id]/deleteList', function ($id) use ($listController) {
     $listController->deleteList($id);
 });
-$router->map('POST', '/reminder/edit/[:id]', function ($id) use ($listController){
-    $listController->editList($id);
-});
 // Task
 $router->map('GET', '/reminder/[:id]/getTask', function ($id) use ($taskController) {
     $taskController->getTask($id);
@@ -89,6 +86,9 @@ $router->map('GET', '/reminder/[i:id]/getUserTask/[i:id_task]', function ($id ,$
 });
 $router->map('POST', '/reminder/addUserToTask/[i:id]', function ($id) use ($taskController) {
     $taskController->addUserToTask($id);
+});
+$router->map('POST', '/reminder/editTask/[i:id]', function ($id) use ($taskController) {
+    $taskController->editTask($id);
 });
 
 

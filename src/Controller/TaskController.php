@@ -117,8 +117,54 @@ class TaskController
      * @param int $id
      * @return void
      */
-    public function editTask(int $id)
+    public function editTask(int $id): void
     {
+        var_dump($_POST);
+        $taskModel = new TaskModel();
+        $task = $taskModel->getTaskById($id);
+        $errors = [];
+
+        $name = $this->ValidFieldForm2('name');
+
+        if ($_SESSION['user']['id'] !== $task['users_id']) {
+            $errors['right'] = 'Vous n\'avez pas le droit de faire ça';
+        }
+        if (!$name) {
+            $errors['name'] = 'Veuillez entrer un titre';
+        } else if (strlen($name) <= 2 || strlen($name) >= 60) {
+            $errors['name'] = 'Le titre doit contenir entre 2 et 60 caractères';
+        }
+        if (empty($errors)) {
+            if ($task['name'] !== $name) {
+                $taskModel->editTask($id, 'name', $name);
+                $errors['success']['name'] = 'Le titre a bien été modifié';
+            }
+            if ($task['description'] !== $_POST['description']) {
+                $taskModel->editTask($id, 'description', $_POST['description']);
+                $errors['success']['description'] = 'La description a bien été modifié';
+            }
+            if ($task['list_id'] !== $_POST['list']) {
+                $taskModel->editTask($id, 'list_id', $_POST['list']);
+                $errors['success']['list'] = 'La liste a bien été modifié';
+            }
+            if ($task['status'] !== $_POST['status']) {
+                $taskModel->editTask($id, 'status', $_POST['status']);
+                $errors['success']['status'] = 'Le status a bien été modifié';
+            }
+            if ($task['start'] !== $_POST['start']) {
+                $taskModel->editTask($id, 'start', $_POST['start']);
+                $errors['success']['start'] = 'La date de début a bien été modifié';
+            }
+            if ($task['end'] !== $_POST['end']) {
+                $taskModel->editTask($id, 'end', $_POST['end']);
+                $errors['success']['end'] = 'La date de fin a bien été modifié';
+            }
+            if ($task['priority'] !== $_POST['priority']) {
+                $taskModel->editTask($id, 'priority', $_POST['priority']);
+                $errors['success']['priority'] = 'La priorité a bien été modifié';
+            }
+        }
+        echo json_encode($errors);
     }
 
     public function changeStatus(int $id, string $status): void

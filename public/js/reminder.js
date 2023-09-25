@@ -231,9 +231,11 @@ async function addReminder() {
             if (data.success) {
                 errorDisplay.innerHTML = '';
                 errorDisplay.innerHTML = data.success;
+
                 setTimeout(() => {
                     modalAddReminder.close();
-                }, 1000);
+                }, 500);
+                dislpayReminder();
             }
             if (data.error) {
                 errorDisplay.innerHTML = '';
@@ -619,68 +621,134 @@ async function dislpayReminder() {
                 containerModal.innerHTML = '';
                 containerModal.innerHTML = `
                     <dialog id="modalEditReminder" tabindex="-1" aria-labelledby="modalEditReminderLabel" aria-hidden="true" class="dialog_fixed">
+                        <div class="flex flex-col justify-between">
                         <div class="flex justify-between">
-                            <h2 id="modalEditReminderLabel">Modifier un rappel</h2>
-                            <button type="button" id="btnCloseEditReminder">X</button>
-                        </div>
-                        <div>
-                            <form action="" method="post" id="formEditReminder">
-                                <div>
-                                    <label for="name">Titre</label>
-                                    <input type="text" name="name" id="name" value="${data[i].task_name}">
-                                    <p id="errorName"></p>
-                                </div>
-                                <div>
-                                    <label for="description">Description</label>
-                                    <textarea name="description" id="description" cols="30" rows="10"></textarea>
-                                    <p id="errorDescription"></p>
-                                </div>
-                                <div>
-                                    <button type="button" id="btnAddDate">Ajouter une date</button>
-                                    <button type="button" id="btnAddPriority">Ajouter une priorité</button>
-                                    <div id="addDate"></div>
-                                    <div id="addPriority"></div>
-                                </div>
-                                <div>
-                                    <label for="status">Status</label>
-                                    <select name="status" id="status">
-                                        <option value="0">Pas commencer</option>
-                                        <option value="1">En cours</option>
-                                        <option value="2">Terminé</option>
-                                    </select>
-                                </div>
-                                <div id="listsOfReminders"></div>
-                                <p id="errorDisplay"></p>
-                                <div>
-                                    <button type="submit" id="btnAddReminder">Modifier votre rappel</button>
-                                </div>
-                            </form>
+                                <h2 id="modalEditReminderLabel">Modifier un rappel</h2>
+                                <button type="button" id="btnCloseEditReminder">X</button>
+                            </div>
+                            <div>
+                                <form action="" method="post" id="formEditReminder_${data[i].task_id}">
+                                    <div>
+                                        <div class="flex flex-col bg-[#f1f2f3] border rounded-[10px] p-2 border-2 border-3-l border-[#fff]">
+                                            <label for="name" class="relative">Titre du rappel</label>
+                                            <input type="text" name="name" id="name" value="${data[i].task_name}" class="bg-transparent">
+                                        </div>
+                                        <p id="errorName"></p>
+                                    </div>
+                                    <div>
+                                        <div class="flex flex-col bg-[#f1f2f3] border rounded-[10px] p-2 border-2 border-3-l border-[#fff]">
+                                            <label for="description">Description</label>
+                                            <textarea name="description" id="description" cols="30" rows="4" class="bg-transparent"></textarea>
+                                        </div>
+                                        <p id="errorDescription"></p>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center justify-around w-full">
+                                            <button type="button" id="btnAddDate" class="flex items-center bg-[#f1f2f3] rounded-[10px] px-2 py-2 w-full">
+                                                <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-cog" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M12 21h-6a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v5"/>
+                                                    <path d="M16 3v4"/>
+                                                    <path d="M8 3v4"/>
+                                                    <path d="M4 11h16"/>
+                                                    <path d="M19.001 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/>
+                                                    <path d="M19.001 15.5v1.5"/>
+                                                    <path d="M19.001 21v1.5"/>
+                                                    <path d="M22.032 17.25l-1.299 .75"/>
+                                                    <path d="M17.27 20l-1.3 .75"/>
+                                                    <path d="M15.97 17.25l1.3 .75"/>
+                                                    <path d="M20.733 20l1.3 .75"/>
+                                                    </svg>
+                                                </span>
+                                                <span id="textBtnAddDate">Ajouter une date</span>
+                                            </button>
+                                            <button type="button" id="btnAddPriority" class="flex items-center bg-[#f1f2f3] rounded-[10px] px-2 py-2 w-full">
+                                                Ajouter une priorité
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <div id="addDate"></div>
+                                            <div id="addPriority"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="status">Status</label>
+                                        <select name="status" id="status">
+                                            <option value="0">Pas commencer</option>
+                                            <option value="1">En cours</option>
+                                            <option value="2">Terminé</option>
+                                        </select>
+                                    </div>
+                                    <div id="listsOfReminders" class="flex flex-wrap"></div>
+                                    <p id="errorDisplay"></p>
+                                    <div>
+                                        <button type="submit" id="btnEditReminder_${data[i].task_id}" class="w-full px-2 bg-green-500">Modifier votre rappel</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </dialog>`;
                 // Modification
                 const btnAddDate = document.getElementById('btnAddDate');
+                const textBtnAddDate = document.getElementById('textBtnAddDate');
+                if (data[i].start !== null) {
+                    textBtnAddDate.textContent = 'Modifier la date';
+                }
                 const addDate = document.getElementById('addDate');
                 btnAddDate.addEventListener('click', () => {
                     const hasHours = addDate.querySelector('#btnAddHours');
 
                     if (!hasHours) {
-                        if (data[i].start !== null) {
-                            addDate.innerHTML = `
-                            <h3>Heures</h3>
-                            <div id="hoursEdit">
+                        addDate.innerHTML = `
+                        <div id="hoursEdit" class="flex items-center bg-[#f1f2f3] rounded-[10px] px-2 py-2 w-full">
+                            <div class="flex items-center">
                                 <div>
-                                    <p>Début: ${formatDate(data[i].start)}</p>
                                     <label for="start">Début</label>
                                     <input type="date" name="start" id="start">
                                 </div>
                                 <div>
-                                    <p>Début: ${formatDate(data[i].end)}</p>
                                     <label for="end">Fin</label>                    
                                     <input type="date" name="end" id="end">
                                 </div>
                             </div>
                             <p id="errorDate"></p>
-                            <button type="button" id="btnAddHours">Ajouter des heures</button>`;
+                            <button type="button" id="btnAddHours" class="flex items-center">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-hour-3" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                      <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                                      <path d="M12 12h3.5" />
+                                      <path d="M12 7v5" />
+                                    </svg>
+                                </span>
+                                <span>Heures</span>
+                            </button>
+                        </div>
+                            `;
+                        let sliceHoursStart = data[i].start.slice(11, 19);
+                        let sliceHoursEnd = data[i].end.slice(11, 19);
+                        let dateStart = data[i].start.slice(0, 10);
+                        let dateEnd = data[i].end.slice(0, 10);
+                        const inputStart = document.getElementById('start');
+                        const inputEnd = document.getElementById('end');
+                        if (data[i].start !== null && sliceHoursStart !== '00:00:00') {
+                            inputStart.setAttribute('type', 'datetime-local');
+                            const start = document.getElementById('start');
+                            start.setAttribute('value', data[i].start);
+                        }
+                        if (data[i].end !== null && sliceHoursEnd !== '00:00:00') {
+                            inputEnd.setAttribute('type', 'datetime-local');
+                            const end = document.getElementById('end');
+                            end.setAttribute('value', data[i].end);
+                        }
+                        if (data[i].start !== null && sliceHoursStart === '00:00:00') {
+                            const start = document.getElementById('start');
+                            start.setAttribute('value', dateStart);
+                        }
+                        if (data[i].end !== null && sliceHoursEnd === '00:00:00') {
+                            const end = document.getElementById('end');
+                            end.setAttribute('value', dateEnd);
                         }
                     } else {
                         // Les champs de date et d'heure sont déjà affichés, supprimez-les
@@ -743,7 +811,7 @@ async function dislpayReminder() {
                 getListOfUsers(id).then(listUser => {
                     for (let j = 0; j < listUser.length; j++) {
                         listsOfReminders.innerHTML += `
-                            <div>
+                            <div class="w-1/6">
                                 <input type="radio" value="${listUser[j].id}" name="list" data-id="${listUser[j].id}" id="list_${listUser[j].id}">
                                 <label for="list_${listUser[j].id}">${listUser[j].name}</label>
                             </div>`;
@@ -766,11 +834,33 @@ async function dislpayReminder() {
                 }
                 const modalEditReminder = document.getElementById('modalEditReminder');
                 modalEditReminder.showModal();
+
+                const formEditReminder = document.getElementById(`formEditReminder_${data[i].task_id}`);
+                formEditReminder.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    try {
+                        const editResponse = await fetch(`/super-reminder/reminder/editTask/${data[i].task_id}`, {
+                            method: 'POST',
+                            body: new FormData(formEditReminder),
+                        });
+                        const editData = await editResponse.json();
+                        console.log(editData);
+                        if (editData.success) {
+                            modalEditReminder.close();
+                            dislpayReminder();
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
+                });
+
                 const btnCloseEditReminder = document.getElementById('btnCloseEditReminder');
                 btnCloseEditReminder.addEventListener('click', () => {
                     modalEditReminder.close();
                 });
             });
+
+
         }
         for (let i = 0; i < data.length; i++) {
             const addUserToReminder = document.querySelectorAll(`#addUserToReminder_${data[i].task_id}`);
