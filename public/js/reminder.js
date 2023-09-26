@@ -10,6 +10,8 @@ const ListeUserWarpper = document.getElementById('ListeUserWarpper');
 const listeFormSelect = document.getElementById('listeFormSelect');
 const containerReminderList = document.getElementById('containerReminderList');
 const containerPushNotif = document.getElementById('containerPushNotif');
+const btnShareListTask = document.getElementById('btnShareListTask');
+const btnAddTags = document.getElementById('btnAddTags');
 
 const url = window.location.href;
 let segments = url.split('/');
@@ -290,7 +292,7 @@ async function manageReminder(){
     getListOfUsers(id).then(list => {
         for (let i = 0; i < list.length; i++) {
             ListeUserWarpper.innerHTML += `
-                <div class="listUser border border-[#848484] rounded-[10px] p-1 my-2">
+                <div class="listUser bg-[#E2E8F0] rounded-[10px] p-1 my-2 text-[#525866]">
                     <h3 class="flex items-center">
                         <span class="listUserSpan">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -306,7 +308,7 @@ async function manageReminder(){
                         <span>${list[i].name}</span>
                     </h3>
                     <div class="reminderActionBtn flex items-center space-x-2">
-                        <button class="deleteList flex items-center text-red-500" data-id="${list[i].id}">
+                        <button class="deleteList flex items-center" data-id="${list[i].id}">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -314,9 +316,9 @@ async function manageReminder(){
                                 <path d="M10 10l4 4m0 -4l-4 4"/>
                             </svg>
                         </span>
-                        <span>Suppr.</span>
+                        <span class="hidden xl:flex">Suppr.</span>
                         </button>
-                        <button class="updateList flex items-center text-green-500" data-id="${list[i].id}">
+                        <button class="updateList flex items-center" data-id="${list[i].id}">
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -325,7 +327,7 @@ async function manageReminder(){
                                   <path d="M16 5l3 3"/>
                                 </svg>
                             </span>
-                            <span>Modif.</span>
+                            <span class="hidden xl:flex">Modif.</span>
                         </button>
                     </div>
                 </div>
@@ -984,5 +986,85 @@ async function formReminder() {
     }
     dislpayReminder();
 }
+async function getTags() {
+    try {
+        let tagsResponse = await fetch(`/super-reminder/reminder/${id}/getTags`);
+        let tagsData = await tagsResponse.json();
+        return tagsData;
+    } catch (error) {
+        console.log(error);
+    }
+}
+async function addTags() {
+    containerModal.innerHTML = '';
+    containerModal.innerHTML = `
+        <dialog id="modalAddTags" tabindex="-1" aria-labelledby="modalAddTagsLabel" aria-hidden="true" class="dialog_fixed">
+            <div class="flex justify-between">
+                <h2 id="modalAddTagsLabel">Ajouter un tag</h2>
+                <button type="button" id="btnCloseAddTags">X</button>
+            </div>
+            <div id="tagsListDisplay"></div>
+            <div class="flex flex-col justify-between">
+                <form action="" method="post" id="formAddTags">
+                    <div>
+                        <div class="flex flex-col bg-[#f1f2f3] border rounded-[10px] p-2 border-2 border-3-l border-[#fff]">
+                            <label for="name" class="relative">Nom du tag</label>
+                            <input type="text" name="name" id="name" class="bg-transparent">
+                        </div>
+                        <p id="errorName"></p>
+                    </div>
+                    <button type="submit" id="btnAddTags" class="w-full px-2 bg-green-500">Ajouter votre tag</button>
+                </form>
+            </div>
+        </dialog>`;
+    const modalAddTags = document.getElementById('modalAddTags');
+    modalAddTags.showModal();
+    const btnCloseAddTags = document.getElementById('btnCloseAddTags');
+    btnCloseAddTags.addEventListener('click', () => {
+        modalAddTags.close();
+    });
+    const tagsListDisplay = document.getElementById('tagsListDisplay');
+    const tags = await getTags();
+    for (let i = 0; i < tags.length; i++) {
+        tagsListDisplay.innerHTML += `
+        <p>${tags[i].name}</p>`;
+    }
+    const formAddTags = document.getElementById('formAddTags');
+    formAddTags.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        try {
+            let responseAddTags = await fetch(`/super-reminder/reminder/${id}/addTags`, {
+                method: 'POST',
+                body: new FormData(formAddTags),
+            });
+            let dataAddTags = await responseAddTags.json();
+            console.log(dataAddTags);
+        } catch (error) {
+            console.log(error);
+        }
+    });
+}
 formReminder();
+
+async function getShareTask(){
+    try {
+        const response = await fetch(`/super-reminder/reminder/shareTask/${id}`);
+        const data = await response.json();
+        console.log(data);
+        containerReminderList.innerHTML = '';
+        if (data === false) {
+            containerReminderList.innerHTML = '<p>Vous n\'avez pas de tâche partagé</p>';
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+btnShareListTask.addEventListener('click', () => {
+    getShareTask();
+});
+
+btnAddTags.addEventListener('click', () => {
+    addTags();
+});
+
 

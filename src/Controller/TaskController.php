@@ -251,4 +251,16 @@ class TaskController
         }
         echo json_encode($errors);
     }
+
+    public function shareTask(int $id): void
+    {
+        $taskModel = new TaskModel();
+        $task = $taskModel->getShareTask($id);
+
+        if (empty($task)) {
+            echo json_encode(false);
+        } else {
+            echo json_encode($task);
+        }
+    }
 }

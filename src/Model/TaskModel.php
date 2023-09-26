@@ -170,4 +170,20 @@ class TaskModel extends AbstractDatabase
         $req->bindParam(':id', $id, PDO::PARAM_INT);
         $req->execute();
     }
+    public function getShareTask(int $id): array
+    {
+        $bdd = $this->getBdd();
+        /*$sql = 'SELECT task.id AS task_id, task.name AS task_name, task.description, task.status, task.start, task.end, task.priority, task.created_at AS task_created_at, task.updated_at AS task_updated_at, task.users_id AS task_users_id, task.list_id,
+                IFNULL(list.name, \'Aucune liste\') AS list_name FROM task LEFT JOIN list ON task.list_id = list.id WHERE task.users_id != :id AND task.status != \'done\'';*/
+        $sql = 'SELECT t.*, u.login, u.avatar
+                FROM task t
+                JOIN task_users tu ON t.id = tu.task_id
+                JOIN users u ON tu.users_id = u.id
+                WHERE tu.users_id = :id AND t.status != \'done\'';
+        $req = $bdd->prepare($sql);
+        $req->bindParam(':id', $id, PDO::PARAM_INT);
+        $req->execute();
+        $task = $req->fetchAll(PDO::FETCH_ASSOC);
+        return $task;
+    }
 }

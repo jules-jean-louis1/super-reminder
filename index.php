@@ -90,7 +90,18 @@ $router->map('POST', '/reminder/addUserToTask/[i:id]', function ($id) use ($task
 $router->map('POST', '/reminder/editTask/[i:id]', function ($id) use ($taskController) {
     $taskController->editTask($id);
 });
+$router->map('GET', '/reminder/shareTask/[i:id]', function ($id) use ($taskController) {
+    $taskController->shareTask($id);
+});
 
+// #Tags
+$tagsController = new \App\Controller\TagsController();
+$router->map('GET', '/reminder/[i:id]/getTags', function ($id) use ($tagsController) {
+    $tagsController->getTags($id);
+});
+$router->map('POST', '/reminder/[i:id]/addTags', function ($id) use ($tagsController) {
+    $tagsController->addTags($id);
+});
 
 
 $match = $router->match();
