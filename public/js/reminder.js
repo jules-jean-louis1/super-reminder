@@ -1,8 +1,8 @@
 import {
     formatDate,
     formatDateWithoutH,
-    notifPush
 } from './function/function.js';
+import {createToast, removeToast} from "./function/toast";
 
 const btnAddReminder = document.getElementById('btnAddReminder');
 const btnAddList = document.getElementById('btnAddList');
@@ -1006,13 +1006,11 @@ async function addTags() {
             <div id="tagsListDisplay"></div>
             <div class="flex flex-col justify-between">
                 <form action="" method="post" id="formAddTags">
-                    <div>
-                        <div class="flex flex-col bg-[#f1f2f3] border rounded-[10px] p-2 border-2 border-3-l border-[#fff]">
-                            <label for="name" class="relative">Nom du tag</label>
-                            <input type="text" name="name" id="name" class="bg-transparent">
-                        </div>
-                        <p id="errorName"></p>
+                    <div class="relative">
+                        <input type="text" name="name" id="name" class="w-full border rounded-lg py-2 px-3 focus:outline-none focus:border-blue-500" placeholder="">
+                        <label for="name" class="absolute left-3 top-2 text-gray-600 transition-transform transform-scale-75 origin-top-left">Nom du tag</label>
                     </div>
+                        <p id="errorName"></p>
                     <button type="submit" id="btnAddTags" class="w-full px-2 bg-green-500">Ajouter votre tag</button>
                 </form>
             </div>
@@ -1038,7 +1036,11 @@ async function addTags() {
                 body: new FormData(formAddTags),
             });
             let dataAddTags = await responseAddTags.json();
-            console.log(dataAddTags);
+            if (dataAddTags.success){
+                modalAddTags.close();
+                addTags();
+                toast(containerPushNotif, 'success', 'Votre tag a bien été ajouté', 'top-left');
+            }
         } catch (error) {
             console.log(error);
         }
@@ -1065,6 +1067,11 @@ btnShareListTask.addEventListener('click', () => {
 
 btnAddTags.addEventListener('click', () => {
     addTags();
+});
+
+const btntesttoast = document.getElementById('btntesttoast');
+btntesttoast.addEventListener('click', () => {
+    createToast(containerPushNotif, 'success', 'Votre tag a bien été ajouté', 555000);
 });
 
 

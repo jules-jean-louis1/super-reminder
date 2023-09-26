@@ -18,7 +18,9 @@
         <div id="containerFormLoginRegister"></div>
         <div id="dialogModal_Overlay"></div>
         <div id="containerModal"></div>
-        <div id="containerPushNotif"></div>
+        <div>
+            <ul id="containerPushNotif"></ul>
+        </div>
         <div class="flex h-[96vh]">
             <div id="containerAutocompletion" class="bg-white border-r border-[#52586633] px-4 w-1/6 flex flex-col space-y-2 h-[100%]">
                 <div id="containerAutocompletionList"></div>
@@ -88,7 +90,8 @@
                             </svg>
                         </span>
                         <span>Ajouter un tags</span>
-                        </button>
+                    </button>
+                    <button id="btntesttoast" type="button">Test</button>
                 </div>
             </div>
             <div id="containerReminder" class="flex flex-col items-center w-screen">

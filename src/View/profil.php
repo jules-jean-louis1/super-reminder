@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./../public/css/style.css">
     <script defer type="module" src="./../public/js/profil.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Profil</title>
 </head>
 <body>
@@ -16,72 +17,105 @@
         <?php require_once 'src/View/import/header.php'; ?>
     </header>
     <main>
-        <div class="w-full">
-            <form action="" method="post" id="editProfil">
-                <div>
-                    <div>
-                        <div class="form_control flex relative rounded-14 flex-row items-center bg-[#a8b3cf14] h-12 px-4 overflow-hidden border-2 border-[#000] rounded cursor-text">
-                            <input type="text" name="login" id="login" placeholder="Nom d'utilisateur" class="bg-transparent text-black focus:outline-none">
-                            <label for="login" class="absolute top-0 left-2 px-1 py-px text-xs text-gray-500">Nom d'utilisateur / Login</label>
-                        </div>
-                        <small id="errorUsername"></small>
+        <article class="flex justify-center">
+            <section class="w-[95%] lg:w-[60%]">
+                <div id="infosUserRecap"></div>
+            </section>
+        </article>
+        <article class="flex justify-center">
+            <section class="w-[95%] lg:w-[60%]">
+                <div id="containerFormEditProfil">
+                    <div class="w-full">
+                        <form action="" method="post" id="editProfil">
+                            <div>
+                                <div>
+                                    <div class="form__div">
+                                        <input type="text" name="login" id="login" placeholder="Nom d'utilisateur" class="form__input">
+                                        <label for="login" class="form__label">Nom d'utilisateur / Login</label>
+                                    </div>
+                                    <small id="errorUsername"></small>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <div class="form__div">
+                                        <input name="email" id="email" class="form__input">
+                                        <label for="email" class="form__label">Email</label>
+                                    </div>
+                                    <small id="errorEmail"></small>
+                                </div>
+                            </div>
+                            <div class="flex space-x-2 justify-between">
+                                <div class="w-1/2">
+                                    <div>
+                                        <div class="form__div">
+                                            <input name="firstname" id="firstname" class="form__input">
+                                            <label for="firstname" class="form__label">Prénom</label>
+                                        </div>
+                                        <small id="errorFirstname"></small>
+                                    </div>
+                                </div>
+                                <div class="w-1/2">
+                                    <div>
+                                        <div class="form__div">
+                                            <input name="lastname" id="lastname" class="form__input">
+                                            <label for="lastname" class="form__label">Nom</label>
+                                        </div>
+                                        <small id="errorLastname"></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex space-x-2 justify-between">
+                                <div class="w-1/2">
+                                    <div>
+                                        <div class="form__div">
+                                            <input name="password" id="password" class="form__input">
+                                            <label for="password" class="form__label">Mot de passe</label>
+                                        </div>
+                                        <small id="errorPassword"></small>
+                                    </div>
+                                </div>
+                                <div class="w-1/2">
+                                    <div>
+                                        <div class="form__div">
+                                            <input name="passwordConfirm" id="passwordConfirm" class="form__input">
+                                            <label for="passwordConfirm" class="form__label">Confirmer le mot de passe</label>
+                                        </div>
+                                        <small id="errorPasswordConfirm"></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="h-16" id="errorDisplay"></div>
+                            <button type="submit" class="px-1.5 py-2 rounded-[10px] bg-[#ac1de4] hover:bg-[#9e15d9] hover:drop-shadow-[0_20px_20px_rgba(172,29,228,0.30)] font-bold text-white">
+                                Sauvegarder vos modifications
+                            </button>
+                        </form>
                     </div>
                 </div>
-                <div>
-                    <div>
-                        <div class="form_control flex relative rounded-14 flex-row items-center bg-[#a8b3cf14] h-12 px-4 overflow-hidden border-2 border-[#000] rounded cursor-text">
-                            <input name="email" id="email" class="bg-transparent text-black focus:outline-none">
-                            <label for="email" class="absolute top-0 left-2 px-1 py-px text-xs text-gray-500">Email</label>
-                        </div>
-                        <small id="errorEmail"></small>
-                    </div>
-                </div>
-                <div class="flex space-x-2 justify-between">
-                    <div class="w-1/2">
-                        <div class="relative">
-                            <div class="form_control flex relative rounded-14 flex-row items-center bg-[#a8b3cf14] h-12 px-4 overflow-hidden border-2 border-[#000] rounded cursor-text">
-                                <input name="firstname" id="firstname" class="bg-transparent text-black focus:outline-none">
-                                <label for="firstname" class="absolute top-0 left-2 px-1 py-px text-xs text-gray-500">Prénom</label>
-                            </div>
-                            <small id="errorFirstname"></small>
-                        </div>
-                    </div>
-                    <div class="w-1/2">
-                        <div>
-                            <div class="form_control flex relative rounded-14 flex-row items-center bg-[#a8b3cf14] h-12 px-4 overflow-hidden border-2 border-[#000] rounded cursor-text">
-                                <input name="lastname" id="lastname" class="bg-transparent text-black focus:outline-none">
-                                <label for="lastname" class="absolute top-0 left-2 px-1 py-px text-xs text-gray-500">Nom</label>
-                            </div>
-                            <small id="errorLastname"></small>
+            </section>
+        </article>
+        <article class="flex justify-center">
+            <section class="w-[95%] lg:w-[60%]">
+                <div id="containerDeleteProfil">
+                    <h2 class="mt-10 font-bold typo-headline">🚨 Danger Zone</h2>
+                    <div id="divRemoveProfil" class="border border-red-500 rounded-[10px] bg-red-100 mt-2">
+                        <div class="p-4">
+                            <p>Supprimer votre compte entrainera:</p>
+                            <ul>
+                                <li>La suppression de vos listes</li>
+                                <li>La suppression de vos tâches</li>
+                                <li>La suppression de vos tags</li>
+                                <li>La suppression de vos informations personnelles</li>
+                            </ul>
+                            <p>Êtes-vous sûr de vouloir supprimer votre compte ?</p>
+                            <button id="removeProfil" class="px-1.5 py-2 rounded-[10px] bg-red-700 hover:bg-red-500 ease-in duration-300 hover:drop-shadow-[0_20px_20px_rgba(172,29,228,0.30)] font-bold text-white">
+                                Supprimer mon compte
+                            </button>
                         </div>
                     </div>
                 </div>
-                <div class="flex space-x-2 justify-between">
-                    <div class="w-1/2">
-                        <div>
-                            <div class="form_control flex relative rounded-14 flex-row items-center bg-[#a8b3cf14] h-12 px-4 overflow-hidden border-2 border-[#000] rounded cursor-text">
-                                <input name="password" id="password" class="bg-transparent text-black focus:outline-none">
-                                <label for="password" class="absolute top-0 left-2 px-1 py-px text-xs text-gray-500">Mot de passe</label>
-                            </div>
-                            <small id="errorPassword"></small>
-                        </div>
-                    </div>
-                    <div class="w-1/2">
-                        <div>
-                            <div class="form_control flex relative rounded-14 flex-row items-center bg-[#a8b3cf14] h-12 px-4 overflow-hidden border-2 border-[#000] rounded cursor-text">
-                                <input name="passwordConfirm" id="passwordConfirm" class="bg-transparent text-black focus:outline-none">
-                                <label for="passwordConfirm" class="absolute top-0 left-2 px-1 py-px text-xs text-gray-500">Confirmer le mot de passe</label>
-                            </div>
-                            <small id="errorPasswordConfirm"></small>
-                        </div>
-                    </div>
-                </div>
-                <div class="h-16" id="errorDisplay"></div>
-                <button type="submit" class="px-1.5 py-2 rounded bg-[#ac1de4] hover:bg-[#9e15d9] hover:drop-shadow-[0_20px_20px_rgba(172,29,228,0.30)] font-bold text-white">
-                    Sauvegarder vos modifications
-                </button>
-            </form>
-        </div>
+            </section>
+        </article>
     </main>
     <footer>
         <?php require_once 'src/View/import/footer.php'; ?>

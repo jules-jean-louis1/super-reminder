@@ -25,3 +25,5 @@ function displayProfilInfo() {
     });
 }
 displayProfilInfo();
+
+const formEditProfil = document.querySelector('#formEditProfil');

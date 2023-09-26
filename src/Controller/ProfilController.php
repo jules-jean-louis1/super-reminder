@@ -35,7 +35,6 @@ class ProfilController extends AbstractClasses\AbstractContoller
         $email = $this->verifyField('email');
         $firstname = $this->verifyField('firstname');
         $lastname = $this->verifyField('lastname');
-        $bio = $this->verifyField('bio');
         $password = $this->verifyField('password');
         $passwordConfirm = $this->verifyField('passwordConfirm');
 
@@ -90,17 +89,6 @@ class ProfilController extends AbstractClasses\AbstractContoller
                     $errors['lastname'] = 'Votre nom doit contenir entre 3 et 20 caractères.';
                 } else {
                     $crtl_lastname = $_POST['lastname'];
-                }
-            }
-        }
-        if (!empty($_POST['bio'])) {
-            if ($_POST['bio'] !== $_SESSION['user']['bio']) {
-                if (!$bio) {
-                    $errors['bio'] = 'Veuillez renseigner votre biographie.';
-                } elseif (strlen($bio) >= 300) {
-                    $errors['bio'] = 'Votre biographie ne doit pas dépasser les 300 caractères.';
-                } else {
-                    $crtl_bio = $_POST['bio'];
                 }
             }
         }
