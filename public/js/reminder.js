@@ -106,26 +106,69 @@ async function addReminder() {
     containerModal.innerHTML = `
         <dialog id="modalAddReminder" tabindex="-1" aria-labelledby="modalAddReminderLabel" aria-hidden="true" class="dialog_fixed p-2 border">
             <div class="flex justify-between">
-                <h2 id="modalAddReminderLabel">Ajouter un rappel</h2>
-                <button type="button" id="btnCloseAddReminder">X</button>
+                <h2 id="modalAddReminderLabel" class="text-2xl">Ajouter un rappel</h2>
+                <button type="button" id="btnCloseAddReminder" class="w-10 rounded-[10px] hover:bg-[#5258661f] flex items-center justify-center">
+                    <svg width="1em" height="1em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 pointer-events-none"><path d="M16.804 6.147a.75.75 0 011.049 1.05l-.073.083L13.061 12l4.72 4.72a.75.75 0 01-.977 1.133l-.084-.073L12 13.061l-4.72 4.72-.084.072a.75.75 0 01-1.049-1.05l.073-.083L10.939 12l-4.72-4.72a.75.75 0 01.977-1.133l.084.073L12 10.939l4.72-4.72.084-.072z" fill="currentcolor" fill-rule="evenodd"></path></svg>
+                </button>
             </div>
-            <div>
-                <form action="" method="post" id="formAddReminder">
+            <div class="h-full">
+                <form action="" method="post" id="formAddReminder" class="flex flex-col justify-between">
                     <div>
-                        <label for="name">Titre</label>
-                        <input type="text" name="name" id="name">
+                        <div class="form__div">
+                            <input type="text" name="name" id="name" placeholder="" class="form__input">
+                            <label for="name" class="form__label">Titre</label>
+                        </div>
                         <p id="errorName"></p>
                     </div>
                     <div>
-                        <label for="description">Description</label>
-                        <textarea name="description" id="description" cols="30" rows="10"></textarea>
+                        <div class="form__div h-[150px]">
+                            <textarea name="description" id="description" cols="30" rows="10" class="form__input h-full" placeholder=""></textarea>
+                            <label for="description" class="form__label">Description</label>
+                        </div>
                         <p id="errorDescription"></p>
                     </div>
-                    <div>
-                        <button type="button" id="btnAddDate">Ajouter une date</button>
-                        <button type="button" id="btnAddPriority">Ajouter une priorité</button>
-                        <div id="addDate"></div>
-                        <div id="addPriority"></div>
+                    <div class="h-40">
+                        <div class="flex space-x-2">
+                            <div class="w-1/2">
+                                <button type="button" id="btnAddDate" class="flex justify-around items-center px-3 rounded-[10px] border border-[#52586633] py-1 w-full text-slate-700 hover:text-[#15ce5c] group">
+                                    <span class="p-1 hover:bg-[#1ddc6f3d] rounded group-hover:bg-[#1ddc6f3d]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                          <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/>
+                                          <path d="M16 3v4"/>
+                                          <path d="M8 3v4"/>
+                                          <path d="M4 11h16"/>
+                                          <path d="M11 15h1"/>
+                                          <path d="M12 15v3"/>
+                                        </svg>
+                                    </span>
+                                    <span>Ajouter une date</span>
+                                </button>
+                            </div>
+                            <div class="w-1/2">
+                                <button type="button" id="btnAddPriority" class="flex justify-around items-center px-3 rounded-[10px] border border-[#52586633] py-1 w-full text-slate-700 hover:text-[#ac1de4] group">
+                                    <span class="p-1 hover:bg-[#c029f03d] rounded group-hover:bg-[#c029f03d]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-numbers" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                          <path d="M11 6h9"/>
+                                          <path d="M11 12h9"/>
+                                          <path d="M12 18h8"/>
+                                          <path d="M4 16a2 2 0 1 1 4 0c0 .591 -.5 1 -1 1.5l-3 2.5h4"/>
+                                          <path d="M6 10v-6l-2 2"/>
+                                        </svg>
+                                    </span>
+                                    <span>Ajouter une priorité</span>
+                               </button>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="w-1/2">
+                                <div id="addDate"></div>
+                            </div>
+                            <div class="w-1/2">
+                                <div id="addPriority"></div>
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <label for="status">Status</label>
@@ -135,10 +178,23 @@ async function addReminder() {
                             <option value="2">Terminé</option>
                         </select>
                     </div>
-                    <div id="listsOfReminders" class="flex flex-wrap"></div>
+                    <div>
+                        <div id="selected-items" class="flex flex-wrap gap-1"></div>
+                        <div>
+                            <div class="form__div">
+                                <input type="text" name="tags" id="tags" class="form__input" placeholder="">
+                                <label for="tags" class="form__label">Tags</label>
+                            </div>
+                            <div id="autocompleteTagsList" class="absolute w-[97%] bg-white p-1"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Vos Listes :</p>
+                        <div id="listsOfReminders" class="flex flex-wrap"></div>
+                    </div>
                     <p id="errorDisplay"></p>
                     <div>
-                        <button type="submit" id="btnAddReminder">Ajouter un rappel</button>
+                        <button type="submit" id="btnAddReminder" class="w-full px-1.5 py-2 rounded-[10px] bg-[#ac1de4] hover:bg-[#9e15d9] hover:drop-shadow-[0_20px_20px_rgba(172,29,228,0.30)] font-bold text-white">Ajouter un rappel</button>
                     </div>
                 </form>
             </div>
@@ -154,7 +210,6 @@ async function addReminder() {
 
         if (!hasHours) {
             addDate.innerHTML = `
-        <h3>Heures</h3>
         <div>
             <label for="start">Début</label>
             <input type="date" name="start" id="start">
@@ -271,6 +326,98 @@ async function addReminder() {
             console.log(error);
         }
     });
+    const containerResult = document.getElementById('autocompleteTagsList');
+    const tags = document.getElementById('tags');
+    const selectedItems = document.getElementById("selected-items");
+    let selectedTags = [];
+
+    function updateSelectedItems() {
+        selectedItems.innerHTML = "";
+        selectedTags.forEach((option) => {
+            const itemContainer = document.createElement("div");
+            itemContainer.className = "selected-item-container flex items-center";
+
+            const item = document.createElement("button");
+            item.className = "selected-item p-0.5 rounded-l bg-[#ac1de4] text-white";
+            item.textContent = option;
+            item.setAttribute('value', option);
+
+            const removeButton = document.createElement("button");
+            removeButton.className = "remove-button p-0.5 rounded-r bg-[#ac1de4] text-white";
+            removeButton.textContent = "X";
+            removeButton.addEventListener("click", () => {
+                removeTag(option);
+            });
+
+            itemContainer.appendChild(item);
+            itemContainer.appendChild(removeButton);
+
+            const input = document.createElement("input");
+            input.setAttribute("type", "hidden");
+            input.setAttribute("name", "tag[]");
+            input.setAttribute("value", option);
+
+            itemContainer.appendChild(input);
+
+            selectedItems.appendChild(itemContainer);
+        });
+    }
+
+    function selectOption(option) {
+        if (!selectedTags.includes(option)) {
+            selectedTags.push(option);
+            updateSelectedItems();
+        }
+        tags.value = "";
+        containerResult.innerHTML = "";
+    }
+
+    function removeTag(option) {
+        const index = selectedTags.indexOf(option);
+        if (index !== -1) {
+            selectedTags.splice(index, 1);
+            updateSelectedItems();
+        }
+    }
+
+    tags.addEventListener('input', async () => {
+        const tagsValue = tags.value;
+        if (tagsValue.length > 0) {
+            try {
+                let response = await fetch(`/super-reminder/reminder/searchTags/${tagsValue}`);
+                let data = await response.json();
+                console.log(data);
+                if (data.success) {
+                    const tagResults = data.success.map((result) => {
+                        return result.name;
+                    });
+                    createAutocompleteOptions(tagResults);
+                }
+                if (data.error) {
+                    containerResult.innerHTML = data.error;
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        } else {
+            containerResult.innerHTML = "";
+        }
+    });
+
+    function createAutocompleteOptions(options) {
+        containerResult.innerHTML = "";
+        options.forEach((option) => {
+            const item = document.createElement("div");
+            item.className = "autocomplete-item hover:bg-[#ac1de4] hover:text-white p-0.5 rounded";
+            item.textContent = option;
+
+            item.addEventListener("click", () => {
+                selectOption(option);
+            });
+
+            containerResult.appendChild(item);
+        });
+    }
 
     const btnCloseAddReminder = document.getElementById('btnCloseAddReminder');
     btnCloseAddReminder.addEventListener('click', () => {

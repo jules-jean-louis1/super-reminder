@@ -54,4 +54,16 @@ class TagsModel extends AbstractDatabase
         $tags = $req->fetchAll(PDO::FETCH_ASSOC);
         return $tags;
     }
+
+    public function searchTags(string $search): array
+    {
+        $bdd = $this->getBdd();
+        $sql = 'SELECT * FROM tags WHERE name LIKE :search AND users_id = :id';
+        $req = $bdd->prepare($sql);
+        $req->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+        $req->bindParam(':id', $_SESSION['user']['id'], PDO::PARAM_INT);
+        $req->execute();
+        $tags = $req->fetchAll(PDO::FETCH_ASSOC);
+        return $tags;
+    }
 }

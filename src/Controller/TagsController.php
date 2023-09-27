@@ -55,4 +55,17 @@ class TagsController
         echo json_encode($tags);
     }
 
+    public function searchTags(string $search)
+    {
+        $tagsModel = new TagsModel();
+        $tags = $tagsModel->searchTags($search);
+
+        if (empty($tags)) {
+            $errors['error'] = 'Aucun tag trouvé';
+        } else {
+            $errors['success'] = $tags;
+        }
+        echo json_encode($errors);
+    }
+
 }

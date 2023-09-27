@@ -186,4 +186,34 @@ class TaskModel extends AbstractDatabase
         $task = $req->fetchAll(PDO::FETCH_ASSOC);
         return $task;
     }
+    public function addTagToTask(int $task_id, int $tag_id): void
+    {
+        $bdd = $this->getBdd();
+        $sql = 'INSERT INTO tags_list (task_id, tags_id) VALUES (:task_id, :tag_id)';
+        $req = $bdd->prepare($sql);
+        $req->bindParam(':task_id', $task_id, PDO::PARAM_INT);
+        $req->bindParam(':tag_id', $tag_id, PDO::PARAM_INT);
+        $req->execute();
+    }
+
+    public function getTaskId(string $name, int $id): mixed
+    {
+        $bdd = $this->getBdd();
+        $sql = 'SELECT id FROM task WHERE name = :name AND users_id = :users_id';
+        $req = $bdd->prepare($sql);
+        $req->bindParam(':name', $name, PDO::PARAM_STR);
+        $req->bindParam(':users_id', $id, PDO::PARAM_INT);
+        $req->execute();
+        return $req->fetch(PDO::FETCH_ASSOC);
+    }
+    public function getTagsById(string $name, int $id_users)
+    {
+        $bdd = $this->getBdd();
+        $sql = 'SELECT id FROM tags WHERE name = :name AND users_id = :id';
+        $req = $bdd->prepare($sql);
+        $req->bindParam(':name', $name, PDO::PARAM_STR);
+        $req->bindParam(':id', $id_users, PDO::PARAM_INT);
+        $req->execute();
+        return $req->fetch(PDO::FETCH_ASSOC);
+    }
 }

@@ -102,6 +102,12 @@ $router->map('GET', '/reminder/[i:id]/getTags', function ($id) use ($tagsControl
 $router->map('POST', '/reminder/[i:id]/addTags', function ($id) use ($tagsController) {
     $tagsController->addTags($id);
 });
+$router->map('GET', '/reminder/[i:id]/deleteTags', function ($id) use ($tagsController) {
+    $tagsController->deleteTags($id);
+});
+$router->map('GET', '/reminder/searchTags/[*:search]', function ($search) use ($tagsController) {
+    $tagsController->searchTags($search);
+});
 
 
 $match = $router->match();

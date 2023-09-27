@@ -13,7 +13,12 @@
     --border-color: #DADCE0;
     --green-color: #15ce5c;
     --red-error-color: #fa2020;
-
+    --divider-secondary-color: #52586666;
+    --button-hover-background: #5258661f;
+    --primary-purple-color: #5f2eea;
+    --primary-purple-color-hover: #4c1dcb;
+    --secondary-purple-color-background: #c029f03d;
+    --secondary-purple-color: #ac1de4;
     /*===== Fuente y tipografia =====*/
     --body-font: 'Roboto', sans-serif;
     --normal-font-size: 1rem;
@@ -170,4 +175,16 @@
 }
 .is-valid {
     border: 2px solid var(--green-color);
+}
+
+/*===== Reminder =====*/
+#autocompleteTagsList {
+
+}
+#modalAddReminder {
+    border-radius: 10px;
+    min-height: 680px;
+    min-width: 400px;
+    width: auto;
+    border: 1px solid var(--divider-secondary-color);
 }

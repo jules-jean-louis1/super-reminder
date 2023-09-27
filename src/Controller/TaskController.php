@@ -27,6 +27,7 @@ class TaskController
         $list = $this->ValidFieldForm2('list');
         $status = $_POST['status'];
         $errors = [];
+        $tags = [];
 
         if ($_SESSION['user']['id'] !== $id) {
             $errors['right'] = 'Vous n\'avez pas le droit de faire ça';
@@ -36,8 +37,14 @@ class TaskController
         } else if (strlen($name) <= 2 || strlen($name) >= 60) {
             $errors['name'] = 'Le titre doit contenir entre 2 et 60 caractères';
         }
+        if (!empty($_POST['tag'])){
+            $tag = $_POST['tag'];
+            if (count($tag) > 3) {
+                $errors['tag'] = 'Vous ne pouvez pas ajouter plus de 3 tags';
+            }
+        }
 
-        if(empty($erros)) {
+        if(empty($errors)) {
             if ($_SESSION['user']['id'] !== $id) {
                 $errors['right'] = 'Vous n\'avez pas le droit de faire ça';
             } else {
@@ -85,8 +92,16 @@ class TaskController
                     $priority = null;
                 }
                 if (empty($errors)) {
-                    //var_dump($status);
                     $taskModel->createTask($name, $description, $start, $end, $status, $list, $id, $priority);
+                    if (!empty($tag)) {
+                        foreach ($_POST['tag'] as $tag) {
+                            $tags[] = $taskModel->getTagsById($tag, $id);
+                        }
+                        $task_id = $taskModel->getTaskId($name, $id);
+                        foreach ($tags as $tags_list) {
+                            $taskModel->addTagToTask((int)$task_id, $tags_list['id']);
+                        }
+                    }
                     $errors['success'] = 'Votre tâche a bien été créée';
                 }
             }
