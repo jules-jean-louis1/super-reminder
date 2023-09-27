@@ -47,6 +47,9 @@ $router->map('GET', '/profil/[i:id]/infos', function ($id) use ($profilControlle
 $router->map('POST', '/profil/edit', function () use ($profilController) {
     $profilController->editUserInfo($_SESSION['user']['id']);
 });
+$router->map('POST', '/profil/delete', function () use ($profilController) {
+    $profilController->deleteUser($_SESSION['user']['id']);
+});
 
 
 // TodoList

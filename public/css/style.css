@@ -13,6 +13,7 @@
     --border-color: #DADCE0;
     --green-color: #15ce5c;
     --red-error-color: #fa2020;
+    --red-color: #c72017;
 
     /*===== Fuente y tipografia =====*/
     --body-font: 'Roboto', sans-serif;
@@ -170,4 +171,12 @@
 }
 .is-valid {
     border: 2px solid var(--green-color);
+}
+
+/*===== Profil =====*/
+
+#dialog_deleteProfil {
+    height: 190px;
+    width: 310px;
+    border-radius: 10px;
 }

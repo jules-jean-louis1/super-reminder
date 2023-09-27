@@ -138,3 +138,32 @@ inputPasswordConfirm.addEventListener('input', () => {
     }
 });
 
+// Delete profil
+const removeProfil = document.querySelector('#removeProfil');
+const modalProfil = document.querySelector('#modalProfil');
+removeProfil.addEventListener('click', async () => {
+    modalProfil.innerHTML ='';
+    modalProfil.innerHTML = `
+    <dialog id="dialog_deleteProfil" tabindex="-1" aria-labelledby="modalAddListLabel" aria-hidden="true" class="dialog_fixed flex flex-col justify-center">
+        <div class="text-center px-2">
+            <p>Êtes-vous sûr de vouloir supprimer votre compte ?</p>
+        </div>
+        <div class="flex justify-center space-x-2">
+            <button class="px-4 py-2 text-white font-semibold rounded-[10px] bg-red-700 hover:bg-red-500 ease-in duration-300 hover:drop-shadow-[0_20px_20px_rgba(199,32,23,0.30)]" id="confirmDeleteProfil">Supprimer</button>
+            <button class="px-4 py-2 rounded-[10px] border border-black" id="cancelDeleteProfil" onclick="document.querySelector('#dialog').close()">Annulé</button>
+        </div>
+    </dialog>`;
+    const dialog = document.querySelector('#dialog_deleteProfil');
+    dialog.showModal();
+    const confirmDeleteProfil = document.querySelector('#confirmDeleteProfil');
+    confirmDeleteProfil.addEventListener('click', async () => {
+        try {
+            let response = await fetch(`/super-reminder/profil/delete`, {
+                method: 'POST',
+            });
+            let data = await response.json();
+        } catch (error) {
+            console.log(error);
+        }
+    });
+});

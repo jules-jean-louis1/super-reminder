@@ -17,6 +17,7 @@
         <?php require_once 'src/View/import/header.php'; ?>
     </header>
     <main>
+        <div id="modalProfil"></div>
         <article class="flex justify-center">
             <section class="w-[95%] lg:w-[60%] pt-10">
                 <div id="infosUserRecap" class="flex items-start justify-center">

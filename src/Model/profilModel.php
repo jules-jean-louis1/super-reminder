@@ -49,4 +49,48 @@ class profilModel extends AbstractDatabase
             return false;
         }
     }
+
+    public function deleteUser(int $id): void
+    {
+        $bdd = $this->getBdd();
+        $sql1 = 'ALTER TABLE list
+        ADD CONSTRAINT fk_users_id
+        FOREIGN KEY (users_id)
+        REFERENCES user(id)
+        ON DELETE CASCADE;';
+        $sql2 = 'ALTER TABLE task
+        ADD CONSTRAINT fk_users_id
+        FOREIGN KEY (users_id)
+        REFERENCES user(id)
+        ON DELETE CASCADE;';
+        $sql3 = 'ALTER TABLE task
+        ADD CONSTRAINT fk_list_id
+        FOREIGN KEY (list_id)
+        REFERENCES list(id)
+        ON DELETE CASCADE;';
+        $sql4 = 'ALTER TABLE tags_list
+        ADD CONSTRAINT fk_task_id
+        FOREIGN KEY (task_id)
+        REFERENCES task(id)
+        ON DELETE CASCADE;';
+        $sql5 = 'ALTER TABLE tags_list
+        ADD CONSTRAINT fk_tags_id
+        FOREIGN KEY (tags_id)
+        REFERENCES tags(id)
+        ON DELETE CASCADE;';
+
+        $req1 = $bdd->prepare($sql1);
+        $req2 = $bdd->prepare($sql2);
+        $req3 = $bdd->prepare($sql3);
+        $req4 = $bdd->prepare($sql4);
+        $req5 = $bdd->prepare($sql5);
+        $req1->execute();
+        $req2->execute();
+        $req3->execute();
+        $req4->execute();
+        $req5->execute();
+        $req = $bdd->prepare('DELETE FROM users WHERE id = :id');
+        $req->bindParam(':id', $id, \PDO::PARAM_INT);
+        $req->execute();
+    }
 }

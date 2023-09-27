@@ -10,6 +10,15 @@ class ProfilController extends AbstractClasses\AbstractContoller
         $user = $this->profilModel->getUserInfo($id);
         $this->render('profil', ['user' => $user]);
     }
+
+    public function deleteUser(int $id): void
+    {
+        $profilModel = new profilModel();
+        $profilModel->deleteUser($id);
+        session_destroy();
+        header('Location: /super-reminder');
+    }
+
     private function editUser($crtl, $field, $id)
     {
         $profilModel = new profilModel();
