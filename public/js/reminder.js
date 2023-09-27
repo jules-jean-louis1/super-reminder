@@ -135,7 +135,7 @@ async function addReminder() {
                             <option value="2">Terminé</option>
                         </select>
                     </div>
-                    <div id="listsOfReminders"></div>
+                    <div id="listsOfReminders" class="flex flex-wrap"></div>
                     <p id="errorDisplay"></p>
                     <div>
                         <button type="submit" id="btnAddReminder">Ajouter un rappel</button>
@@ -207,7 +207,7 @@ async function addReminder() {
     getListOfUsers(id).then(data => {
         for (let i = 0; i < data.length; i++) {
             listsOfReminders.innerHTML += `
-                <div>
+                <div class="p-1">
                     <input type="radio" value="${data[i].id}" name="list">
                     <label for="${data[i].name}">${data[i].name}</label>
                 </div>
