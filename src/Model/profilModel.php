@@ -2,7 +2,7 @@
 
 namespace App\Model;
 use PDO;
-class ProfilModel extends AbstractDatabase
+class profilModel extends AbstractDatabase
 {
     public function getUserInfo(int $id)
     {

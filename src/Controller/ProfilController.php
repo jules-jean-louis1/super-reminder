@@ -1,15 +1,10 @@
 <?php
 
 namespace App\Controller;
-
+use App\Model\profilModel;
 class ProfilController extends AbstractClasses\AbstractContoller
 {
-    private \App\Model\profilModel $profilModel;
-
-    public function __construct()
-    {
-        $this->profilModel = new \App\Model\profilModel();
-    }
+    
     public function showProfil(int $id): void
     {
         $user = $this->profilModel->getUserInfo($id);
@@ -17,28 +12,31 @@ class ProfilController extends AbstractClasses\AbstractContoller
     }
     private function editUser($crtl, $field, $id)
     {
+        $profilModel = new profilModel();
         if ($crtl !== null) {
-            $this->profilModel->editInfoUser($field, $crtl, $id);
+            $profilModel->editInfoUser($field, $crtl, $id);
             $_SESSION['user'][$field] = $crtl;
         }
     }
     public function getUserInfo(int $id): void
     {
-        $user = $this->profilModel->getUserInfo($id);
+        $profilModel = new profilModel();
+        $user = $profilModel->getUserInfo($id);
         echo json_encode($user);
     }
     public function editUserInfo(int $id): void
     {
+        $profilModel = new profilModel();
         $errors = [];
         $success = [];
-        $username = $this->verifyField('login');
+        $login = $this->verifyField('login');
         $email = $this->verifyField('email');
         $firstname = $this->verifyField('firstname');
         $lastname = $this->verifyField('lastname');
         $password = $this->verifyField('password');
         $passwordConfirm = $this->verifyField('passwordConfirm');
 
-        $crtl_username = null;
+        $crtl_login = null;
         $crtl_email = null;
         $crtl_firstname = null;
         $crtl_lastname = null;
@@ -46,14 +44,14 @@ class ProfilController extends AbstractClasses\AbstractContoller
 
         if (!empty($_POST['login'])) {
             if ($_POST['login'] !== $_SESSION['user']['login']) {
-                if (!$username) {
+                if (!$login) {
                     $errors['login'] = 'Veuillez renseigner un nom d\'utilisateur.';
-                } elseif (strlen($username) <= 2 || strlen($username) >= 20) {
+                } elseif (strlen($login) <= 2 || strlen($login) >= 20) {
                     $errors['login'] = 'Votre nom d\'utilisateur doit contenir entre 3 et 20 caractères.';
-                } elseif ($this->profilModel->VerifyIfExist($username, 'username')) {
+                } elseif ($profilModel->VerifyIfExist($login, 'login')) {
                     $errors['login'] = 'Ce nom d\'utilisateur est déjà utilisé.';
                 } else {
-                    $crtl_username = $_POST['login'];
+                    $crtl_login = $_POST['login'];
                 }
             }
         }
@@ -63,7 +61,7 @@ class ProfilController extends AbstractClasses\AbstractContoller
                     $errors['email'] = 'Veuillez renseigner une adresse e-mail.';
                 } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $errors['email'] = 'Veuillez renseigner une adresse e-mail valide.';
-                } elseif ($this->profilModel->VerifyIfExist($email, 'email')) {
+                } elseif ($profilModel->VerifyIfExist($email, 'email')) {
                     $errors['email'] = 'Cette adresse e-mail est déjà utilisée.';
                 } else {
                     $crtl_email = $_POST['email'];
@@ -97,7 +95,7 @@ class ProfilController extends AbstractClasses\AbstractContoller
                 $errors['password'] = 'Veuillez renseigner votre mot de passe.';
             } elseif (strlen($password) <= 8 || strlen($password) >= 35) {
                 $errors['password'] = 'Votre mot de passe doit contenir entre 8 et 35 caractères.';
-            } elseif (!$this->VerifyPassword($password)) {
+            } elseif (!$profilModel->VerifyPassword($password, $id)) {
                 $errors['password'] = 'Votre mot de passe doit contenir au moins 3 lettres minuscules, 2 lettres majuscules, 2 chiffres et 1 caractère spécial.';
             }
             if (!$passwordConfirm) {
@@ -106,40 +104,41 @@ class ProfilController extends AbstractClasses\AbstractContoller
                 $errors['passwordConfirm'] = 'Les deux mots de passe ne sont pas identiques.';
             }
         }
+
         if (!empty($errors)) {
             echo json_encode($errors);
         }
 
         if (empty($errors)) {
-            if ($crtl_username !== null) {
-                $this->profilModel->editInfoUser('login', $crtl_username, $id);
-                $_SESSION['user']['login'] = $crtl_username;
+            if ($crtl_login !== null) {
+                $profilModel->editInfoUser('login', $crtl_login, $id);
+                $_SESSION['user']['login'] = $crtl_login;
                 $success['success']['login'] = 'Votre nom d\'utilisateur a bien été modifié.';
             }
             if ($crtl_email !== null) {
-                $this->profilModel->editInfoUser('email', $crtl_email, $id);
+                $profilModel->editInfoUser('email', $crtl_email, $id);
                 $_SESSION['user']['email'] = $crtl_email;
                 $success['success']['email'] = 'Votre adresse e-mail a bien été modifiée.';
             }
             if ($crtl_firstname !== null) {
-                $this->profilModel->editInfoUser('firstname', $crtl_firstname, $id);
+                $profilModel->editInfoUser('firstname', $crtl_firstname, $id);
                 $_SESSION['user']['firstname'] = $crtl_firstname;
                 $success['success']['firstname'] = 'Votre prénom a bien été modifié.';
             }
             if ($crtl_lastname !== null) {
-                $this->profilModel->editInfoUser('lastname', $crtl_lastname, $id);
+                $profilModel->editInfoUser('lastname', $crtl_lastname, $id);
                 $_SESSION['user']['lastname'] = $crtl_lastname;
                 $success['success']['lastname'] = 'Votre nom a bien été modifié.';
             }
             if ($crtl_bio !== null) {
-                $this->profilModel->editInfoUser('bio', $crtl_bio, $id);
+                $profilModel->editInfoUser('bio', $crtl_bio, $id);
                 $_SESSION['user']['bio'] = $crtl_bio;
                 $success['success']['bio'] = 'Votre biographie a bien été modifiée.';
             }
             if (!empty($password) && !empty($passwordConfirm)) {
-                if ($this->profilModel->VerifyPassword($password, $id)) {
+                if ($profilModel->VerifyPassword($password, $id)) {
                     $password = password_hash($password, PASSWORD_DEFAULT);
-                    $this->profilModel->editInfoUser('password', $password, $id);
+                    $profilModel->editInfoUser('password', $password, $id);
                     $success['success']['password'] = 'Votre mot de passe a bien été modifié.';
                 } else {
                     $success['error_password'] = 'Votre mot de passe n\'a pas été modifié.';

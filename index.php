@@ -44,8 +44,8 @@ $router->map( 'GET', '/profil/[i:id]', function($id) {
 $router->map('GET', '/profil/[i:id]/infos', function ($id) use ($profilController) {
     $profilController->getUserInfo($id);
 });
-$router->map('POST', '/profil/[i:id]/edit', function ($id) use ($profilController) {
-    $profilController->editUserInfo($id);
+$router->map('POST', '/profil/edit', function () use ($profilController) {
+    $profilController->editUserInfo($_SESSION['user']['id']);
 });
 
 

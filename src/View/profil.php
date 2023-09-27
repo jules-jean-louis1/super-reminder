@@ -18,22 +18,28 @@
     </header>
     <main>
         <article class="flex justify-center">
-            <section class="w-[95%] lg:w-[60%]">
-                <div id="infosUserRecap"></div>
+            <section class="w-[95%] lg:w-[60%] pt-10">
+                <div id="infosUserRecap" class="flex items-start justify-center">
+                    <img src="/super-reminder/public/images/avatars/<?= $_SESSION['user']['avatar']?>" class="rounded-full w-10 h-10">
+                    <div class="flex flex-col justify-center">
+                        <h2 class="font-bold typo-headline" id="displayTopInfosUsers"><?= $_SESSION['user']['firstname'] . ' ' . $_SESSION['user']['lastname'] ?></h2>
+                        <p class="typo-subheading" id="displayLoginUsers"><?= $_SESSION['user']['login'] ?></p>
+                    </div>
+                </div>
             </section>
         </article>
         <article class="flex justify-center">
-            <section class="w-[95%] lg:w-[60%]">
+            <section class="w-[95%] lg:w-[60%] pt-8">
                 <div id="containerFormEditProfil">
                     <div class="w-full">
-                        <form action="" method="post" id="editProfil">
+                        <form action="" method="post" id="formEditProfil">
                             <div>
                                 <div>
                                     <div class="form__div">
                                         <input type="text" name="login" id="login" placeholder="Nom d'utilisateur" class="form__input">
                                         <label for="login" class="form__label">Nom d'utilisateur / Login</label>
                                     </div>
-                                    <small id="errorUsername"></small>
+                                    <small id="errorLogin" class="flex h-6"></small>
                                 </div>
                             </div>
                             <div>
@@ -42,7 +48,7 @@
                                         <input name="email" id="email" class="form__input">
                                         <label for="email" class="form__label">Email</label>
                                     </div>
-                                    <small id="errorEmail"></small>
+                                    <small id="errorEmail" class="flex h-6"></small>
                                 </div>
                             </div>
                             <div class="flex space-x-2 justify-between">
@@ -52,7 +58,7 @@
                                             <input name="firstname" id="firstname" class="form__input">
                                             <label for="firstname" class="form__label">Prénom</label>
                                         </div>
-                                        <small id="errorFirstname"></small>
+                                        <small id="errorFirstname" class="flex h-6"></small>
                                     </div>
                                 </div>
                                 <div class="w-1/2">
@@ -61,7 +67,7 @@
                                             <input name="lastname" id="lastname" class="form__input">
                                             <label for="lastname" class="form__label">Nom</label>
                                         </div>
-                                        <small id="errorLastname"></small>
+                                        <small id="errorLastname"  class="flex h-6"></small>
                                     </div>
                                 </div>
                             </div>
@@ -72,7 +78,7 @@
                                             <input name="password" id="password" class="form__input">
                                             <label for="password" class="form__label">Mot de passe</label>
                                         </div>
-                                        <small id="errorPassword"></small>
+                                        <small id="errorPassword" class="flex h-6"></small>
                                     </div>
                                 </div>
                                 <div class="w-1/2">
@@ -81,7 +87,7 @@
                                             <input name="passwordConfirm" id="passwordConfirm" class="form__input">
                                             <label for="passwordConfirm" class="form__label">Confirmer le mot de passe</label>
                                         </div>
-                                        <small id="errorPasswordConfirm"></small>
+                                        <small id="errorPasswordConfirm" class="flex h-6"></small>
                                     </div>
                                 </div>
                             </div>
