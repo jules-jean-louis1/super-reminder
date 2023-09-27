@@ -150,11 +150,16 @@ removeProfil.addEventListener('click', async () => {
         </div>
         <div class="flex justify-center space-x-2">
             <button class="px-4 py-2 text-white font-semibold rounded-[10px] bg-red-700 hover:bg-red-500 ease-in duration-300 hover:drop-shadow-[0_20px_20px_rgba(199,32,23,0.30)]" id="confirmDeleteProfil">Supprimer</button>
-            <button class="px-4 py-2 rounded-[10px] border border-black" id="cancelDeleteProfil" onclick="document.querySelector('#dialog').close()">Annulé</button>
+            <button class="px-4 py-2 rounded-[10px] border border-black" id="cancelDeleteProfil">Annulé</button>
         </div>
     </dialog>`;
     const dialog = document.querySelector('#dialog_deleteProfil');
     dialog.showModal();
+    const cancelDeleteProfil = document.querySelector('#cancelDeleteProfil');
+    cancelDeleteProfil.addEventListener('click', () => {
+        dialog.close();
+        modalProfil.innerHTML = '';
+    })
     const confirmDeleteProfil = document.querySelector('#confirmDeleteProfil');
     confirmDeleteProfil.addEventListener('click', async () => {
         try {
