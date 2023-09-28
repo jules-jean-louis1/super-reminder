@@ -1,50 +1,50 @@
 <form action="" method="post" id="formRegister" class="bg-white h-full max-h-[calc(100vh-2.5rem)] mobileL:h-[40rem] mobileL:max-h-[calc(100vh-5rem)] w-[26.25rem] px-4 py-5 flex flex-col justify-between">
     <div>
         <div>
-            <div class="form_control flex relative rounded-14 flex-row items-center bg-[#a8b3cf14] h-12 px-4 overflow-hidden border-2 border-[#000] rounded cursor-text">
-                <label for="username" class="sr-only">Nom d'utilisateur</label>
-                <input type="text" name="login" id="login" placeholder="Nom d'utilisateur" class="bg-transparent text-black focus:outline-none w-full">
+            <div class="form__div2">
+                <input type="text" name="login" id="login" placeholder="" class="form__input">
+                <label for="username" class="form__label">Login</label>
             </div>
-            <small id="errorUsername"></small>
+            <small id="errorLogin" class="flex h-6"></small>
         </div>
         <div>
-            <div class="form_control flex relative rounded-14 flex-row items-center bg-[#a8b3cf14] h-12 px-4 overflow-hidden border-2 border-[#000] rounded cursor-text">
-                <label for="email" class="sr-only">Email</label>
-                <input type="email" name="email" id="email" placeholder="Email" class="bg-transparent text-black focus:outline-none w-full">
+            <div class="form__div2">
+                <input type="email" name="email" id="email" placeholder="" class="form__input">
+                <label for="email" class="form__label">Email</label>
             </div>
-            <small id="errorEmail"></small>
+            <small id="errorEmail" class="flex h-6"></small>
         </div>
     </div>
     <div class="flex space-x-2">
         <div class="flex-grow">
-            <div class="form_control flex relative rounded-14 flex-row items-center bg-[#a8b3cf14] h-12 px-4 overflow-hidden border-2 border-[#000] rounded cursor-text">
-                <label for="firstname" class="sr-only">Prénom</label>
-                <input type="text" name="firstname" id="firstname" placeholder="Prénom" class="bg-transparent text-black focus:outline-none w-full">
+            <div class="form__div2">
+                <input type="text" name="firstname" id="firstname" placeholder="" class="form__input">
+                <label for="firstname" class="form__label">Prénom</label>
             </div>
-            <small id="errorFirstname"></small>
+            <small id="errorFirstname" class="flex h-6" ></small>
         </div>
         <div class="flex-grow">
-            <div class="form_control flex relative rounded-14 flex-row items-center bg-[#a8b3cf14] h-12 px-4 overflow-hidden border-2 border-[#000] rounded cursor-text">
-                <label for="lastname" class="sr-only">Nom</label>
-                <input type="text" name="lastname" id="lastname" placeholder="Nom" class="bg-transparent text-black focus:outline-none w-full">
+            <div class="form__div2">
+                <input type="text" name="lastname" id="lastname" placeholder="" class="form__input">
+                <label for="lastname" class="form__label">Nom</label>
             </div>
-            <small id="errorLastname"></small>
+            <small id="errorLastname"  class="flex h-6"></small>
         </div>
     </div>
     <div>
         <div>
-            <div class="form_control flex relative rounded-14 flex-row items-center bg-[#a8b3cf14] h-12 px-4 overflow-hidden border-2 border-[#000] rounded cursor-text">
-                <label for="password" class="sr-only">Mot de passe</label>
-                <input type="password" name="password" id="password" placeholder="Mot de passe" class="bg-transparent text-black focus:outline-none w-full">
+            <div class="form__div2">
+                <input type="password" name="password" id="password" placeholder="" class="form__input">
+                <label for="password" class="form__label">Mot de passe</label>
             </div>
-            <small id="errorPassword"></small>
+            <small id="errorPassword" class="flex h-6"></small>
         </div>
         <div>
-            <div class="form_control flex relative rounded-14 flex-row items-center bg-[#a8b3cf14] h-12 px-4 overflow-hidden border-2 border-[#000] rounded cursor-text">
-                <label for="passwordConfirm" class="sr-only">Confirmer le mot de passe</label>
-                <input type="password" name="passwordConfirm" id="passwordConfirm" placeholder="Confirmer le mot de passe" class="bg-transparent text-black focus:outline-none w-full">
+            <div class="form__div2">
+                <input type="password" name="passwordConfirm" id="passwordConfirm" placeholder="" class="form__input">
+                <label for="passwordConfirm" class="form__label">Confirmer le mot de passe</label>
             </div>
-            <small id="errorPasswordConfirm"></small>
+            <small id="errorPasswordConfirm" class="flex h-6"></small>
         </div>
     </div>
     <div>

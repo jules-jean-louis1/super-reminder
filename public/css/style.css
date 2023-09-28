@@ -116,6 +116,12 @@
     margin-bottom: 0.75rem;
     margin-top: 0.75rem;
 }
+.form__div2{
+    position: relative;
+    height: 48px;
+    margin-bottom: 0.10rem;
+    margin-top: 0.10rem;
+}
 .form__input{
     position: absolute;
     top: 0;

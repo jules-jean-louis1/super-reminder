@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./../public/css/style.css">
     <script defer type="module" src="./../public/js/reminder.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Reminder</title>
+    <title><?=$_SESSION['user']['login']?> - Reminder</title>
 </head>
 <body>
     <header>

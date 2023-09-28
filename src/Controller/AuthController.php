@@ -74,12 +74,12 @@ class AuthController extends AbstractClasses\AbstractContoller
         $errors = [];
 
         if (!$login){
-            $errors['login'] = 'Veuillez indiquer votre Nom d\'utilisateur.';
+            $errors['login'] = 'Veuillez indiquer votre login.';
         } elseif (!$this->ValidUsername($login)) {
-            $errors['login'] = 'Le champ username doit contenir entre 3 et 20 caractères et ne doit pas contenir de caractères spéciaux';
+            $errors['login'] = 'Le champ login doit contenir entre 3 et 20 caractères et ne doit pas contenir de caractères spéciaux';
         } elseif ($this->authModel->VerifyIfExist($login, 'login')) {
-            $errors['login'] = 'Ce nom d\'utlisateur est déjà utilisé';
-            $errors['useLogin'] = 'Ce nom d\'utlisateur est déjà utilisé';
+            $errors['login'] = 'Ce login est déjà utilisé';
+            $errors['useLogin'] = 'Ce login est déjà utilisé';
         }
         if (!$email) {
             $errors['email'] = 'Veuillez indiquer votre adresse e-mail.';

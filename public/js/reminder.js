@@ -541,7 +541,7 @@ async function manageReminder(){
     getListOfUsers(id).then(list => {
         for (let i = 0; i < list.length; i++) {
             ListeUserWarpper.innerHTML += `
-                <button class="listUser hover:bg-[#E2E8F0] p-1 my-2 text-[#525866] w-full" value="${list[i].id}">
+                <button class="listUser_${list[i].id} hover:bg-[#E2E8F0] p-1 my-2 text-[#525866] w-full" value="${list[i].id}">
                     <h3 class="flex items-center">
                         <span class="listUserSpan">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -558,6 +558,17 @@ async function manageReminder(){
                     </h3> 
                 </button>
             `;
+        }
+        for (let i = 0; i < list.length; i++) {
+            const listUser = document.querySelector(`.listUser_${list[i].id}`);
+            listUser.addEventListener('click', () => {
+                const idList = listUser.getAttribute('value');
+                const inputList = document.getElementById('listeFormSelect');
+
+                inputList.addEventListener('change', async () => {
+                    dislpayReminder();
+                });
+            });
         }
     });
 }
@@ -581,7 +592,7 @@ async function dislpayReminder() {
     containerReminderList.innerHTML = '';
     if (data === false) {
         containerReminderList.innerHTML = `
-            <p>Aucun résultat</p>
+            <p class="mt-10 text-2xl">Aucune tâches</p>
         `;
     } else {
         for (let i = 0; i < data.length; i++) {
@@ -739,6 +750,7 @@ async function dislpayReminder() {
                 reminder.classList.add('border', 'border-[#fad820]');
             } else if (data[i].status === 'done') {
                 reminder.classList.add('border', 'border-[#fa2020]');
+
             }
         }
         for (let i = 0; i < data.length; i++) {
@@ -1241,9 +1253,12 @@ btnAddTags.addEventListener('click', () => {
     addTags();
 });
 
+// Test toast
 const btntesttoast = document.getElementById('btntesttoast');
 btntesttoast.addEventListener('click', () => {
     createToast(containerPushNotif, 'success', 'Votre tag a bien été ajouté', 1000);
 });
+
+// Add Button List control form
 
 

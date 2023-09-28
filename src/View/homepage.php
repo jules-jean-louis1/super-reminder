@@ -10,6 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./public/css/style.css">
     <script defer type="module" src="./public/js/homepage.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>HomePage</title>
 </head>
 <body>
