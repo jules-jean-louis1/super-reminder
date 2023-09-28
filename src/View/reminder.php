@@ -23,80 +23,82 @@
             <ul id="containerPushNotif"></ul>
         </div>
         <div class="flex h-[96vh]">
-            <div id="containerAutocompletion" class="bg-white border-r border-[#52586633] px-4 w-1/6 flex flex-col space-y-2 h-[100%]">
-                <div id="containerAutocompletionList"></div>
-                <div class="flex items-center gap-4">
-                    <img src="/super-reminder/public/images/avatars/<?= $_SESSION['user']['avatar']?>" class="rounded-full w-8 h-8">
-                    <p>
-                        <?= $_SESSION['user']['firstname']?> <?= $_SESSION['user']['lastname']?>
-                    </p>
-                </div>
-                <div>
-                    <button id="btnAddList" class="flex items-center text-[#525866] py-2 px-4 border border-[#525866] rounded-[10px] bg-[#f5f8fc] w-full">
-                        <span>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M3.68508 15.4442C3.23279 14.3522 3 13.1819 3 12C3 10.8181 3.23279 9.64778 3.68508 8.55585C4.13738 7.46392 4.80031 6.47177 5.63604 5.63604C6.47177 4.80031 7.46392 4.13738 8.55585 3.68508C9.64778 3.23279 10.8181 3 12 3C13.1819 3 14.3522 3.23279 15.4442 3.68508C16.5361 4.13738 17.5282 4.80031 18.364 5.63604C19.1997 6.47177 19.8626 7.46392 20.3149 8.55585C20.7672 9.64778 21 10.8181 21 12C21 13.1819 20.7672 14.3522 20.3149 15.4442C19.8626 16.5361 19.1997 17.5282 18.364 18.364C17.5282 19.1997 16.5361 19.8626 15.4442 20.3149C14.3522 20.7672 13.1819 21 12 21C10.8181 21 9.64778 20.7672 8.55585 20.3149C7.46392 19.8626 6.47177 19.1997 5.63604 18.364C4.80031 17.5282 4.13738 16.5361 3.68508 15.4442ZM12 6C12.5523 6 13 6.44772 13 7V11H17C17.5523 11 18 11.4477 18 12C18 12.5523 17.5523 13 17 13H13V17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17V13H7C6.44772 13 6 12.5523 6 12C6 11.4477 6.44772 11 7 11H11V7C11 6.44772 11.4477 6 12 6Z" fill="#848484"/>
-                            </svg>
-                        </span>
-                        <span class="flex flex-col">
-                            <p class="text-2xl font-semibold">Mes Listes</p>
-                            <p class="text-xs">Modifier/Supprimer</p>
-                        </span>
-                    </button>
-                </div>
-                <div>
-                    <h3 class="flex items-center space-x-2">
-                        <span class="border border-[#525866] text-[#525866] rounded-full p-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M9 6l11 0"/>
-                            <path d="M9 12l11 0"/>
-                            <path d="M9 18l11 0"/>
-                            <path d="M5 6l0 .01"/>
-                            <path d="M5 12l0 .01"/>
-                            <path d="M5 18l0 .01"/>
-                            </svg>
-                        </span>
-                        <span class="text-xl font-bold">Mes Listes</span>
-                    </h3>
-                </div>
-                <div>
+            <aside class="lg:flex hidden w-[40%] lg:w-60" id="asideContainer">
+                <div id="containerAutocompletion" class="bg-white border-r border-[#52586633] px-4 flex flex-col space-y-2 h-[100%]">
+                    <div id="containerAutocompletionList"></div>
+                    <div class="flex items-center gap-4">
+                        <img src="/super-reminder/public/images/avatars/<?= $_SESSION['user']['avatar']?>" class="rounded-full w-8 h-8">
+                        <p>
+                            <?= $_SESSION['user']['firstname']?> <?= $_SESSION['user']['lastname']?>
+                        </p>
+                    </div>
                     <div>
-                        <button id="btnShareListTask" type="button" class="flex items-center text-[#525866] hover:bg-[#E2E8F0]">
+                        <button id="btnAddList" class="flex items-center text-[#525866] py-2 px-4 border border-[#525866] rounded-[10px] bg-[#f5f8fc] w-full">
                             <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-share-3" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <path d="M13 4v4c-6.575 1.028 -9.02 6.788 -10 12c-.037 .206 5.384 -5.962 10 -6v4l8 -7l-8 -7z"/>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.68508 15.4442C3.23279 14.3522 3 13.1819 3 12C3 10.8181 3.23279 9.64778 3.68508 8.55585C4.13738 7.46392 4.80031 6.47177 5.63604 5.63604C6.47177 4.80031 7.46392 4.13738 8.55585 3.68508C9.64778 3.23279 10.8181 3 12 3C13.1819 3 14.3522 3.23279 15.4442 3.68508C16.5361 4.13738 17.5282 4.80031 18.364 5.63604C19.1997 6.47177 19.8626 7.46392 20.3149 8.55585C20.7672 9.64778 21 10.8181 21 12C21 13.1819 20.7672 14.3522 20.3149 15.4442C19.8626 16.5361 19.1997 17.5282 18.364 18.364C17.5282 19.1997 16.5361 19.8626 15.4442 20.3149C14.3522 20.7672 13.1819 21 12 21C10.8181 21 9.64778 20.7672 8.55585 20.3149C7.46392 19.8626 6.47177 19.1997 5.63604 18.364C4.80031 17.5282 4.13738 16.5361 3.68508 15.4442ZM12 6C12.5523 6 13 6.44772 13 7V11H17C17.5523 11 18 11.4477 18 12C18 12.5523 17.5523 13 17 13H13V17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17V13H7C6.44772 13 6 12.5523 6 12C6 11.4477 6.44772 11 7 11H11V7C11 6.44772 11.4477 6 12 6Z" fill="#848484"/>
                                 </svg>
                             </span>
-                            <span class="text-sm font-medium">Tâches partagées</span>
+                            <span class="flex flex-col">
+                                <p class="text-2xl font-semibold">Mes Listes</p>
+                                <p class="text-xs">Modifier/Supprimer</p>
+                            </span>
                         </button>
                     </div>
-                    <div id="ListeUserWarpper"></div>
+                    <div>
+                        <h3 class="flex items-center space-x-2">
+                            <span class="border border-[#525866] text-[#525866] rounded-full p-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M9 6l11 0"/>
+                                <path d="M9 12l11 0"/>
+                                <path d="M9 18l11 0"/>
+                                <path d="M5 6l0 .01"/>
+                                <path d="M5 12l0 .01"/>
+                                <path d="M5 18l0 .01"/>
+                                </svg>
+                            </span>
+                            <span class="text-xl font-bold">Mes Listes</span>
+                        </h3>
+                    </div>
+                    <div>
+                        <div>
+                            <button id="btnShareListTask" type="button" class="flex items-center text-[#525866] hover:bg-[#E2E8F0]">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-share-3" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M13 4v4c-6.575 1.028 -9.02 6.788 -10 12c-.037 .206 5.384 -5.962 10 -6v4l8 -7l-8 -7z"/>
+                                    </svg>
+                                </span>
+                                <span class="text-sm font-medium">Tâches partagées</span>
+                            </button>
+                        </div>
+                        <div id="ListeUserWarpper"></div>
+                    </div>
+                    <div>
+                        <p class="flex items-center">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                  <path d="M5 9l14 0"/>
+                                  <path d="M5 15l14 0"/>
+                                  <path d="M11 4l-4 16"/>
+                                  <path d="M17 4l-4 16"/>
+                                </svg>
+                            </span>
+                            <span class="text-2xl font-semibold">Tags</span>
+                        </p>
+                        <button type="button" id="btnAddTags" class="flex items-center">
+                            <span>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.68508 15.4442C3.23279 14.3522 3 13.1819 3 12C3 10.8181 3.23279 9.64778 3.68508 8.55585C4.13738 7.46392 4.80031 6.47177 5.63604 5.63604C6.47177 4.80031 7.46392 4.13738 8.55585 3.68508C9.64778 3.23279 10.8181 3 12 3C13.1819 3 14.3522 3.23279 15.4442 3.68508C16.5361 4.13738 17.5282 4.80031 18.364 5.63604C19.1997 6.47177 19.8626 7.46392 20.3149 8.55585C20.7672 9.64778 21 10.8181 21 12C21 13.1819 20.7672 14.3522 20.3149 15.4442C19.8626 16.5361 19.1997 17.5282 18.364 18.364C17.5282 19.1997 16.5361 19.8626 15.4442 20.3149C14.3522 20.7672 13.1819 21 12 21C10.8181 21 9.64778 20.7672 8.55585 20.3149C7.46392 19.8626 6.47177 19.1997 5.63604 18.364C4.80031 17.5282 4.13738 16.5361 3.68508 15.4442ZM12 6C12.5523 6 13 6.44772 13 7V11H17C17.5523 11 18 11.4477 18 12C18 12.5523 17.5523 13 17 13H13V17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17V13H7C6.44772 13 6 12.5523 6 12C6 11.4477 6.44772 11 7 11H11V7C11 6.44772 11.4477 6 12 6Z" fill="#848484"/>
+                                </svg>
+                            </span>
+                            <span>Ajouter un tags</span>
+                        </button>
+                    </div>
                 </div>
-                <div>
-                    <p class="flex items-center">
-                        <span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                              <path d="M5 9l14 0"/>
-                              <path d="M5 15l14 0"/>
-                              <path d="M11 4l-4 16"/>
-                              <path d="M17 4l-4 16"/>
-                            </svg>
-                        </span>
-                        <span class="text-2xl font-semibold">Tags</span>
-                    </p>
-                    <button type="button" id="btnAddTags" class="flex items-center">
-                        <span>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M3.68508 15.4442C3.23279 14.3522 3 13.1819 3 12C3 10.8181 3.23279 9.64778 3.68508 8.55585C4.13738 7.46392 4.80031 6.47177 5.63604 5.63604C6.47177 4.80031 7.46392 4.13738 8.55585 3.68508C9.64778 3.23279 10.8181 3 12 3C13.1819 3 14.3522 3.23279 15.4442 3.68508C16.5361 4.13738 17.5282 4.80031 18.364 5.63604C19.1997 6.47177 19.8626 7.46392 20.3149 8.55585C20.7672 9.64778 21 10.8181 21 12C21 13.1819 20.7672 14.3522 20.3149 15.4442C19.8626 16.5361 19.1997 17.5282 18.364 18.364C17.5282 19.1997 16.5361 19.8626 15.4442 20.3149C14.3522 20.7672 13.1819 21 12 21C10.8181 21 9.64778 20.7672 8.55585 20.3149C7.46392 19.8626 6.47177 19.1997 5.63604 18.364C4.80031 17.5282 4.13738 16.5361 3.68508 15.4442ZM12 6C12.5523 6 13 6.44772 13 7V11H17C17.5523 11 18 11.4477 18 12C18 12.5523 17.5523 13 17 13H13V17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17V13H7C6.44772 13 6 12.5523 6 12C6 11.4477 6.44772 11 7 11H11V7C11 6.44772 11.4477 6 12 6Z" fill="#848484"/>
-                            </svg>
-                        </span>
-                        <span>Ajouter un tags</span>
-                    </button>
-                </div>
-            </div>
+            </aside>
             <div id="containerReminder" class="flex flex-col items-center w-screen">
                 <div id="containerReminderForm" class="flex items-center space-x-4 pt-2">
                     <div>
@@ -165,8 +167,8 @@
             </div>
         </div>
     </main>
-    <footer>
+    <!-- Modal -->
         <?php require_once 'src/View/import/footer.php'; ?>
-    </footer>
+    <!-- Modal -->
 </body>
 </html>

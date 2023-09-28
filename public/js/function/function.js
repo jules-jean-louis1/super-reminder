@@ -18,3 +18,11 @@ export function formatDateWithoutH(timestamp) {
     return `${day} ${month} ${year}`;
 }
 
+export function mobileMenuReminderPage () {
+    const menu = document.getElementById('btnMenu');
+    const aside = document.getElementById('asideContainer');
+    menu.addEventListener('click', () => {
+        aside.classList.toggle('menu_burger');
+        aside.classList.toggle('hidden');
+    });
+}

@@ -1,6 +1,7 @@
 import {
     formatDate,
     formatDateWithoutH,
+    mobileMenuReminderPage
 } from './function/function.js';
 import {createToast} from "./function/toast";
 
@@ -32,6 +33,8 @@ let idIndex = segments.indexOf('reminder') + 1;
 const id = segments[idIndex];
 
 const containerModal = document.getElementById('containerModal');
+
+mobileMenuReminderPage();
 async function addList() {
     containerModal.innerHTML = '';
     containerModal.innerHTML = `
@@ -604,7 +607,7 @@ async function dislpayReminder() {
     } else {
         for (let i = 0; i < data.length; i++) {
             containerReminderList.innerHTML += `
-                <div class="reminder bg-[#f5f8fc] p-1 pb-2 m-3 min-h-[20.5rem] min-w-[15.5rem] lg:w-[31%] h-1/3 rounded-[10px] bg-white my-2 border-2" id="rappel_${data[i].task_id}">
+                <div class="reminder bg-[#f5f8fc] p-1 pb-2 m-3 min-h-[20.5rem] lg:min-w-[15rem] lg:w-[31%] h-1/3 rounded-[10px] bg-white my-2 border-2" id="rappel_${data[i].task_id}">
                     <div class="flex flex-col justify-between rounded-[10px] m-0.5 h-full">
                         <div class="flex items-center gap-2">
                             <div id="displayPriority"></div>
@@ -625,8 +628,10 @@ async function dislpayReminder() {
                             </p>
                         </div>
                         <div id="descriptionReminder"></div>
-                        <div id="dateStart"></div>
-                        <div id="dateEnd"></div>
+                        <div class="flex flex-col items-center gap:2 ">
+                            <div id="dateStart"></div>
+                            <div id="dateEnd"></div>
+                        </div>
                         <div class="flex flex-col gap-1">
                             <div class="flex justify-between">
                                 <div id="statusContainer" class="border border-[#52586633] rounded-[10px] w-full">
