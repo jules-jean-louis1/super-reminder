@@ -159,9 +159,14 @@ class TaskModel extends AbstractDatabase
         $req2 = $bdd->prepare($sql2);
         $req2->bindParam(':id', $id, PDO::PARAM_INT);
         $req2->execute();
+
+        $sql3 = 'DELETE FROM tags_list WHERE task_id = :id';
+        $req3 = $bdd->prepare($sql3);
+        $req3->bindParam(':id', $id, PDO::PARAM_INT);
+        $req3->execute();
     }
 
-    public function editTask(int $id, string $string, string $name)
+    public function editTask(int $id, string $string, string $name): void
     {
         $bdd = $this->getBdd();
         $sql = 'UPDATE task SET ' . $string . ' = :name WHERE id = :id';

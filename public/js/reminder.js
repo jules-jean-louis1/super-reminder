@@ -607,7 +607,7 @@ async function dislpayReminder() {
     } else {
         for (let i = 0; i < data.length; i++) {
             containerReminderList.innerHTML += `
-                <div class="reminder bg-[#f5f8fc] p-1 pb-2 m-3 min-h-[20.5rem] lg:min-w-[15rem] lg:w-[31%] h-1/3 rounded-[10px] bg-white my-2 border-2" id="rappel_${data[i].task_id}">
+                <div class="reminder bg-[#f5f8fc] p-1 pb-2 lg:m-3 min-h-[17.5rem] lg:min-w-[15rem] w-4/5 lg:w-[31%] h-1/3 rounded-[10px] bg-white my-2 border-2" id="rappel_${data[i].task_id}">
                     <div class="flex flex-col justify-between rounded-[10px] m-0.5 h-full">
                         <div class="flex items-center gap-2">
                             <div id="displayPriority"></div>
