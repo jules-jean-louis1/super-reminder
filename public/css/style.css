@@ -99,7 +99,7 @@
     left: 50%;
     transform: translateX(-50%);
 }
-#containerPushNotif {
+.pushNotfif {
     position: fixed;
     top: 60px;
     right: 20px;
@@ -178,6 +178,20 @@
 }
 
 /*===== Reminder =====*/
+#modalAddList {
+    border-radius: 10px;
+    min-height: 600px;
+    min-width: 400px;
+    width: auto;
+    border: 1px solid var(--divider-secondary-color);
+}
+#modalEditList {
+    border-radius: 10px;
+    min-height: 160px;
+    min-width: 300px;
+    width: auto;
+    border: 1px solid var(--divider-secondary-color);
+}
 #autocompleteTagsList {
 
 }

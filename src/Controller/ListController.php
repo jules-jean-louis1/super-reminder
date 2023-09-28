@@ -51,7 +51,7 @@ class ListController extends AbstractClasses\AbstractContoller
         }
         echo json_encode($errors);
     }
-    public function editList(int $id)
+    public function editList(int $id): void
     {
         $listModel = new ListModel();
         $name = $this->ValidFieldForm2('name');

@@ -2,8 +2,20 @@ import {
     formatDate,
     formatDateWithoutH,
 } from './function/function.js';
-import {createToast, removeToast} from "./function/toast";
+import {createToast} from "./function/toast";
 
+
+const svgWarning = `<svg width="7" height="24" viewBox="0 0 7 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_101_2)">
+<path d="M3.5 3.5V17.5" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M3.5 22H3.50375" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_101_2">
+<rect width="7" height="24" fill="white"/>
+</clipPath>
+</defs>
+</svg>`;
 const btnAddReminder = document.getElementById('btnAddReminder');
 const btnAddList = document.getElementById('btnAddList');
 const ListeUserWarpper = document.getElementById('ListeUserWarpper');
@@ -12,6 +24,7 @@ const containerReminderList = document.getElementById('containerReminderList');
 const containerPushNotif = document.getElementById('containerPushNotif');
 const btnShareListTask = document.getElementById('btnShareListTask');
 const btnAddTags = document.getElementById('btnAddTags');
+const editListModal = document.getElementById('editListModal');
 
 const url = window.location.href;
 let segments = url.split('/');
@@ -22,22 +35,25 @@ const containerModal = document.getElementById('containerModal');
 async function addList() {
     containerModal.innerHTML = '';
     containerModal.innerHTML = `
-        <dialog id="modalAddList" tabindex="-1" aria-labelledby="modalAddListLabel" aria-hidden="true" class="dialog_fixed">
-            <div class="flex justify-between items-center">
-                <h2 id="modalAddListLabel">Ajouter une liste</h2>
+        <dialog id="modalAddList" tabindex="-1" aria-labelledby="modalAddListLabel" aria-hidden="true" class="dialog_fixed p-2 flex flex-col justify-between">
+            <div class="flex justify-between items-center py-2">
+                <h2 id="modalAddListLabel" class="text-2xl">Ajouter une liste</h2>
                 <button type="button" id="btnCloseAddList">
                     <svg width="1em" height="1em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 pointer-events-none"><path d="M16.804 6.147a.75.75 0 011.049 1.05l-.073.083L13.061 12l4.72 4.72a.75.75 0 01-.977 1.133l-.084-.073L12 13.061l-4.72 4.72-.084.072a.75.75 0 01-1.049-1.05l.073-.083L10.939 12l-4.72-4.72a.75.75 0 01.977-1.133l.084.073L12 10.939l4.72-4.72.084-.072z" fill="currentcolor" fill-rule="evenodd"></path></svg>
                 </button>
             </div>
-            <p>Vous ne pouvez crée que 5 listes</p>
+            <p class="text-lg text-center">Vous ne pouvez créer que 8 listes</p>
             <div>
-                <h3>Listes existantes</h3>
+                <h3 id="title_list">Vos Listes</h3>
                 <div id="listsOfReminders"></div>
             </div>
             <div>
                 <form action="" method="post" id="formAddList">
-                    <input type="text" name="name" id="name" placeholder="Nom de la liste" class="p-2 border border-slate-500 rounded">
-                    <p id="errorDisplay"></p>
+                    <div class="form__div">
+                        <input type="text" name="name" id="name" placeholder="" class="form__input">
+                        <label for="name" class="form__label">Nom de la liste</label>
+                    </div>
+                    <p id="errorDisplay" class="flex h-6"></p>
                     <div>
                         <button type="submit" id="btnAddList" class="p-2 rounded text-white bg-[#ac1de4] w-full">Ajouter une Liste</button>
                     </div>
@@ -81,7 +97,7 @@ async function addList() {
     getListOfUsers(id).then(data => {
         for (let i = 0; i < data.length; i++) {
             listsOfReminders.innerHTML += `
-                <div class="p-2 w-full bg-[#e0e4ec] border border-[#52586633] my-1 rounded-[10px]">
+                <div class="p-2 w-full border border-[#52586633] my-1 rounded-[10px] flex justify-between">
                     <p class="flex items-center">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -96,8 +112,94 @@ async function addList() {
                         </span>
                         <span>${data[i].name}</span>
                     </p>
-                </div>
-            `;
+                    <div class="reminderActionBtn flex items-center space-x-2">
+                        <button class="deleteList flex items-center text-slate-700 hover:text-[#fa2020] group" data-id="${data[i].id}">
+                        <span class="p-1 hover:bg-[#ff2b2b3d] rounded group-hover:bg-[#ff2b2b3d]">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
+                                <path d="M10 10l4 4m0 -4l-4 4"/>
+                            </svg>
+                        </span>
+                        <span class="hidden xl:flex">Suppr.</span>
+                        </button>
+                        <button class="updateList_${data[i].id} flex items-center text-slate-700 hover:text-[#15ce5c] group" data-id="${data[i].id}">
+                            <span class="p-1 hover:bg-[#1ddc6f3d] rounded group-hover:bg-[#1ddc6f3d]">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"/>
+                                  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"/>
+                                  <path d="M16 5l3 3"/>
+                                </svg>
+                            </span>
+                            <span class="hidden xl:flex">Modif.</span>
+                        </button>
+                    </div>
+                </div>`;
+            const deleteList = document.querySelectorAll('.deleteList');
+            deleteList.forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const idList = btn.getAttribute('data-id');
+                    const response = await fetch(`/super-reminder/reminder/${idList}/deleteList`);
+                    const data = await response.json();
+                    console.log(data);
+                    if (data.success) {
+                        manageReminder();
+                    }
+                });
+            });
+        }
+        for (let i = 0; i < data.length; i++) {
+        const updateList = document.querySelector(`.updateList_${data[i].id}`)
+            updateList.addEventListener('click', () => {
+                    const idList = updateList.getAttribute('data-id');
+                    editListModal.innerHTML = '';
+                    editListModal.innerHTML = `
+                <dialog id="modalEditList" tabindex="-1" aria-labelledby="modalEditListLabel" aria-hidden="true" class="dialog_fixed p-1.5">
+                    <div class="flex justify-between">
+                        <h2 id="modalEditListLabel">Modifier une liste</h2>
+                        <button type="button" id="btnCloseEditList">
+                            <svg width="1em" height="1em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 pointer-events-none"><path d="M16.804 6.147a.75.75 0 011.049 1.05l-.073.083L13.061 12l4.72 4.72a.75.75 0 01-.977 1.133l-.084-.073L12 13.061l-4.72 4.72-.084.072a.75.75 0 01-1.049-1.05l.073-.083L10.939 12l-4.72-4.72a.75.75 0 01.977-1.133l.084.073L12 10.939l4.72-4.72.084-.072z" fill="currentcolor" fill-rule="evenodd"></path></svg>
+                        </button>
+                    </div>
+                    <form action="" method="post" id="formEditList" class="flex flex-col">
+                        <div class="form__div">
+                            <input type="text" name="name" id="name" placeholder="" class="form__input" value="${data[i].name}">
+                            <label for="name" class="form__label">Nom de la liste</label>
+                        </div>
+                        <div id="errorDisplay" class="flex h-4"></div>
+                        <button type="submit" class="w-full rounded-[10px] p-1.5 bg-[#15ce5c] text-white font-bold">Modifier</button>
+                    </form>
+                </dialog>`;
+                    const modalEditList = document.getElementById('modalEditList');
+                    modalEditList.showModal();
+                    const btnCloseEditList = document.getElementById('btnCloseEditList');
+                    btnCloseEditList.addEventListener('click', () => {
+                        modalEditList.close();
+                    });
+                    const errorDisplay = document.getElementById('errorDisplay');
+                    const formEditList = document.getElementById('formEditList');
+                    formEditList.addEventListener('submit', async (ev) => {
+                        ev.preventDefault();
+                        const response = await fetch(`/super-reminder/reminder/editList/${idList}`,{
+                            method: 'POST',
+                            body: new FormData(formEditList)
+                        });
+                        const data = await response.json();
+                        errorDisplay.innerHTML = '';
+                        if (data.success) {
+                            setTimeout(() => {
+                                errorDisplay.innerHTML = data.success;
+                                modalEditList.close();
+                            }, 400);
+                            manageReminder();
+                        }
+                        if (data.error) {
+                            errorDisplay.innerHTML = data.error;
+                        }
+                        console.log(data);
+                    });
+                })
         }
     });
 }
@@ -439,7 +541,7 @@ async function manageReminder(){
     getListOfUsers(id).then(list => {
         for (let i = 0; i < list.length; i++) {
             ListeUserWarpper.innerHTML += `
-                <div class="listUser bg-[#E2E8F0] rounded-[10px] p-1 my-2 text-[#525866]">
+                <button class="listUser hover:bg-[#E2E8F0] p-1 my-2 text-[#525866] w-full" value="${list[i].id}">
                     <h3 class="flex items-center">
                         <span class="listUserSpan">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -453,89 +555,10 @@ async function manageReminder(){
                             </svg>
                         </span>
                         <span>${list[i].name}</span>
-                    </h3>
-                    <div class="reminderActionBtn flex items-center space-x-2">
-                        <button class="deleteList flex items-center" data-id="${list[i].id}">
-                        <span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
-                                <path d="M10 10l4 4m0 -4l-4 4"/>
-                            </svg>
-                        </span>
-                        <span class="hidden xl:flex">Suppr.</span>
-                        </button>
-                        <button class="updateList flex items-center" data-id="${list[i].id}">
-                            <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"/>
-                                  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"/>
-                                  <path d="M16 5l3 3"/>
-                                </svg>
-                            </span>
-                            <span class="hidden xl:flex">Modif.</span>
-                        </button>
-                    </div>
-                </div>
+                    </h3> 
+                </button>
             `;
         }
-        const deleteList = document.querySelectorAll('.deleteList');
-        const updateList = document.querySelectorAll('.updateList');
-        deleteList.forEach(btn => {
-            btn.addEventListener('click', async () => {
-                const idList = btn.getAttribute('data-id');
-                const response = await fetch(`/super-reminder/reminder/${idList}/deleteList`);
-                const data = await response.json();
-                console.log(data);
-                if(data.success){
-                    manageReminder();
-                }
-            });
-        });
-        updateList.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const idList = btn.getAttribute('data-id');
-                containerModal.innerHTML = '';
-                containerModal.innerHTML = `
-                <dialog id="modalEditList" tabindex="-1" aria-labelledby="modalEditListLabel" aria-hidden="true" class="dialog_fixed">
-                    <h2 id="modalEditListLabel">Modifier une liste</h2>
-                    <button type="button" id="btnCloseEditList">X</button>
-                    <form action="" method="post" id="formEditList">
-                        <label for="name">Name</label>
-                        <input type="text" name="name" id="name">
-                        <button type="submit">Modifier</button>
-                        <div id="errorDisplay"></div>
-                    </form>
-                </dialog>
-                `;
-                const modalEditList = document.getElementById('modalEditList');
-                modalEditList.showModal();
-                const btnCloseEditList = document.getElementById('btnCloseEditList');
-                btnCloseEditList.addEventListener('click', () => {
-                    modalEditList.close();
-                });
-                const errorDisplay = document.getElementById('errorDisplay');
-                const formEditList = document.getElementById('formEditList');
-                formEditList.addEventListener('submit', async (ev) => {
-                    ev.preventDefault();
-                    const response = await fetch(`/super-reminder/reminder/edit/${idList}`,{
-                        method: 'POST',
-                        body: new FormData(formEditList)
-                    });
-                    const data = await response.json();
-                    if (data.success) {
-                        modalEditList.close();
-                        manageReminder();
-                    }
-                    if (data.error) {
-                        errorDisplay.innerHTML = '';
-                        errorDisplay.innerHTML = data.error;
-                    }
-                    console.log(data);
-                });
-            })
-        })
     });
 }
 manageReminder();
@@ -563,9 +586,12 @@ async function dislpayReminder() {
     } else {
         for (let i = 0; i < data.length; i++) {
             containerReminderList.innerHTML += `
-                <div class="reminder bg-[#f5f8fc] p-1 m-3 min-h-[20.5rem] min-w-[15.5rem] lg:w-[31%] h-1/3 rounded-[10px] bg-white my-2 border-2" id="rappel_${data[i].task_id}">
+                <div class="reminder bg-[#f5f8fc] p-1 pb-2 m-3 min-h-[20.5rem] min-w-[15.5rem] lg:w-[31%] h-1/3 rounded-[10px] bg-white my-2 border-2" id="rappel_${data[i].task_id}">
                     <div class="flex flex-col justify-between rounded-[10px] m-0.5 h-full">
-                        <h3 class="font-bold text-xl">${data[i].task_name}</h3>
+                        <div class="flex items-center gap-2">
+                            <div id="displayPriority"></div>
+                            <h3 class="font-bold text-xl">${data[i].task_name}</h3>
+                        </div>
                         <div id="list" class="flex items-center">
                             <p>
                                 <span>${data[i].list_name} - </span>
@@ -583,7 +609,6 @@ async function dislpayReminder() {
                         <div id="descriptionReminder"></div>
                         <div id="dateStart"></div>
                         <div id="dateEnd"></div>
-                        <div id="priority"></div>
                         <div class="flex flex-col gap-1">
                             <div class="flex justify-between">
                                 <div id="statusContainer" class="border border-[#52586633] rounded-[10px] w-full">
@@ -664,7 +689,7 @@ async function dislpayReminder() {
             const descriptionReminder = document.querySelectorAll('#descriptionReminder')[i];
             const dateStart = document.querySelectorAll('#dateStart')[i];
             const dateEnd = document.querySelectorAll('#dateEnd')[i];
-            const priority = document.querySelectorAll('#priority')[i];
+            const priority = document.querySelectorAll('#displayPriority')[i];
             const reminder = document.getElementById(`rappel_${data[i].task_id}`)
 
             if (data[i].description !== null) {
@@ -694,17 +719,17 @@ async function dislpayReminder() {
             }
             if (data[i].priority !== null) {
                 if (data[i].priority === 0) {
-                    priority.innerHTML = `
-                        <p>Priorité: Basse</p>
-                    `;
+                    priority.innerHTML = svgWarning;
                 } else if (data[i].priority === 1) {
                     priority.innerHTML = `
-                        <p>Priorité: Moyenne</p>
-                    `;
+                        <div class="flex items-center text-red-500">
+                            ${svgWarning}${svgWarning}
+                        </div>`;
                 } else if (data[i].priority === 2) {
                     priority.innerHTML = `
-                        <p>Priorité: Haute</p>
-                    `;
+                        <div class="flex items-center">
+                            ${svgWarning}${svgWarning}${svgWarning}
+                        </div>`;
                 }
             }
 
@@ -1218,7 +1243,7 @@ btnAddTags.addEventListener('click', () => {
 
 const btntesttoast = document.getElementById('btntesttoast');
 btntesttoast.addEventListener('click', () => {
-    createToast(containerPushNotif, 'success', 'Votre tag a bien été ajouté', 555000);
+    createToast(containerPushNotif, 'success', 'Votre tag a bien été ajouté', 1000);
 });
 
 

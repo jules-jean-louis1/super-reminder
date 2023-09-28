@@ -1,12 +1,10 @@
 
 let toastId = 0; // Variable pour générer des IDs uniques
 
-export const removeToast = (toast) => {
-    toast.classList.add("hide");
-    if (toast.timeoutId) clearTimeout(toast.timeoutId);
-    setTimeout(() => toast.remove(), 500);
-};
 export function createToast(modalAppend, state, message, timer) {
+    const container = document.querySelector('#containerPushNotif');
+    container.classList.add('pushNotfif');
+    container.classList.remove('hidden');
     toastId++; // Incrémente l'ID à chaque appel de la fonction
     const toast = document.createElement('li');
     const uniqueId = `notifPush-${toastId}`; // Génère un ID unique
@@ -20,7 +18,7 @@ export function createToast(modalAppend, state, message, timer) {
                 <p class="text-center">${message}</p>
             </div>
             <div class="flex items-center border-l border-white">
-                <button class="ml-2" onclick="removeToast(this.parentElement)">
+                <button class="ml-2" id="close_${toastId}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#fff" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <path d="M18 6l-12 12"/>
@@ -70,5 +68,23 @@ export function createToast(modalAppend, state, message, timer) {
         }
     }
     modalAppend.appendChild(toast);
-    toast.timeoutId = setTimeout(() => removeToast(toast), timer)
+    const closeBtn = toast.querySelector(`#close_${toastId}`);
+    closeBtn.addEventListener('click', () => {
+        // Attendre le délai avant de masquer et de supprimer le toast
+        setTimeout(() => {
+            container.classList.add("hidden");
+            container.classList.remove("pushNotfif");
+            setTimeout(() => {
+                toast.remove();
+            }, timer);
+        }, timer);
+    });
+    setTimeout(() => {
+        container.classList.add("hidden");
+        container.classList.remove("pushNotfif");
+        setTimeout(() => {
+            toast.remove();
+        }, timer);
+    }, timer);
 }
+
