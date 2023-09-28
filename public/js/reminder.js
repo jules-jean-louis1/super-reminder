@@ -561,7 +561,7 @@ async function manageReminder(){
                                 <path d="M5 18l0 .01"/>
                             </svg>
                         </span>
-                        <span>${list[i].name}</span>
+                        <span class="text-sm font-medium ">${list[i].name}</span>
                     </h3> 
                 </button>
             `;

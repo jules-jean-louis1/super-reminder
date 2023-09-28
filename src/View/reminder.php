@@ -62,14 +62,14 @@
                 </div>
                 <div>
                     <div>
-                        <button id="btnShareListTask" type="button" class="flex items-center text-[#525866]">
+                        <button id="btnShareListTask" type="button" class="flex items-center text-[#525866] hover:bg-[#E2E8F0]">
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-share-3" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                     <path d="M13 4v4c-6.575 1.028 -9.02 6.788 -10 12c-.037 .206 5.384 -5.962 10 -6v4l8 -7l-8 -7z"/>
                                 </svg>
                             </span>
-                            <span class="text-lg font-semibold">Tâches partagées</span>
+                            <span class="text-sm font-medium">Tâches partagées</span>
                         </button>
                     </div>
                     <div id="ListeUserWarpper"></div>
@@ -122,16 +122,15 @@
                             <button id="btnDeleteSearch" class="hidden"></button>
                         </div>
                         <div class="flex space-x-2">
-                            <div class="flex flex-col">
-                                <label for="list" class="text-sm">Liste</label>
+                            <div class="flex flex-col relative">
+                                <label for="list" class="text-sm" id="listSelectLabel">Liste</label>
                                 <select name="list" id="listeFormSelect">
                                     <option value="all">Toutes</option>
-                                    <option value="share">Partager</option>
                                 </select>
                             </div>
-                            <div class="flex flex-col">
-                                <label for="date" class="text-sm">Date</label>
-                                <select name="date" id="dateFormSelect" class="bg-transprent p-0.5">
+                            <div class="flex flex-col relative">
+                                <label for="date" class="text-sm" id="dateSelectLabel">Date</label>
+                                <select name="date" id="dateFormSelect">
                                     <option value="all">Toutes</option>
                                     <option value="today">Aujourd'hui</option>
                                     <option value="tomorrow">Demain</option>
@@ -140,8 +139,8 @@
                                     <option value="year">Cette année</option>
                                 </select>
                             </div>
-                            <div class="flex flex-col">
-                                <label for="status" class="text-sm">Status</label>
+                            <div class="flex flex-col relative">
+                                <label for="status" class="text-sm" id="statusSelectLabel">Status</label>
                                 <select name="status" id="statusFormSelect">
                                     <option value="all">Toutes</option>
                                     <option value="todo">Pas commencer</option>
@@ -149,8 +148,8 @@
                                     <option value="done">Terminé</option>
                                 </select>
                             </div>
-                            <div class="flex flex-col">
-                                <label for="priority" class="text-sm">Priorité</label>
+                            <div class="flex flex-col relative">
+                                <label for="priority" class="text-sm" id="prioritySelectLabel">Priorité</label>
                                 <select name="priority" id="priorityFormSelect">
                                     <option value="all">Toutes</option>
                                     <option value="0">Basse</option>

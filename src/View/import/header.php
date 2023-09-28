@@ -1,7 +1,7 @@
 <nav>
     <div class="flex justify-between px-4 py-2 bg-white border-b border-[#52586633]">
         <ul class="flex space-x-2">
-            <li><a href="/super-reminder/">Homepage</a></li>
+            <li><a href="/super-reminder/">TimeToRecall</a></li>
             <?php if (isset($_SESSION['user'])): ?>
                 <li><a href="/super-reminder/reminder/<?= $_SESSION['user']['id']?>">Reminder</a></li>
                 <li><a href="/super-reminder/profil/<?= $_SESSION['user']['id']?>">Profil</a></li>

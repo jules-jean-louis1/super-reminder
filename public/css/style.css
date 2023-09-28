@@ -184,6 +184,21 @@
 }
 
 /*===== Reminder =====*/
+#listSelectLabel, #dateSelectLabel, #statusSelectLabel, #prioritySelectLabel {
+    position: absolute;
+    top: 0;
+    background: #E0E4EC;
+    left: 10px;
+}
+#listeFormSelect, #dateFormSelect, #statusFormSelect, #priorityFormSelect {
+    background: transparent;
+    border: 1px solid #52586633;
+    border-radius: 10px;
+    padding: 18px 10px;
+}
+#containerReminderList {
+    overflow: scroll;
+}
 #modalAddList {
     border-radius: 10px;
     min-height: 600px;
