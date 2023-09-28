@@ -35,29 +35,31 @@ const containerModal = document.getElementById('containerModal');
 async function addList() {
     containerModal.innerHTML = '';
     containerModal.innerHTML = `
-        <dialog id="modalAddList" tabindex="-1" aria-labelledby="modalAddListLabel" aria-hidden="true" class="dialog_fixed p-2 flex flex-col justify-between">
-            <div class="flex justify-between items-center py-2">
-                <h2 id="modalAddListLabel" class="text-2xl">Ajouter une liste</h2>
-                <button type="button" id="btnCloseAddList">
-                    <svg width="1em" height="1em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 pointer-events-none"><path d="M16.804 6.147a.75.75 0 011.049 1.05l-.073.083L13.061 12l4.72 4.72a.75.75 0 01-.977 1.133l-.084-.073L12 13.061l-4.72 4.72-.084.072a.75.75 0 01-1.049-1.05l.073-.083L10.939 12l-4.72-4.72a.75.75 0 01.977-1.133l.084.073L12 10.939l4.72-4.72.084-.072z" fill="currentcolor" fill-rule="evenodd"></path></svg>
-                </button>
-            </div>
-            <p class="text-lg text-center">Vous ne pouvez créer que 8 listes</p>
-            <div>
-                <h3 id="title_list">Vos Listes</h3>
-                <div id="listsOfReminders"></div>
-            </div>
-            <div>
-                <form action="" method="post" id="formAddList">
-                    <div class="form__div">
-                        <input type="text" name="name" id="name" placeholder="" class="form__input">
-                        <label for="name" class="form__label">Nom de la liste</label>
-                    </div>
-                    <p id="errorDisplay" class="flex h-6"></p>
-                    <div>
-                        <button type="submit" id="btnAddList" class="p-2 rounded text-white bg-[#ac1de4] w-full">Ajouter une Liste</button>
-                    </div>
-                </form>
+        <dialog id="modalAddList" tabindex="-1" aria-labelledby="modalAddListLabel" aria-hidden="true" class="dialog_fixed">
+            <div class="p-2 flex flex-col justify-between">
+                <div class="flex justify-between items-center py-2">
+                    <h2 id="modalAddListLabel" class="text-2xl">Ajouter une liste</h2>
+                    <button type="button" id="btnCloseAddList">
+                        <svg width="1em" height="1em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 pointer-events-none"><path d="M16.804 6.147a.75.75 0 011.049 1.05l-.073.083L13.061 12l4.72 4.72a.75.75 0 01-.977 1.133l-.084-.073L12 13.061l-4.72 4.72-.084.072a.75.75 0 01-1.049-1.05l.073-.083L10.939 12l-4.72-4.72a.75.75 0 01.977-1.133l.084.073L12 10.939l4.72-4.72.084-.072z" fill="currentcolor" fill-rule="evenodd"></path></svg>
+                    </button>
+                </div>
+                <p class="text-lg text-center">Vous pouvez créer jusqu'à 8 listes</p>
+                <div>
+                    <h3 id="title_list">Vos Listes</h3>
+                    <div id="listsOfReminders"></div>
+                </div>
+                <div>
+                    <form action="" method="post" id="formAddList">
+                        <div class="form__div">
+                            <input type="text" name="name" id="name" placeholder="" class="form__input">
+                            <label for="name" class="form__label">Nom de la liste</label>
+                        </div>
+                        <p id="errorDisplay" class="flex h-6"></p>
+                        <div>
+                            <button type="submit" id="btnAddList" class="p-2 rounded text-white bg-[#ac1de4] w-full">Ajouter une Liste</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </dialog>`;
     const modalAddList = document.getElementById('modalAddList');
@@ -80,10 +82,9 @@ async function addList() {
             console.log(data);
             if (data.success) {
                 modalAddList.close();
+                containerModal.innerHTML = '';
                 manageReminder();
-                setTimeout(() => {
-                    notifPush(containerPushNotif, 'success', data.success);
-                }, 1000);
+                createToast(containerPushNotif, 'success', 'Votre list a bien été ajouté', 1000);
             }
             if (data.error) {
                 errorDisplay.innerHTML = '';
@@ -94,114 +95,120 @@ async function addList() {
         }
     });
     const listsOfReminders = document.getElementById('listsOfReminders');
-    getListOfUsers(id).then(data => {
-        for (let i = 0; i < data.length; i++) {
-            listsOfReminders.innerHTML += `
-                <div class="p-2 w-full border border-[#52586633] my-1 rounded-[10px] flex justify-between">
-                    <p class="flex items-center">
-                        <span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                              <path d="M9 6l11 0"/>
-                              <path d="M9 12l11 0"/>
-                              <path d="M9 18l11 0"/>
-                              <path d="M5 6l0 .01"/>
-                              <path d="M5 12l0 .01"/>
-                              <path d="M5 18l0 .01"/>
-                            </svg>
-                        </span>
-                        <span>${data[i].name}</span>
-                    </p>
-                    <div class="reminderActionBtn flex items-center space-x-2">
-                        <button class="deleteList flex items-center text-slate-700 hover:text-[#fa2020] group" data-id="${data[i].id}">
-                        <span class="p-1 hover:bg-[#ff2b2b3d] rounded group-hover:bg-[#ff2b2b3d]">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
-                                <path d="M10 10l4 4m0 -4l-4 4"/>
-                            </svg>
-                        </span>
-                        <span class="hidden xl:flex">Suppr.</span>
-                        </button>
-                        <button class="updateList_${data[i].id} flex items-center text-slate-700 hover:text-[#15ce5c] group" data-id="${data[i].id}">
-                            <span class="p-1 hover:bg-[#1ddc6f3d] rounded group-hover:bg-[#1ddc6f3d]">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    function displayList() {
+        getListOfUsers(id).then(data => {
+            for (let i = 0; i < data.length; i++) {
+                listsOfReminders.innerHTML += `
+                    <div class="p-2 w-full border border-[#52586633] my-1 rounded-[10px] flex justify-between">
+                        <p class="flex items-center">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"/>
-                                  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"/>
-                                  <path d="M16 5l3 3"/>
+                                  <path d="M9 6l11 0"/>
+                                  <path d="M9 12l11 0"/>
+                                  <path d="M9 18l11 0"/>
+                                  <path d="M5 6l0 .01"/>
+                                  <path d="M5 12l0 .01"/>
+                                  <path d="M5 18l0 .01"/>
                                 </svg>
                             </span>
-                            <span class="hidden xl:flex">Modif.</span>
-                        </button>
-                    </div>
-                </div>`;
-            const deleteList = document.querySelectorAll('.deleteList');
-            deleteList.forEach(btn => {
-                btn.addEventListener('click', async () => {
-                    const idList = btn.getAttribute('data-id');
-                    const response = await fetch(`/super-reminder/reminder/${idList}/deleteList`);
-                    const data = await response.json();
-                    console.log(data);
-                    if (data.success) {
-                        manageReminder();
-                    }
-                });
-            });
-        }
-        for (let i = 0; i < data.length; i++) {
-        const updateList = document.querySelector(`.updateList_${data[i].id}`)
-            updateList.addEventListener('click', () => {
-                    const idList = updateList.getAttribute('data-id');
-                    editListModal.innerHTML = '';
-                    editListModal.innerHTML = `
-                <dialog id="modalEditList" tabindex="-1" aria-labelledby="modalEditListLabel" aria-hidden="true" class="dialog_fixed p-1.5">
-                    <div class="flex justify-between">
-                        <h2 id="modalEditListLabel">Modifier une liste</h2>
-                        <button type="button" id="btnCloseEditList">
-                            <svg width="1em" height="1em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 pointer-events-none"><path d="M16.804 6.147a.75.75 0 011.049 1.05l-.073.083L13.061 12l4.72 4.72a.75.75 0 01-.977 1.133l-.084-.073L12 13.061l-4.72 4.72-.084.072a.75.75 0 01-1.049-1.05l.073-.083L10.939 12l-4.72-4.72a.75.75 0 01.977-1.133l.084.073L12 10.939l4.72-4.72.084-.072z" fill="currentcolor" fill-rule="evenodd"></path></svg>
-                        </button>
-                    </div>
-                    <form action="" method="post" id="formEditList" class="flex flex-col">
-                        <div class="form__div">
-                            <input type="text" name="name" id="name" placeholder="" class="form__input" value="${data[i].name}">
-                            <label for="name" class="form__label">Nom de la liste</label>
+                            <span>${data[i].name}</span>
+                        </p>
+                        <div class="reminderActionBtn flex items-center space-x-2">
+                            <button class="deleteList flex items-center text-slate-700 hover:text-[#fa2020] group" data-id="${data[i].id}">
+                            <span class="p-1 hover:bg-[#ff2b2b3d] rounded group-hover:bg-[#ff2b2b3d]">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
+                                    <path d="M10 10l4 4m0 -4l-4 4"/>
+                                </svg>
+                            </span>
+                            <span class="hidden xl:flex">Suppr.</span>
+                            </button>
+                            <button class="updateList_${data[i].id} flex items-center text-slate-700 hover:text-[#15ce5c] group" data-id="${data[i].id}">
+                                <span class="p-1 hover:bg-[#1ddc6f3d] rounded group-hover:bg-[#1ddc6f3d]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                      <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"/>
+                                      <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"/>
+                                      <path d="M16 5l3 3"/>
+                                    </svg>
+                                </span>
+                                <span class="hidden xl:flex">Modif.</span>
+                            </button>
                         </div>
-                        <div id="errorDisplay" class="flex h-4"></div>
-                        <button type="submit" class="w-full rounded-[10px] p-1.5 bg-[#15ce5c] text-white font-bold">Modifier</button>
-                    </form>
-                </dialog>`;
-                    const modalEditList = document.getElementById('modalEditList');
-                    modalEditList.showModal();
-                    const btnCloseEditList = document.getElementById('btnCloseEditList');
-                    btnCloseEditList.addEventListener('click', () => {
-                        modalEditList.close();
-                    });
-                    const errorDisplay = document.getElementById('errorDisplay');
-                    const formEditList = document.getElementById('formEditList');
-                    formEditList.addEventListener('submit', async (ev) => {
-                        ev.preventDefault();
-                        const response = await fetch(`/super-reminder/reminder/editList/${idList}`,{
-                            method: 'POST',
-                            body: new FormData(formEditList)
-                        });
+                    </div>`;
+                const deleteList = document.querySelectorAll('.deleteList');
+                deleteList.forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const idList = btn.getAttribute('data-id');
+                        const response = await fetch(`/super-reminder/reminder/${idList}/deleteList`);
                         const data = await response.json();
-                        errorDisplay.innerHTML = '';
+                        console.log(data);
                         if (data.success) {
-                            setTimeout(() => {
-                                errorDisplay.innerHTML = data.success;
-                                modalEditList.close();
-                            }, 400);
                             manageReminder();
                         }
-                        if (data.error) {
-                            errorDisplay.innerHTML = data.error;
-                        }
-                        console.log(data);
                     });
-                })
-        }
-    });
+                });
+            }
+            for (let i = 0; i < data.length; i++) {
+            const updateList = document.querySelector(`.updateList_${data[i].id}`)
+                updateList.addEventListener('click', () => {
+                        const idList = updateList.getAttribute('data-id');
+                        editListModal.innerHTML = '';
+                        editListModal.innerHTML = `
+                    <dialog id="modalEditList" tabindex="-1" aria-labelledby="modalEditListLabel" aria-hidden="true" class="dialog_fixed">
+                        <div class="p-1.5">
+                            <div class="flex justify-between">
+                                <h2 id="modalEditListLabel">Modifier une liste</h2>
+                                <button type="button" id="btnCloseEditList">
+                                    <svg width="1em" height="1em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 pointer-events-none"><path d="M16.804 6.147a.75.75 0 011.049 1.05l-.073.083L13.061 12l4.72 4.72a.75.75 0 01-.977 1.133l-.084-.073L12 13.061l-4.72 4.72-.084.072a.75.75 0 01-1.049-1.05l.073-.083L10.939 12l-4.72-4.72a.75.75 0 01.977-1.133l.084.073L12 10.939l4.72-4.72.084-.072z" fill="currentcolor" fill-rule="evenodd"></path></svg>
+                                </button>
+                            </div>
+                            <form action="" method="post" id="formEditList" class="flex flex-col">
+                                <div class="form__div">
+                                    <input type="text" name="name" id="name" placeholder="" class="form__input" value="${data[i].name}">
+                                    <label for="name" class="form__label">Nom de la liste</label>
+                                </div>
+                                <div id="errorDisplay" class="flex h-4"></div>
+                                <button type="submit" class="w-full rounded-[10px] p-1.5 bg-[#15ce5c] text-white font-bold">Modifier</button>
+                            </form>
+                        </div>
+                    </dialog>`;
+                        const modalEditList = document.getElementById('modalEditList');
+                        modalEditList.showModal();
+                        const btnCloseEditList = document.getElementById('btnCloseEditList');
+                        btnCloseEditList.addEventListener('click', () => {
+                            modalEditList.close();
+                        });
+                        const errorDisplay = document.getElementById('errorDisplay');
+                        const formEditList = document.getElementById('formEditList');
+                        formEditList.addEventListener('submit', async (ev) => {
+                            ev.preventDefault();
+                            const response = await fetch(`/super-reminder/reminder/editList/${idList}`,{
+                                method: 'POST',
+                                body: new FormData(formEditList)
+                            });
+                            const data = await response.json();
+                            errorDisplay.innerHTML = '';
+                            if (data.success) {
+                                setTimeout(() => {
+                                    errorDisplay.innerHTML = data.success;
+                                    modalEditList.close();
+                                }, 400);
+                                displayList();
+                                manageReminder();
+                            }
+                            if (data.error) {
+                                errorDisplay.innerHTML = data.error;
+                            }
+                            console.log(data);
+                        });
+                    })
+                }
+        });
+    }
+    displayList();
 }
 async function addReminder() {
     containerModal.innerHTML = '';
@@ -1058,14 +1065,20 @@ async function dislpayReminder() {
                     console.log(dataResponse);
                     containerModal.innerHTML = `
                         <dialog id="modalAddUserToReminder" tabindex="-1" aria-labelledby="modalAddUserToReminderLabel" aria-hidden="true" class="dialog_fixed">
-                            <h2 id="modalAddUserToReminderLabel">Ajouter un utilisateur</h2>
-                            <button type="button" id="btnCloseAddUserToReminder">X</button>
-                            <form action="" method="post" id="formAddUserToReminder">
-                                <input type="hidden" name="task_id" value="${data[i].task_id}">
-                                <div id="listUser"></div>
-                                <div id="errorDisplay"></div>
-                                <button type="submit">Ajouter</button>
-                            </form>
+                            <div class="flex flex-col justify-between p-1.5">
+                                <div class="flex items-center justify-between">
+                                    <h2 id="modalAddUserToReminderLabel">Ajouter un utilisateur</h2>
+                                    <button type="button" id="btnCloseAddUserToReminder" class="w-10 rounded-[10px] hover:bg-[#5258661f] flex items-center justify-center">
+                                        <svg width="1em" height="1em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 pointer-events-none"><path d="M16.804 6.147a.75.75 0 011.049 1.05l-.073.083L13.061 12l4.72 4.72a.75.75 0 01-.977 1.133l-.084-.073L12 13.061l-4.72 4.72-.084.072a.75.75 0 01-1.049-1.05l.073-.083L10.939 12l-4.72-4.72a.75.75 0 01.977-1.133l.084.073L12 10.939l4.72-4.72.084-.072z" fill="currentcolor" fill-rule="evenodd"></path></svg>
+                                    </button>
+                                </div>
+                                <form action="" method="post" id="formAddUserToReminder">
+                                    <input type="hidden" name="task_id" value="${data[i].task_id}">
+                                    <div id="listUser" class="flex flex-wrap gap-2 min-h-8"></div>
+                                    <div id="errorDisplay"></div>
+                                    <button type="submit" class="w-full text-white rounded-[10px] bg-[#39e58c] px-5 py-2">Ajouter</button>
+                                </form>
+                            </div>
                         </dialog>
                     `;
                     const listUser = document.getElementById('listUser');
@@ -1183,20 +1196,24 @@ async function addTags() {
     containerModal.innerHTML = '';
     containerModal.innerHTML = `
         <dialog id="modalAddTags" tabindex="-1" aria-labelledby="modalAddTagsLabel" aria-hidden="true" class="dialog_fixed">
-            <div class="flex justify-between">
-                <h2 id="modalAddTagsLabel">Ajouter un tag</h2>
-                <button type="button" id="btnCloseAddTags">X</button>
-            </div>
-            <div id="tagsListDisplay"></div>
-            <div class="flex flex-col justify-between">
-                <form action="" method="post" id="formAddTags">
-                    <div class="relative">
-                        <input type="text" name="name" id="name" class="w-full border rounded-lg py-2 px-3 focus:outline-none focus:border-blue-500" placeholder="">
-                        <label for="name" class="absolute left-3 top-2 text-gray-600 transition-transform transform-scale-75 origin-top-left">Nom du tag</label>
-                    </div>
-                        <p id="errorName"></p>
-                    <button type="submit" id="btnAddTags" class="w-full px-2 bg-green-500">Ajouter votre tag</button>
-                </form>
+            <div class="flex flex-col justify-between p-1 5">
+                <div class="flex justify-between">
+                    <h2 id="modalAddTagsLabel">Ajouter un tag</h2>
+                    <button type="button" id="btnCloseAddTags" class="w-10 rounded-[10px] hover:bg-[#5258661f] flex items-center justify-center">
+                        <svg width="1em" height="1em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 pointer-events-none"><path d="M16.804 6.147a.75.75 0 011.049 1.05l-.073.083L13.061 12l4.72 4.72a.75.75 0 01-.977 1.133l-.084-.073L12 13.061l-4.72 4.72-.084.072a.75.75 0 01-1.049-1.05l.073-.083L10.939 12l-4.72-4.72a.75.75 0 01.977-1.133l.084.073L12 10.939l4.72-4.72.084-.072z" fill="currentcolor" fill-rule="evenodd"></path></svg>
+                    </button>
+                </div>
+                <div id="tagsListDisplay" class="flex flex-wrap gap-2"></div>
+                <div class="flex flex-col justify-between">
+                    <form action="" method="post" id="formAddTags">
+                        <div class="form__div">
+                            <input type="text" name="name" id="name" class="form__input" placeholder="">
+                            <label for="name" class="form__label">Nom du tag</label>
+                        </div>
+                            <p id="errorName"></p>
+                        <button type="submit" id="btnAddTags" class="w-full px-2 bg-green-500 text-white font-bold">Ajouter votre tag</button>
+                    </form>
+                </div>
             </div>
         </dialog>`;
     const modalAddTags = document.getElementById('modalAddTags');
@@ -1209,7 +1226,18 @@ async function addTags() {
     const tags = await getTags();
     for (let i = 0; i < tags.length; i++) {
         tagsListDisplay.innerHTML += `
-        <p>${tags[i].name}</p>`;
+        <p class="flex">
+            <span class="p-1 bg-[#525866] rounded text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M5 9l14 0"/>
+                  <path d="M5 15l14 0"/>
+                  <path d="M11 4l-4 16"/>
+                  <path d="M17 4l-4 16"/>
+                </svg>
+            </span>
+            <span>${tags[i].name}</span>
+        </p>`;
     }
     const formAddTags = document.getElementById('formAddTags');
     formAddTags.addEventListener('submit', async (e) => {
@@ -1223,7 +1251,7 @@ async function addTags() {
             if (dataAddTags.success){
                 modalAddTags.close();
                 addTags();
-                toast(containerPushNotif, 'success', 'Votre tag a bien été ajouté', 'top-left');
+                createToast(containerPushNotif, 'success', dataAddTags.success, 2000);
             }
         } catch (error) {
             console.log(error);
@@ -1239,7 +1267,139 @@ async function getShareTask(){
         console.log(data);
         containerReminderList.innerHTML = '';
         if (data === false) {
-            containerReminderList.innerHTML = '<p>Vous n\'avez pas de tâche partagé</p>';
+            containerReminderList.innerHTML = '<p class="text-2xl">Vous n\'avez pas de tâche partagé</p>';
+        } else {
+            for (let i = 0; i < data.length; i++) {
+                containerReminderList.innerHTML += `
+                <div class="reminder bg-[#f5f8fc] p-1 pb-2 m-3 min-h-[20.5rem] min-w-[15.5rem] lg:w-[31%] h-1/3 rounded-[10px] bg-white my-2 border-2" id="reminder_${data[i].task_id}" xmlns="http://www.w3.org/1999/html">
+                    <div class="flex flex-col justify-between rounded-[10px] m-0.5 h-full">
+                        <div class="flex items-center gap-2">
+                            <div id="displayPriority"></div>
+                            <h3 class="font-bold text-xl">${data[i].task_name}</h3>
+                        </div>
+                        <div id="list" class="flex items-center">
+                            <div>
+                                <div id="created_at" class="flex items-center">
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                          <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-5 2.66a1 1 0 0 0 -.993 .883l-.007 .117v5l.009 .131a1 1 0 0 0 .197 .477l.087 .1l3 3l.094 .082a1 1 0 0 0 1.226 0l.094 -.083l.083 -.094a1 1 0 0 0 0 -1.226l-.083 -.094l-2.707 -2.708v-4.585l-.007 -.117a1 1 0 0 0 -.993 -.883z" stroke-width="0" fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                    <p class="text-sm flex gap-2">
+                                        <span class="font-semibold">Créer le :</span> ${formatDate(data[i].task_created_at)}</span>
+                                    </p>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="font-semibold">Par : </span> 
+                                    <div class="flex items-center gap-2">
+                                        <img src="/super-reminder/public/images/avatars/${data[i].user_avatar}" alt="" class="rounded-full w-6 h-6">
+                                        <span class="font-semibold">${data[i].user_login}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="descriptionReminder"></div>
+                        <div id="dateStart"></div>
+                        <div id="dateEnd"></div>
+                        <div class="flex flex-col gap-1">
+                            <div class="flex justify-between">
+                                <div id="statusContainer" class="border border-[#52586633] rounded-[10px] w-full">
+                                    <form action="" method="post" id="changeStatusOnFly_${data[i].task_id}" class="flex justify-between items-center px-2 py-2">
+                                        <input type="hidden" name="id" value="${data[i].task_id}">
+                                        <button type="button" name="status" value="todo" id="todo_${data[i].task_id}" class="flex items-center px-2 gap-3 text-slate-700 hover:text-[#15ce5c] group">
+                                            <span class="p-1 hover:bg-[#1ddc6f3d] rounded group-hover:bg-[#1ddc6f3d]">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play w-6 h-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M7 4v16l13 -8z"/>
+                                                </svg>
+                                            </span>
+                                            <span class="hidden xl:flex font-semibold">A faire</span>
+                                        </button>
+                                        <button type="button" name="status" value="inprogress" id="inprogress_${data[i].task_id}" class="flex items-center px-2 gap-3 text-slate-700 hover:text-[#fa6620] group">
+                                            <span class="p-1 hover:bg-[#ff7a2b3d] rounded group-hover:bg-[#ff7a2b3d]">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-progress-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M10 20.777a8.942 8.942 0 0 1 -2.48 -.969"/>
+                                                    <path d="M14 3.223a9.003 9.003 0 0 1 0 17.554"/>
+                                                    <path d="M4.579 17.093a8.961 8.961 0 0 1 -1.227 -2.592"/>
+                                                    <path d="M3.124 10.5c.16 -.95 .468 -1.85 .9 -2.675l.169 -.305"/>
+                                                    <path d="M6.907 4.579a8.954 8.954 0 0 1 3.093 -1.356"/>
+                                                    <path d="M9 12l2 2l4 -4"/>
+                                                </svg>
+                                            </span>
+                                            <span class="hidden xl:flex font-semibold">En cours</span>
+                                        </button>
+                                        <button type="button" name="status" id="done_${data[i].task_id}" value="done" class="flex items-center px-2 gap-3 text-slate-700 hover:text-[#fa2020] group">
+                                            <span class="p-1 hover:bg-[#ff2b2b3d] rounded group-hover:bg-[#ff2b2b3d]">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
+                                                    <path d="M9 12l2 2l4 -4"/>
+                                                </svg>
+                                            </span>
+                                            <span class="hidden xl:flex font-semibold">Terminé</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+                const descriptionReminder = document.querySelectorAll('#descriptionReminder')[i];
+                const dateStart = document.querySelectorAll('#dateStart')[i];
+                const dateEnd = document.querySelectorAll('#dateEnd')[i];
+                const priority = document.querySelectorAll('#displayPriority')[i];
+                const reminder = document.getElementById(`reminder_${data[i].task_id}`)
+
+                if (data[i].task_description !== null) {
+                    descriptionReminder.innerHTML = `
+                    <p class="text-sm">${data[i].task_description}</p>`;
+                }
+                if (data[i].task_start !== null) {
+                    let hoursSlice = data[i].task_start.slice(10, 19);
+                    if (hoursSlice !== '00:00:00') {
+                        dateStart.innerHTML = `
+                        <p>Début: ${formatDateWithoutH(data[i].task_start)}</p>
+                    `;
+                    } else {
+                        dateStart.innerHTML = `
+                        <p>Début: ${formatDate(data[i].task_start)}</p>
+                    `;
+                    }
+                }
+                if (data[i].task_end !== null) {
+                    let hoursSlice = data[i].task_end.slice(10, 19);
+                    if (hoursSlice !== '00:00:00') {
+                        dateEnd.innerHTML = `<p>Fin: ${formatDateWithoutH(data[i].task_end)}</p>`;
+                    } else {
+                        dateEnd.innerHTML = `<p>Fin: ${formatDate(data[i].task_end)}</p>`;
+                    }
+                }
+                if (data[i].task_priority !== null) {
+                    if (data[i].task_priority === 0) {
+                        priority.innerHTML = svgWarning;
+                    } else if (data[i].task_priority === 1) {
+                        priority.innerHTML = `
+                        <div class="flex items-center text-red-500">
+                            ${svgWarning}${svgWarning}
+                        </div>`;
+                    } else if (data[i].task_priority === 2) {
+                        priority.innerHTML = `
+                        <div class="flex items-center">
+                            ${svgWarning}${svgWarning}${svgWarning}
+                        </div>`;
+                    }
+                }
+                if (data[i].task_status === 'todo') {
+                    reminder.classList.add('border', 'border-[#15ce5c]');
+                } else if (data[i].task_status === 'inprogress') {
+                    reminder.classList.add('border', 'border-[#fad820]');
+                } else if (data[i].task_status === 'done') {
+                    reminder.classList.add('border', 'border-[#fa2020]');
+
+                }
+            }
         }
     } catch (error) {
         console.log(error);
@@ -1253,11 +1413,6 @@ btnAddTags.addEventListener('click', () => {
     addTags();
 });
 
-// Test toast
-const btntesttoast = document.getElementById('btntesttoast');
-btntesttoast.addEventListener('click', () => {
-    createToast(containerPushNotif, 'success', 'Votre tag a bien été ajouté', 1000);
-});
 
 // Add Button List control form
 

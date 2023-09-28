@@ -208,3 +208,17 @@
     width: auto;
     border: 1px solid var(--divider-secondary-color);
 }
+#modalAddUserToReminder {
+    border-radius: 10px;
+    min-height: 160px;
+    min-width: 300px;
+    width: auto;
+    border: 1px solid var(--divider-secondary-color);
+}
+#modalAddTags {
+    border-radius: 10px;
+    min-height: 160px;
+    min-width: 280px;
+    width: auto;
+    border: 1px solid var(--divider-secondary-color);
+}

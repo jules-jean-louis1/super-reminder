@@ -118,5 +118,5 @@ $match = $router->match();
 if ($match) {
     call_user_func_array($match['target'], $match['params']);
 } else {
-    echo '404';
+    require_once 'src/View/404.php';
 }

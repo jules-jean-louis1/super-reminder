@@ -95,7 +95,6 @@
                         </span>
                         <span>Ajouter un tags</span>
                     </button>
-                    <button id="btntesttoast" type="button">Test</button>
                 </div>
             </div>
             <div id="containerReminder" class="flex flex-col items-center w-screen">
