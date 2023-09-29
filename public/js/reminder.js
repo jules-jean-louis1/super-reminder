@@ -773,6 +773,11 @@ async function dislpayReminder() {
                     console.log(dataChangeStatus);
                     if (dataChangeStatus.success) {
                         dislpayReminder();
+                        if (data[i].task_name.length > 5) {
+                            createToast(containerPushNotif, 'success', `La tâche ${data[i].task_name.substring(0,5) + '...'} à etait mis a jour`, 2000);
+                        } else {
+                            createToast(containerPushNotif, 'success', `La tâche ${data[i].task_name} à etait mis a jour`, 2000);
+                        }
                     }
                 } catch (error) {
                     console.log(error);
