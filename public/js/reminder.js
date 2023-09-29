@@ -768,10 +768,10 @@ async function dislpayReminder() {
         for (let i = 0; i < data.length; i++) {
             async function editStatus(selectorValue) {
                 try {
-                    const response = await fetch(`/super-reminder/reminder/${id}/changeStatus/${selectorValue}`);
-                    const data = await response.json();
-                    console.log(data);
-                    if (data.success) {
+                    const response = await fetch(`/super-reminder/reminder/${data[i].task_id}/changeStatus/${selectorValue}/${id}`);
+                    const dataChangeStatus = await response.json();
+                    console.log(dataChangeStatus);
+                    if (dataChangeStatus.success) {
                         dislpayReminder();
                     }
                 } catch (error) {
@@ -1155,6 +1155,7 @@ async function formReminder() {
     const priorityFormSelect = document.getElementById('priorityFormSelect').value;
 
     const listSortForm = document.getElementById('listSortForm');
+    const resetBtnContainer = document.getElementById('resetBtnContainer');
     const resetFormSort = document.getElementById('resetFormSort');
 
     const autocompletion = document.getElementById('autocompletion');
@@ -1178,14 +1179,6 @@ async function formReminder() {
         dislpayReminder();
     });
 
-    if (inputSearchValue !== '' || listeValue !== 'all' || dateFormSelect !== 'all' || statusFormSelect !== 'all' || priorityFormSelect !== 'all') {
-        listSortForm.innerHTML += `<button type="button" id="btnResetFormSort">Réinitialiser</button>`;
-        const btnReset = document.getElementById('btnResetFormSort');
-        btnReset.addEventListener('click', () => {
-            listSortForm.reset();
-            dislpayReminder();
-        });
-    }
     dislpayReminder();
 }
 async function getTags() {

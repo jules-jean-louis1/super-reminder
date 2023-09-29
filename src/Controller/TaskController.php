@@ -182,12 +182,12 @@ class TaskController
         echo json_encode($errors);
     }
 
-    public function changeStatus(int $id, string $status): void
+    public function changeStatus(int $id, string $status, int $users_id): void
     {
         $taskModel = new TaskModel();
         $task = $taskModel->getTaskById($id);
         $errors = [];
-        if ($id !== $_SESSION['user']['id']) {
+        if ($users_id !== $_SESSION['user']['id']) {
             $errors['error'] = 'Vous n\'avez pas le droit de faire ça';
         } else {
             if ($status === 'todo') {
@@ -252,7 +252,7 @@ class TaskController
         echo $errors;
 
     }
-    public function deleteTask(int $id)
+    public function deleteTask(int $id): void
     {
         $taskModel = new TaskModel();
         $task = $taskModel->getTaskById($id);

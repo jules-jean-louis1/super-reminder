@@ -53,6 +53,7 @@ class TaskModel extends AbstractDatabase
         if ($priority !== 'all') {
             $sql .= ' AND task.priority = :priority';
         }
+        $sql .= ' ORDER BY task.created_at DESC';
         $req = $bdd->prepare($sql);
         $req->bindParam(':id', $id, PDO::PARAM_INT);
         if ($search !== '') {
@@ -75,7 +76,7 @@ class TaskModel extends AbstractDatabase
     public function changeStatus(int $id, string $string): void
     {
         $bdd = $this->getBdd();
-        $sql = 'UPDATE task SET status = :status WHERE id = :id';
+        $sql = 'UPDATE task SET status = :status, updated_at = NOW() WHERE id = :id;';
         $req = $bdd->prepare($sql);
         $req->bindParam(':status', $string, PDO::PARAM_STR);
         $req->bindParam(':id', $id, PDO::PARAM_INT);
