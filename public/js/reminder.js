@@ -544,8 +544,7 @@ btnAddList.addEventListener('click', addList);
 
 function updateList(button) {
     const selectElement = document.getElementById('listeFormSelect');
-    const selectedListValue = button.value;
-    selectElement.value = selectedListValue;
+    selectElement.value = button.value;
 }
 async function manageReminder(){
     ListeUserWarpper.innerHTML = '';
@@ -574,6 +573,7 @@ async function manageReminder(){
             let button = document.querySelector(`.listUser_${list[i].id}`);
             button.addEventListener('click', () => {
                 updateList(button);
+                formReminder();
             });
         }
     });
@@ -1148,16 +1148,6 @@ async function dislpayReminder() {
     }
 }
 async function formReminder() {
-    const inputSearch = document.getElementById('autocompletion')
-    const inputSearchValue = inputSearch.value;
-    const listeValue = listeFormSelect.value;
-    const dateFormSelect = document.getElementById('dateFormSelect').value;
-    const statusFormSelect = document.getElementById('statusFormSelect').value;
-    const priorityFormSelect = document.getElementById('priorityFormSelect').value;
-
-    const listSortForm = document.getElementById('listSortForm');
-    const resetBtnContainer = document.getElementById('resetBtnContainer');
-    const resetFormSort = document.getElementById('resetFormSort');
 
     const autocompletion = document.getElementById('autocompletion');
     autocompletion.addEventListener('keyup', async () => {
