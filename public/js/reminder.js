@@ -1,18 +1,18 @@
 import {formatDate, formatDateWithoutH, mobileMenuReminderPage} from './function/function.js';
-import {createToast} from "./function/toast";
+import {createToast} from "./function/toast.js";
 
 
 const svgWarning = `<svg width="7" height="24" viewBox="0 0 7 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_101_2)">
-<path d="M3.5 3.5V17.5" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M3.5 22H3.50375" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</g>
-<defs>
-<clipPath id="clip0_101_2">
-<rect width="7" height="24" fill="white"/>
-</clipPath>
-</defs>
-</svg>`;
+                            <g clip-path="url(#clip0_101_2)">
+                                <path d="M3.5 3.5V17.5" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M3.5 22H3.50375" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                            <clipPath id="clip0_101_2">
+                            <rect width="7" height="24" fill="white"/>
+                            </clipPath>
+                            </defs>
+                            </svg>`;
 const btnAddReminder = document.getElementById('btnAddReminder');
 const btnAddList = document.getElementById('btnAddList');
 const ListeUserWarpper = document.getElementById('ListeUserWarpper');
@@ -1169,7 +1169,21 @@ async function formReminder() {
     selectPriority.addEventListener('change', () => {
         dislpayReminder();
     });
-
+    /*const selectTag = document.getElementById('tagFormSelect');
+    selectTag.addEventListener('change', () => {
+        dislpayReminder();
+    });*/
+    const listSortForm = document.getElementById('listSortForm');
+    const resetFormSort = document.getElementById('resetFormSort');
+    listSortForm.addEventListener('change', () => {
+        resetFormSort.classList.remove('hidden');
+        const btnResetFormSort = document.getElementById('btnResetFormSort');
+        btnResetFormSort.addEventListener('click', () => {
+            listSortForm.reset();
+            dislpayReminder();
+            resetFormSort.classList.add('hidden');
+        });
+    });
     dislpayReminder();
 }
 async function getTags() {

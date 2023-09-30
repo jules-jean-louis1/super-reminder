@@ -158,10 +158,11 @@
                                     </select>
                                 </div>
                             </div>
-                            <div id="resetBtnContainer"></div>
                         </div>
                     </form>
-                    <div id="resetFormSort"></div>
+                    <div id="resetFormSort" class="hidden">
+                        <button id="btnResetFormSort" type="button">Réinitialiser</button>
+                    </div>
                 </div>
                 <div id="containerReminderList" class="w-full h-full flex flex-wrap justify-around px-0.5 mb:px-4"></div>
             </div>
