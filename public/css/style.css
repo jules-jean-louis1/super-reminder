@@ -182,7 +182,10 @@
 .is-valid {
     border: 2px solid var(--green-color);
 }
-
+/*===== HomePage =====*/
+#homepageForm {
+    box-shadow: 17px 18px 0px #AC1DE4;
+}
 /*===== Reminder =====*/
 #listSelectLabel, #dateSelectLabel, #statusSelectLabel, #prioritySelectLabel {
     position: absolute;

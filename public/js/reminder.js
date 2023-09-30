@@ -1,8 +1,4 @@
-import {
-    formatDate,
-    formatDateWithoutH,
-    mobileMenuReminderPage
-} from './function/function.js';
+import {formatDate, formatDateWithoutH, mobileMenuReminderPage} from './function/function.js';
 import {createToast} from "./function/toast";
 
 
@@ -546,12 +542,17 @@ async function getListOfUsers(id) {
 btnAddReminder.addEventListener('click', addReminder);
 btnAddList.addEventListener('click', addList);
 
+function updateList(button) {
+    const selectElement = document.getElementById('listeFormSelect');
+    const selectedListValue = button.value;
+    selectElement.value = selectedListValue;
+}
 async function manageReminder(){
     ListeUserWarpper.innerHTML = '';
     getListOfUsers(id).then(list => {
         for (let i = 0; i < list.length; i++) {
             ListeUserWarpper.innerHTML += `
-                <button class="listUser_${list[i].id} hover:bg-[#E2E8F0] p-1 my-2 text-[#525866] w-full" value="${list[i].id}">
+                <button class="listUser_${list[i].id} hover:bg-[#E2E8F0] p-1 my-2 text-[#525866] w-full space-x-2" value="${list[i].id}">
                     <h3 class="flex items-center">
                         <span class="listUserSpan">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -569,15 +570,10 @@ async function manageReminder(){
                 </button>
             `;
         }
-        for (let i = 0; i < list.length; i++) {
-            const listUser = document.querySelector(`.listUser_${list[i].id}`);
-            listUser.addEventListener('click', () => {
-                const idList = listUser.getAttribute('value');
-                const inputList = document.getElementById('listeFormSelect');
-
-                inputList.addEventListener('change', async () => {
-                    dislpayReminder();
-                });
+        for (let i = 0; i < list.length ; i++) {
+            let button = document.querySelector(`.listUser_${list[i].id}`);
+            button.addEventListener('click', () => {
+                updateList(button);
             });
         }
     });
