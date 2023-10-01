@@ -128,34 +128,42 @@
                                         <option value="all">Toutes</option>
                                     </select>
                                 </div>
-                                <div class="flex flex-col relative">
-                                    <label for="date" class="text-sm" id="dateSelectLabel">Date</label>
-                                    <select name="date" id="dateFormSelect">
-                                        <option value="all">Toutes</option>
-                                        <option value="today">Aujourd'hui</option>
-                                        <option value="tomorrow">Demain</option>
-                                        <option value="week">Cette semaine</option>
-                                        <option value="month">Ce mois</option>
-                                        <option value="year">Cette année</option>
-                                    </select>
-                                </div>
-                                <div class="flex flex-col relative">
-                                    <label for="status" class="text-sm" id="statusSelectLabel">Status</label>
-                                    <select name="status" id="statusFormSelect">
-                                        <option value="all">Toutes</option>
-                                        <option value="todo">Pas commencer</option>
-                                        <option value="inprogress">En cours</option>
-                                        <option value="done">Terminé</option>
-                                    </select>
-                                </div>
-                                <div class="flex flex-col relative">
-                                    <label for="priority" class="text-sm" id="prioritySelectLabel">Priorité</label>
-                                    <select name="priority" id="priorityFormSelect">
-                                        <option value="all">Toutes</option>
-                                        <option value="0">Basse</option>
-                                        <option value="1">Moyenne</option>
-                                        <option value="2">Haute</option>
-                                    </select>
+                                <div class="flex ">
+                                    <div class="flex flex-col relative">
+                                        <label for="date" class="text-sm" id="dateSelectLabel">Date</label>
+                                        <select name="date" id="dateFormSelect">
+                                            <option value="all">Toutes</option>
+                                            <option value="today">Aujourd'hui</option>
+                                            <option value="tomorrow">Demain</option>
+                                            <option value="week">Cette semaine</option>
+                                            <option value="month">Ce mois</option>
+                                            <option value="year">Cette année</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex flex-col relative">
+                                        <label for="status" class="text-sm" id="statusSelectLabel">Status</label>
+                                        <select name="status" id="statusFormSelect">
+                                            <option value="all">Toutes</option>
+                                            <option value="todo">Pas commencer</option>
+                                            <option value="inprogress">En cours</option>
+                                            <option value="done">Terminé</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex flex-col relative">
+                                        <label for="priority" class="text-sm" id="prioritySelectLabel">Priorité</label>
+                                        <select name="priority" id="priorityFormSelect">
+                                            <option value="all">Toutes</option>
+                                            <option value="0">Basse</option>
+                                            <option value="1">Moyenne</option>
+                                            <option value="2">Haute</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex flex-col relative">
+                                        <label for="tags" class="text-sm" id="prioritySelectLabel">Tags</label>
+                                        <select name="tags" id="tagsFormSelect">
+                                            <option value="all">Toutes</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>

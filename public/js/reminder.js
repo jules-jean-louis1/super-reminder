@@ -22,6 +22,7 @@ const containerPushNotif = document.getElementById('containerPushNotif');
 const btnShareListTask = document.getElementById('btnShareListTask');
 const btnAddTags = document.getElementById('btnAddTags');
 const editListModal = document.getElementById('editListModal');
+const TagsListForm = document.getElementById('tagsFormSelect');
 
 const url = window.location.href;
 let segments = url.split('/');
@@ -1195,6 +1196,16 @@ async function getTags() {
         console.log(error);
     }
 }
+function displayTags() {
+    getTags().then(tags => {
+        for (let i = 0; i < tags.length; i++) {
+           TagsListForm.innerHTML += `
+                <option value="${tags[i].id}">${tags[i].name}</option>
+               `;
+        }
+    });
+}
+displayTags();
 async function addTags() {
     containerModal.innerHTML = '';
     containerModal.innerHTML = `
