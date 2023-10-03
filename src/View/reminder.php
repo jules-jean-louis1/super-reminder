@@ -109,86 +109,88 @@
                             <span>Rappel</span>
                         </button>
                     </div>
-                    <form action="" method="get" id="listSortForm" class="flex flex-col md:flex-row items-center bg-[#e0e4ec] rounded-[10px] p-2">
-                        <div class="flex items-center bg-slate-200 rounded p-2">
-                            <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                  <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/>
-                                  <path d="M21 21l-6 -6"/>
-                                </svg>
-                            </span>
-                            <input type="text" name="autocompletion" id="autocompletion" placeholder="Rechercher un tâche" class="bg-transparent">
-                            <button id="btnDeleteSearch" class="hidden"></button>
-                        </div>
-                        <div class="flex hidden lg:flex">
-                            <div class="flex space-x-2">
-                                <div class="flex flex-col relative">
-                                    <label for="list" class="text-sm" id="listSelectLabel">Liste</label>
-                                    <select name="list" id="listeFormSelect">
-                                        <option value="all">Toutes</option>
-                                    </select>
-                                </div>
-                                <div class="flex gap-2">
+                    <div class="flex flex-col items-center">
+                        <form action="" method="get" id="listSortForm" class="flex flex-col md:flex-row items-center bg-[#e0e4ec] rounded-[10px] p-2">
+                            <div class="flex items-center bg-slate-200 rounded p-2">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                      <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/>
+                                      <path d="M21 21l-6 -6"/>
+                                    </svg>
+                                </span>
+                                <input type="text" name="autocompletion" id="autocompletion" placeholder="Rechercher un tâche" class="bg-transparent">
+                                <button id="btnDeleteSearch" class="hidden"></button>
+                            </div>
+                            <div class="flex hidden lg:flex">
+                                <div class="flex space-x-2">
                                     <div class="flex flex-col relative">
-                                        <label for="date" class="text-sm" id="dateSelectLabel">Date</label>
-                                        <select name="date" id="dateFormSelect">
-                                            <option value="all">Toutes</option>
-                                            <option value="today">Aujourd'hui</option>
-                                            <option value="tomorrow">Demain</option>
-                                            <option value="week">Cette semaine</option>
-                                            <option value="month">Ce mois</option>
-                                            <option value="year">Cette année</option>
-                                        </select>
-                                    </div>
-                                    <div class="flex flex-col relative">
-                                        <label for="status" class="text-sm" id="statusSelectLabel">Status</label>
-                                        <select name="status" id="statusFormSelect">
-                                            <option value="all">Toutes</option>
-                                            <option value="todo">Pas commencer</option>
-                                            <option value="inprogress">En cours</option>
-                                            <option value="done">Terminé</option>
-                                        </select>
-                                    </div>
-                                    <div class="flex flex-col relative">
-                                        <label for="priority" class="text-sm" id="prioritySelectLabel">Priorité</label>
-                                        <select name="priority" id="priorityFormSelect">
-                                            <option value="all">Toutes</option>
-                                            <option value="0">Basse</option>
-                                            <option value="1">Moyenne</option>
-                                            <option value="2">Haute</option>
-                                        </select>
-                                    </div>
-                                    <div class="flex flex-col relative">
-                                        <label for="tags" class="text-sm" id="prioritySelectLabel">Tags</label>
-                                        <select name="tags" id="tagFormSelect">
+                                        <label for="list" class="text-sm" id="listSelectLabel">Liste</label>
+                                        <select name="list" id="listeFormSelect">
                                             <option value="all">Toutes</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="hidden">
-                                    <button id="btnMoreFilter" type="button" class="flex gap-2">
-                                        <span>
-                                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M12 24.4922C13.6328 24.4922 15.168 24.1797 16.6055 23.5547C18.0508 22.9297 19.3242 22.0664 20.4258 20.9648C21.5273 19.8633 22.3906 18.5938 23.0156 17.1562C23.6406 15.7109 23.9531 14.1719 23.9531 12.5391C23.9531 10.9062 23.6406 9.37109 23.0156 7.93359C22.3906 6.48828 21.5273 5.21484 20.4258 4.11328C19.3242 3.01172 18.0508 2.14844 16.6055 1.52344C15.1602 0.898438 13.6211 0.585938 11.9883 0.585938C10.3555 0.585938 8.81641 0.898438 7.37109 1.52344C5.93359 2.14844 4.66406 3.01172 3.5625 4.11328C2.46875 5.21484 1.60937 6.48828 0.984375 7.93359C0.359375 9.37109 0.046875 10.9062 0.046875 12.5391C0.046875 14.1719 0.359375 15.7109 0.984375 17.1562C1.60937 18.5938 2.47266 19.8633 3.57422 20.9648C4.67578 22.0664 5.94531 22.9297 7.38281 23.5547C8.82812 24.1797 10.3672 24.4922 12 24.4922ZM6.28125 12.5508C6.28125 12.2461 6.37891 12 6.57422 11.8125C6.76953 11.6172 7.01953 11.5195 7.32422 11.5195H10.9922V7.85156C10.9922 7.54688 11.082 7.29688 11.2617 7.10156C11.4492 6.90625 11.6914 6.80859 11.9883 6.80859C12.293 6.80859 12.5391 6.90625 12.7266 7.10156C12.9219 7.29688 13.0195 7.54688 13.0195 7.85156V11.5195H16.6992C17.0039 11.5195 17.25 11.6172 17.4375 11.8125C17.6328 12 17.7305 12.2461 17.7305 12.5508C17.7305 12.8477 17.6328 13.0898 17.4375 13.2773C17.2422 13.457 16.9961 13.5469 16.6992 13.5469H13.0195V17.2266C13.0195 17.5312 12.9219 17.7812 12.7266 17.9766C12.5391 18.1641 12.293 18.2578 11.9883 18.2578C11.6914 18.2578 11.4492 18.1641 11.2617 17.9766C11.082 17.7812 10.9922 17.5312 10.9922 17.2266V13.5469H7.32422C7.01953 13.5469 6.76953 13.457 6.57422 13.2773C6.37891 13.0898 6.28125 12.8477 6.28125 12.5508Z" fill="#ac1de4"/>
-                                            </svg>
-                                        </span>
-                                        <span>Filtre</span>
-                                    </button>
+                                    <div class="flex gap-2">
+                                        <div class="flex flex-col relative">
+                                            <label for="date" class="text-sm" id="dateSelectLabel">Date</label>
+                                            <select name="date" id="dateFormSelect">
+                                                <option value="all">Toutes</option>
+                                                <option value="today">Aujourd'hui</option>
+                                                <option value="tomorrow">Demain</option>
+                                                <option value="week">Cette semaine</option>
+                                                <option value="month">Ce mois</option>
+                                                <option value="year">Cette année</option>
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col relative">
+                                            <label for="status" class="text-sm" id="statusSelectLabel">Status</label>
+                                            <select name="status" id="statusFormSelect">
+                                                <option value="all">Toutes</option>
+                                                <option value="todo">Pas commencer</option>
+                                                <option value="inprogress">En cours</option>
+                                                <option value="done">Terminé</option>
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col relative">
+                                            <label for="priority" class="text-sm" id="prioritySelectLabel">Priorité</label>
+                                            <select name="priority" id="priorityFormSelect">
+                                                <option value="all">Toutes</option>
+                                                <option value="0">Basse</option>
+                                                <option value="1">Moyenne</option>
+                                                <option value="2">Haute</option>
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col relative">
+                                            <label for="tags" class="text-sm" id="prioritySelectLabel">Tags</label>
+                                            <select name="tags" id="tagFormSelect">
+                                                <option value="all">Toutes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="hidden">
+                                        <button id="btnMoreFilter" type="button" class="flex gap-2">
+                                            <span>
+                                                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 24.4922C13.6328 24.4922 15.168 24.1797 16.6055 23.5547C18.0508 22.9297 19.3242 22.0664 20.4258 20.9648C21.5273 19.8633 22.3906 18.5938 23.0156 17.1562C23.6406 15.7109 23.9531 14.1719 23.9531 12.5391C23.9531 10.9062 23.6406 9.37109 23.0156 7.93359C22.3906 6.48828 21.5273 5.21484 20.4258 4.11328C19.3242 3.01172 18.0508 2.14844 16.6055 1.52344C15.1602 0.898438 13.6211 0.585938 11.9883 0.585938C10.3555 0.585938 8.81641 0.898438 7.37109 1.52344C5.93359 2.14844 4.66406 3.01172 3.5625 4.11328C2.46875 5.21484 1.60937 6.48828 0.984375 7.93359C0.359375 9.37109 0.046875 10.9062 0.046875 12.5391C0.046875 14.1719 0.359375 15.7109 0.984375 17.1562C1.60937 18.5938 2.47266 19.8633 3.57422 20.9648C4.67578 22.0664 5.94531 22.9297 7.38281 23.5547C8.82812 24.1797 10.3672 24.4922 12 24.4922ZM6.28125 12.5508C6.28125 12.2461 6.37891 12 6.57422 11.8125C6.76953 11.6172 7.01953 11.5195 7.32422 11.5195H10.9922V7.85156C10.9922 7.54688 11.082 7.29688 11.2617 7.10156C11.4492 6.90625 11.6914 6.80859 11.9883 6.80859C12.293 6.80859 12.5391 6.90625 12.7266 7.10156C12.9219 7.29688 13.0195 7.54688 13.0195 7.85156V11.5195H16.6992C17.0039 11.5195 17.25 11.6172 17.4375 11.8125C17.6328 12 17.7305 12.2461 17.7305 12.5508C17.7305 12.8477 17.6328 13.0898 17.4375 13.2773C17.2422 13.457 16.9961 13.5469 16.6992 13.5469H13.0195V17.2266C13.0195 17.5312 12.9219 17.7812 12.7266 17.9766C12.5391 18.1641 12.293 18.2578 11.9883 18.2578C11.6914 18.2578 11.4492 18.1641 11.2617 17.9766C11.082 17.7812 10.9922 17.5312 10.9922 17.2266V13.5469H7.32422C7.01953 13.5469 6.76953 13.457 6.57422 13.2773C6.37891 13.0898 6.28125 12.8477 6.28125 12.5508Z" fill="#ac1de4"/>
+                                                </svg>
+                                            </span>
+                                            <span>Filtre</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+                        </form>
+                        <div id="resetFormSort" class="hidden">
+                            <button id="btnResetFormSort" type="button">Réinitialiser</button>
                         </div>
-                    </form>
-                    <div id="resetFormSort" class="hidden">
-                        <button id="btnResetFormSort" type="button">Réinitialiser</button>
                     </div>
                 </div>
                 <div id="containerReminderList" class="w-full h-full flex flex-wrap justify-around px-0.5 mb:px-4"></div>
             </div>
         </div>
     </main>
-    <!-- Modal -->
+    <!-- Footer -->
         <?php require_once 'src/View/import/footer.php'; ?>
-    <!-- Modal -->
+    <!-- Footer -->
 </body>
 </html>
