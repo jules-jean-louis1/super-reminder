@@ -278,4 +278,23 @@ class TaskController
             echo json_encode($task);
         }
     }
+
+    public function changeStatusShareTask(int $id, string $status): void
+    {
+        $taskModel = new TaskModel();
+        $task = $taskModel->getShareTask($id);
+        $errors = [];
+
+        if ($status === 'todo') {
+            $taskModel->changeStatus($id, 'todo');
+            $errors['success'] = 'La tâche a bien été mise en attente.';
+        } else if ($status === 'inprogress') {
+            $taskModel->changeStatus($id, 'inprogress');
+            $errors['success'] = 'La tâche a bien été mise en cours.';
+        } else if ($status === 'done') {
+            $taskModel->changeStatus($id, 'done');
+            $errors['success'] = 'La tâche a bien été terminé.';
+        }
+        echo json_encode($errors);
+    }
 }

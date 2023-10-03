@@ -1322,7 +1322,7 @@ async function getShareTask(){
                                 <div id="statusContainer" class="border border-[#52586633] rounded-[10px] w-full">
                                     <form action="" method="post" id="changeStatusOnFly_${data[i].task_id}" class="flex justify-between items-center px-2 py-2">
                                         <input type="hidden" name="id" value="${data[i].task_id}">
-                                        <button type="button" name="status" value="todo" id="todo_${data[i].task_id}" class="flex items-center px-2 gap-3 text-slate-700 hover:text-[#15ce5c] group">
+                                        <button type="button" name="status" value="todo" id="shareTodo_${data[i].task_id}" class="flex items-center px-2 gap-3 text-slate-700 hover:text-[#15ce5c] group">
                                             <span class="p-1 hover:bg-[#1ddc6f3d] rounded group-hover:bg-[#1ddc6f3d]">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play w-6 h-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -1331,7 +1331,7 @@ async function getShareTask(){
                                             </span>
                                             <span class="hidden xl:flex font-semibold">A faire</span>
                                         </button>
-                                        <button type="button" name="status" value="inprogress" id="inprogress_${data[i].task_id}" class="flex items-center px-2 gap-3 text-slate-700 hover:text-[#fa6620] group">
+                                        <button type="button" name="status" value="inprogress" id="shareInprogress_${data[i].task_id}" class="flex items-center px-2 gap-3 text-slate-700 hover:text-[#fa6620] group">
                                             <span class="p-1 hover:bg-[#ff7a2b3d] rounded group-hover:bg-[#ff7a2b3d]">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-progress-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -1345,7 +1345,7 @@ async function getShareTask(){
                                             </span>
                                             <span class="hidden xl:flex font-semibold">En cours</span>
                                         </button>
-                                        <button type="button" name="status" id="done_${data[i].task_id}" value="done" class="flex items-center px-2 gap-3 text-slate-700 hover:text-[#fa2020] group">
+                                        <button type="button" name="status" id="shareDone_${data[i].task_id}" value="done" class="flex items-center px-2 gap-3 text-slate-700 hover:text-[#fa2020] group">
                                             <span class="p-1 hover:bg-[#ff2b2b3d] rounded group-hover:bg-[#ff2b2b3d]">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -1414,6 +1414,42 @@ async function getShareTask(){
                     reminder.classList.add('border', 'border-[#fa2020]');
 
                 }
+            }
+            for (let i = 0; i < data.length; i++) {
+                async function editShareTask(selectorValue) {
+                    try {
+                        const response = await fetch(`/super-reminder/reminder/shareTask/changeStatus/${data[i].task_id}/${selectorValue}`);
+                        const dataChangeStatus = await response.json();
+                        console.log(dataChangeStatus);
+                        if (dataChangeStatus.success) {
+                            getShareTask();
+                            if (data[i].task_name.length > 5) {
+                                createToast(containerPushNotif, 'success', `La tâche ${data[i].task_name.substring(0, 5) + '...'} à etait mis a jour`, 2000);
+                            } else {
+                                createToast(containerPushNotif, 'success', `La tâche ${data[i].task_name} à etait mis a jour`, 2000);
+                            }
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
+                const shareTodo = document.getElementById(`shareTodo_${data[i].task_id}`);
+                const shareInprogress = document.getElementById(`shareInprogress_${data[i].task_id}`);
+                const shareDone = document.getElementById(`shareDone_${data[i].task_id}`);
+
+                const shareTodoValue = shareTodo.getAttribute('value');
+                const shareInprogressValue = shareInprogress.getAttribute('value');
+                const shareDoneValue = shareDone.getAttribute('value');
+
+                shareTodo.addEventListener('click', () => {
+                    editShareTask(shareTodoValue);
+                });
+                shareInprogress.addEventListener('click', () => {
+                    editShareTask(shareInprogressValue);
+                });
+                shareDone.addEventListener('click', () => {
+                    editShareTask(shareDoneValue);
+                });
             }
         }
     } catch (error) {

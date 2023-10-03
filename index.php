@@ -97,8 +97,13 @@ $router->map('POST', '/reminder/addUserToTask/[i:id]', function ($id) use ($task
 $router->map('POST', '/reminder/editTask/[i:id]', function ($id) use ($taskController) {
     $taskController->editTask($id);
 });
+
+// ShareTask
 $router->map('GET', '/reminder/shareTask/[i:id]', function ($id) use ($taskController) {
     $taskController->shareTask($id);
+});
+$router->map('GET', '/reminder/shareTask/changeStatus/[i:id]/[*:status]', function ($id, $status) use ($taskController) {
+    $taskController->changeStatusShareTask($id, $status);
 });
 
 // #Tags
