@@ -8,6 +8,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./../public/css/style.css">
+    <link rel="icon" href="./public/images/logo/RemindMe!.png">
     <script defer type="module" src="./../public/js/profil.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Profil</title>

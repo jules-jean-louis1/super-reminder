@@ -193,7 +193,7 @@
     background: #E0E4EC;
     left: 10px;
 }
-#listeFormSelect, #dateFormSelect, #statusFormSelect, #priorityFormSelect, #tagsFormSelect {
+#listeFormSelect, #dateFormSelect, #statusFormSelect, #priorityFormSelect, #tagFormSelect {
     background: transparent;
     border: 1px solid #52586633;
     border-radius: 10px;

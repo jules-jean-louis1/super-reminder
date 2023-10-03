@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/super-reminder/public/css/style.css">
+    <link rel="icon" href="./public/images/logo/RemindMe!.png">
     <script defer type="module" src="/super-reminder/public/js/todo.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Reminder</title>

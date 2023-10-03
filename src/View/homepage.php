@@ -1,6 +1,3 @@
-<?php
-
-?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,9 +6,10 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./public/css/style.css">
+    <link rel="icon" href="./public/images/logo/RemindMe!.png">
     <script defer type="module" src="./public/js/homepage.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>HomePage</title>
+    <title>Remind Me! - Accueil</title>
 </head>
 <body>
     <header>
@@ -34,8 +32,12 @@
                         </p>
                     </div>
                     <div class="text-center lg:text-left">
-                        <a class="block visible py-4 px-8 mb-4 text-xl font-semibold tracking-wide leading-none text-white bg-[#ac1de4] hover:bg-[#9e15d9] rounded-[10px] cursor-pointer sm:mr-3 sm:mb-0 sm:inline-block">Reminder</a>
-                        <a class="block visible py-4 px-8 text-xl font-semibold leading-none bg-white rounded-[10px] border border-solid cursor-pointer sm:inline-block border-[#52586633] text-slate-500">En savoir +</a>
+                        <?php if (isset($_SESSION['user'])): ?>
+                            <a href="/super-reminder/reminder/<?= $_SESSION['user']['id']?>" class="block visible py-4 px-8 mb-4 text-xl font-semibold tracking-wide leading-none text-white bg-[#ac1de4] hover:bg-[#9e15d9] rounded-[10px] cursor-pointer sm:mr-3 sm:mb-0 sm:inline-block">Reminder</a>
+                        <?php else: ?>
+                        <a href="/super-reminder/todolist" class="block visible py-4 px-8 mb-4 text-xl font-semibold tracking-wide leading-none text-white bg-[#ac1de4] hover:bg-[#9e15d9] rounded-[10px] cursor-pointer sm:mr-3 sm:mb-0 sm:inline-block">Reminder</a>
+                        <?php endif; ?>
+                        <a href="/super-reminder/todolist" class="block visible py-4 px-8 text-xl font-semibold leading-none bg-white rounded-[10px] border border-solid cursor-pointer sm:inline-block border-[#52586633] text-slate-500">En savoir +</a>
                     </div>
                 </div>
                 <!-- Column-2 -->

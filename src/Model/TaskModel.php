@@ -22,7 +22,7 @@ class TaskModel extends AbstractDatabase
         $req->execute();
     }
 
-    public function searchTask(string $search, mixed $list, mixed $date, mixed $status, mixed $priority, int $id)
+    public function searchTask(string $search, string $list, string $date, string $status, string $priority, string $tags, int $id): array
     {
         $bdd = $this->getBdd();
         $sql = "SELECT task.id AS task_id, task.name AS task_name, task.description, task.status, task.start, task.end, task.priority, task.created_at AS task_created_at, task.updated_at AS task_updated_at, task.users_id AS task_users_id, task.list_id, 
@@ -53,6 +53,9 @@ class TaskModel extends AbstractDatabase
         if ($priority !== 'all') {
             $sql .= ' AND task.priority = :priority';
         }
+        if ($tags !== 'all') {
+            $sql .= ' AND task.id IN (SELECT task_id FROM tags_list WHERE tags_id = :tags)';
+        }
         $sql .= ' ORDER BY task.created_at DESC';
         $req = $bdd->prepare($sql);
         $req->bindParam(':id', $id, PDO::PARAM_INT);
@@ -67,6 +70,9 @@ class TaskModel extends AbstractDatabase
         }
         if ($priority !== 'all') {
             $req->bindParam(':priority', $priority, PDO::PARAM_INT);
+        }
+        if ($tags !== 'all') {
+            $req->bindParam(':tags', $tags, PDO::PARAM_INT);
         }
         $req->execute();
         $task = $req->fetchAll(PDO::FETCH_ASSOC);

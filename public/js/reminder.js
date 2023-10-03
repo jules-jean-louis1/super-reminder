@@ -22,7 +22,7 @@ const containerPushNotif = document.getElementById('containerPushNotif');
 const btnShareListTask = document.getElementById('btnShareListTask');
 const btnAddTags = document.getElementById('btnAddTags');
 const editListModal = document.getElementById('editListModal');
-const TagsListForm = document.getElementById('tagsFormSelect');
+const TagsListForm = document.getElementById('tagFormSelect');
 
 const url = window.location.href;
 let segments = url.split('/');
@@ -1148,6 +1148,25 @@ async function dislpayReminder() {
         }
     }
 }
+async function getTags() {
+    try {
+        let tagsResponse = await fetch(`/super-reminder/reminder/${id}/getTags`);
+        let tagsData = await tagsResponse.json();
+        return tagsData;
+    } catch (error) {
+        console.log(error);
+    }
+}
+function displayTags() {
+    getTags().then(tags => {
+        for (let i = 0; i < tags.length; i++) {
+            TagsListForm.innerHTML += `
+                <option value="${tags[i].id}">${tags[i].name}</option>
+               `;
+        }
+    });
+}
+displayTags();
 async function formReminder() {
 
     const autocompletion = document.getElementById('autocompletion');
@@ -1170,10 +1189,10 @@ async function formReminder() {
     selectPriority.addEventListener('change', () => {
         dislpayReminder();
     });
-    /*const selectTag = document.getElementById('tagFormSelect');
+    const selectTag = document.getElementById('tagFormSelect');
     selectTag.addEventListener('change', () => {
         dislpayReminder();
-    });*/
+    });
     const listSortForm = document.getElementById('listSortForm');
     const resetFormSort = document.getElementById('resetFormSort');
     listSortForm.addEventListener('change', () => {
@@ -1187,25 +1206,7 @@ async function formReminder() {
     });
     dislpayReminder();
 }
-async function getTags() {
-    try {
-        let tagsResponse = await fetch(`/super-reminder/reminder/${id}/getTags`);
-        let tagsData = await tagsResponse.json();
-        return tagsData;
-    } catch (error) {
-        console.log(error);
-    }
-}
-function displayTags() {
-    getTags().then(tags => {
-        for (let i = 0; i < tags.length; i++) {
-           TagsListForm.innerHTML += `
-                <option value="${tags[i].id}">${tags[i].name}</option>
-               `;
-        }
-    });
-}
-displayTags();
+
 async function addTags() {
     containerModal.innerHTML = '';
     containerModal.innerHTML = `
