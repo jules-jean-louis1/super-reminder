@@ -48,8 +48,12 @@ $router->map('POST', '/profil/edit', function () use ($profilController) {
     $profilController->editUserInfo($_SESSION['user']['id']);
 });
 
-
 // TodoList
+$router->map('GET', '/todolist', function () {
+    require_once 'src/View/todolist.php';
+});
+
+// Reminder
 $router->map('GET', '/reminder/[:id]', function ($id) {
     require_once 'src/View/reminder.php';
 });

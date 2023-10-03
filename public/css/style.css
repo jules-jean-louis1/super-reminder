@@ -216,9 +216,7 @@
     width: auto;
     border: 1px solid var(--divider-secondary-color);
 }
-#autocompleteTagsList {
 
-}
 #modalAddReminder {
     border-radius: 10px;
     min-height: 680px;
