@@ -18,6 +18,13 @@ abstract class AbstractDatabase
             exit;
         }
         // Connexion a la base de données ONLINE
+        /*try {
+            $this->bdd = new PDO('mysql:host=localhost;dbname=jules-jean-louis_superreminder;charset=utf8', 'superreminder', '3xOga07!2');
+            $this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            echo 'Connexion échouée : ' . $e->getMessage();
+            exit;
+        }*/
     }
     public function getBdd(): PDO
     {

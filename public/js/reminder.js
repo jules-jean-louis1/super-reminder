@@ -279,8 +279,8 @@ async function addReminder() {
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <label for="status">Status</label>
+                    <div id="warpperStatus-AddReminder" class="flex justify-center items-center">
+                        <label for="status">Status :</label>
                         <select name="status" id="status">
                             <option value="0">Pas commencer</option>
                             <option value="1">En cours</option>
@@ -319,17 +319,18 @@ async function addReminder() {
 
         if (!hasHours) {
             addDate.innerHTML = `
+    <div class="flex flex-col justify-between rounded-[10px] p-2 bg-[#EAEBEC] mxt-4">
         <div>
             <label for="start">Début</label>
-            <input type="date" name="start" id="start">
+            <input type="date" name="start" id="start" class="bg-transparent">
         </div>
         <div>
             <label for="end">Fin</label>                    
-            <input type="date" name="end" id="end">
+            <input type="date" name="end" id="end" class="bg-transparent">
         </div>
         <p id="errorDate"></p>
-        <button type="button" id="btnAddHours">Ajouter des heures</button>
-        `;
+        <button type="button" id="btnAddHours" class="w-full rounded-[10px] bg-[#15ce5c] text-white">Ajouter des heures</button>
+    </div>`;
         } else {
             addDate.innerHTML = '';
         }

@@ -97,7 +97,7 @@
                     </div>
                 </div>
             </aside>
-            <div id="containerReminder" class="flex flex-col items-center w-screen">
+            <section id="containerReminder" class="flex flex-col items-center w-screen">
                 <div id="containerReminderForm" class="flex md:flex-row items-center space-x-4 pt-2">
                     <div>
                         <button id="btnAddReminder" class="flex items-center space-x-2 text-[#ac1de4] text-2xl font-bold border border-[#ac1de4] rounded-[10px] p-3">
@@ -186,7 +186,7 @@
                     </div>
                 </div>
                 <div id="containerReminderList" class="w-full h-full flex flex-wrap justify-around px-0.5 mb:px-4"></div>
-            </div>
+            </section>
         </div>
     </main>
     <!-- Footer -->
