@@ -1,6 +1,6 @@
-# SuperReminder
+# Remind Me! ![Remind me](public/images/logo/RemindMe!.png)
 
-SuperReminder est un projet de gestionnaire de tâches avancé conçu pour vous aider à gérer vos projets de manière efficace. Que vous soyez un développeur chevronné ou que vous cherchiez simplement à organiser votre travail, SuperReminder est l'outil idéal pour vous.
+**Remind Me!** est un projet de gestionnaire de tâches avancé conçu pour vous aider à gérer vos projets de manière efficace. Que vous soyez un développeur chevronné ou que vous cherchiez simplement à organiser votre travail, **Remind Me!** est l'outil idéal pour vous.
 ## Introduction du projet
 
 Lorsque vous travaillez sur des projets, il est essentiel de pouvoir suivre vos tâches et vos objectifs. Bien que les to-do lists traditionnelles puissent être utiles, elles ont leurs limites. C'est pourquoi nous avons créé SuperReminder, un outil puissant qui vous permet de gérer vos tâches de manière plus efficace.
