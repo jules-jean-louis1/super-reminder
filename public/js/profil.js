@@ -7,6 +7,8 @@ const id = segments[idIndex];
 const displayTopInfosUsers = document.querySelector('#displayTopInfosUsers');
 const displayLoginUsers = document.querySelector('#displayLoginUsers');
 
+const responsiveMenu = document.querySelector('#responsiveMenu');
+
 const inputLogin = document.querySelector('#login');
 const inputEmail = document.querySelector('#email');
 const inputPassword = document.querySelector('#password');
@@ -136,5 +138,12 @@ inputPasswordConfirm.addEventListener('input', () => {
         inputPasswordConfirm.classList.remove('is_valid', 'is_invalid', 'is-valid', 'is-invalid');
         errorPasswordConfirm.innerHTML = '';
     }
+});
+
+// Responsive menu
+const btnMenu = document.querySelector('#btnMenu');
+
+btnMenu.addEventListener('click', () => {
+    responsiveMenu.classList.toggle('hidden');
 });
 

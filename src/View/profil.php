@@ -20,7 +20,7 @@
     <main>
         <article class="flex justify-center">
             <section class="w-[95%] lg:w-[60%] pt-10">
-                <div id="infosUserRecap" class="flex items-start justify-center">
+                <div id="infosUserRecap" class="flex items-start justify-center space-x-4">
                     <img src="/super-reminder/public/images/avatars/<?= $_SESSION['user']['avatar']?>" class="rounded-full w-10 h-10">
                     <div class="flex flex-col justify-center">
                         <h2 class="font-bold typo-headline" id="displayTopInfosUsers"><?= $_SESSION['user']['firstname'] . ' ' . $_SESSION['user']['lastname'] ?></h2>
@@ -29,6 +29,15 @@
                 </div>
             </section>
         </article>
+        <div class="flex flex-col space-y-6 pl-4 pt-4 w-full text-2xl">
+            <a href="/super-reminder/">Accueil</a>
+            <?php if (isset($_SESSION['user'])): ?>
+                <a href="/super-reminder/reminder/<?= $_SESSION['user']['id']?>">Reminder</a>
+                <a href="/super-reminder/profil/<?= $_SESSION['user']['id']?>">Profil</a>
+            <?php else: ?>
+                <a href="/super-reminder/todolist">Reminder</a>
+            <?php endif; ?>
+        </div>
         <article class="flex justify-center">
             <section class="w-[95%] lg:w-[60%] pt-8">
                 <div id="containerFormEditProfil">
@@ -104,8 +113,8 @@
         <article class="flex justify-center">
             <section class="w-[95%] lg:w-[60%]">
                 <div id="containerDeleteProfil">
-                    <h2 class="mt-10 font-bold typo-headline">🚨 Danger Zone</h2>
-                    <div id="divRemoveProfil" class="border border-red-500 rounded-[10px] bg-red-100 mt-2">
+                    <h2 class="mt-4 font-bold typo-headline">🚨 Danger Zone</h2>
+                    <div id="divRemoveProfil" class="border border-red-500 rounded-[10px] bg-red-100 mt-2 mb-6">
                         <div class="p-4">
                             <p>Supprimer votre compte entrainera:</p>
                             <ul>

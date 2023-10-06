@@ -18,7 +18,18 @@
         <main class="h-screen">
             <div id="containerFormLoginRegister"></div>
             <div id="dialogModal_Overlay"></div>
-            <section class="flex items-center -mx-3 font-sans px-4 mx-auto w-full lg:max-w-screen-lg sm:max-w-screen-sm md:max-w-screen-md pb-20 pt-20">
+            <aside class="flex hidden w-[60%] fixed top-[45px] bg-white h-full z-[15] lg:hidden" id="responsiveMenu">
+                <div class="flex flex-col space-y-6 pl-4 pt-4 w-full text-2xl">
+                    <a href="/super-reminder/">Accueil</a>
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <a href="/super-reminder/reminder/<?= $_SESSION['user']['id']?>">Reminder</a>
+                        <a href="/super-reminder/profil/<?= $_SESSION['user']['id']?>">Profil</a>
+                    <?php else: ?>
+                    <a href="/super-reminder/todolist">Reminder</a>
+                    <?php endif; ?>
+                </div>
+            </aside>
+            <section class="flex flex-col space-y-4 lg:flex-row items-center -mx-3 font-sans px-4 mx-auto w-full lg:max-w-screen-lg sm:max-w-screen-sm md:max-w-screen-md pb-20 pt-20">
                 <!-- Column-1 -->
                 <div class="px-3 w-full lg:w-[70%]">
                     <div
