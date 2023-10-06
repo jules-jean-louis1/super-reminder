@@ -29,15 +29,19 @@
                 </div>
             </section>
         </article>
-        <div class="flex flex-col space-y-6 pl-4 pt-4 w-full text-2xl">
-            <a href="/super-reminder/">Accueil</a>
-            <?php if (isset($_SESSION['user'])): ?>
-                <a href="/super-reminder/reminder/<?= $_SESSION['user']['id']?>">Reminder</a>
-                <a href="/super-reminder/profil/<?= $_SESSION['user']['id']?>">Profil</a>
-            <?php else: ?>
-                <a href="/super-reminder/todolist">Reminder</a>
-            <?php endif; ?>
-        </div>
+        <aside class="flex hidden w-[60%] fixed top-[45px] bg-white h-full z-[15] lg:hidden" id="responsiveMenu">
+            <div class="flex flex-col space-y-6 pl-4 pt-4 w-full text-2xl">
+                <div class="flex flex-col space-y-6 pl-4 pt-4 w-full text-2xl">
+                    <a href="/super-reminder/">Accueil</a>
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <a href="/super-reminder/reminder/<?= $_SESSION['user']['id']?>">Reminder</a>
+                        <a href="/super-reminder/profil/<?= $_SESSION['user']['id']?>">Profil</a>
+                    <?php else: ?>
+                        <a href="/super-reminder/todolist">Reminder</a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </aside>
         <article class="flex justify-center">
             <section class="w-[95%] lg:w-[60%] pt-8">
                 <div id="containerFormEditProfil">

@@ -15,7 +15,7 @@
     <header>
         <?php require_once 'src/View/import/header.php'; ?>
     </header>
-        <main class="h-screen">
+        <main class="h-[130vh] lg:h-screen">
             <div id="containerFormLoginRegister"></div>
             <div id="dialogModal_Overlay"></div>
             <aside class="flex hidden w-[60%] fixed top-[45px] bg-white h-full z-[15] lg:hidden" id="responsiveMenu">
@@ -29,7 +29,7 @@
                     <?php endif; ?>
                 </div>
             </aside>
-            <section class="flex flex-col space-y-4 lg:flex-row items-center -mx-3 font-sans px-4 mx-auto w-full lg:max-w-screen-lg sm:max-w-screen-sm md:max-w-screen-md pb-20 pt-20">
+            <section class="flex flex-col space-y-10 lg:flex-row items-center -mx-3 font-sans px-4 mx-auto w-full lg:max-w-screen-lg sm:max-w-screen-sm md:max-w-screen-md pb-20 pt-20">
                 <!-- Column-1 -->
                 <div class="px-3 w-full lg:w-[70%]">
                     <div
@@ -55,7 +55,7 @@
                 <div class="px-3 mb-12 w-full lg:mb-0 lg:w-full">
                     <!-- Illustrations Container -->
                     <div class="flex justify-center items-center">
-                        <aside id="homepageForm" tabindex="-1" aria-labelledby="modalAddReminderLabel" aria-hidden="true" class="w-[95%] p-3 border rounded-[10px] ">
+                        <div id="homepageForm" class="w-[95%] p-3 border rounded-[10px] ">
                             <div class="flex justify-between">
                                 <h2 id="modalAddReminderLabel" class="text-2xl">Ajouter un rappel</h2>
                                 <button type="button" id="btnCloseAddReminder" class="w-10 rounded-[10px] hover:bg-[#5258661f] flex items-center justify-center">
@@ -175,7 +175,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </aside>
+                        </div>
                     </div>
                 </div>
             </section>
