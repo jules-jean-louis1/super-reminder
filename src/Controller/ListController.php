@@ -12,7 +12,7 @@ class ListController extends AbstractClasses\AbstractContoller
             return false;
         }
     }
-    public function addList(int $userId)
+    public function addList(int $userId): void
     {
         $listModel = new ListModel();
         $name = $this->ValidFieldForm2('name');
@@ -25,7 +25,7 @@ class ListController extends AbstractClasses\AbstractContoller
         }
 
         if (empty($errors)) {
-            if ($_SESSION['user']['id'] !== $userId) {
+            if (intval($_SESSION['user']['id']) !== $userId) {
                 $errors['error'] = 'Vous n\'avez pas le droit de faire ça';
             }
             $checkNumberList = $listModel->checkNumberList($userId);
@@ -68,7 +68,7 @@ class ListController extends AbstractClasses\AbstractContoller
         }
         echo json_encode($errors);
     }
-    public function getUserList($id)
+    public function getUserList($id): void
     {
         $listModel = new ListModel();
         $list = $listModel->getUserList($id);

@@ -28,7 +28,7 @@ class ListModel extends AbstractDatabase
     public function deleteList(int $id): bool
     {
         $bdd = $this->getBdd();
-        $sql1 = 'DELETE FROM tags_list WHERE list_id = :list_id';
+        $sql1 = 'DELETE FROM tags_list WHERE id = :list_id';
         $sql2 = 'UPDATE task SET list_id = NULL WHERE list_id = :list_id';
         $sql3 = 'DELETE FROM list WHERE id = :list_id';
 

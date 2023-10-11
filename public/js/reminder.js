@@ -84,6 +84,7 @@ async function addList() {
                 modalAddList.close();
                 containerModal.innerHTML = '';
                 manageReminder();
+                displayListInSelect();
                 createToast(containerPushNotif, 'success', 'Votre list a bien été ajouté', 1000);
             }
             if (data.error) {
@@ -147,6 +148,9 @@ async function addList() {
                         console.log(data);
                         if (data.success) {
                             manageReminder();
+                            listsOfReminders.innerHTML = '';
+                            displayListInSelect();
+                            displayList();
                         }
                     });
                 });
@@ -196,6 +200,8 @@ async function addList() {
                                     errorDisplay.innerHTML = data.success;
                                     modalEditList.close();
                                 }, 400);
+                                listsOfReminders.innerHTML = '';
+                                displayListInSelect();
                                 displayList();
                                 manageReminder();
                             }
@@ -209,6 +215,15 @@ async function addList() {
         });
     }
     displayList();
+}
+function displayListInSelect() {
+    listeFormSelect.innerHTML = '';
+    listeFormSelect.innerHTML += '<option value="all">Toutes</option>';
+    getListOfUsers(id).then(data => {
+        for (let i = 0; i < data.length; i++) {
+            listeFormSelect.innerHTML += `<option value="${data[i].id}">${data[i].name}</option>`;
+        }
+    });
 }
 async function addReminder() {
     containerModal.innerHTML = '';
@@ -383,7 +398,6 @@ async function addReminder() {
     const errorDisplay = document.getElementById('errorDisplay');
     const errorName = document.getElementById('errorName');
     const errorDescription = document.getElementById('errorDescription');
-    const errorDate = document.getElementById('errorDate');
 
     const formAddReminder = document.getElementById('formAddReminder');
     formAddReminder.addEventListener('submit', async (e) => {
@@ -417,16 +431,16 @@ async function addReminder() {
                 errorDescription.innerHTML = data.description;
             }
             if (data.start) {
-                errorDate.innerHTML = '';
-                errorDate.innerHTML = data.start;
+                errorDisplay.innerHTML = '';
+                errorDisplay.innerHTML = data.start;
             }
             if (data.end) {
-                errorDate.innerHTML = '';
-                errorDate.innerHTML = data.end;
+                errorDisplay.innerHTML = '';
+                errorDisplay.innerHTML = data.end;
             }
             if (data.date) {
-                errorDate.innerHTML = '';
-                errorDate.innerHTML = data.date;
+                errorDisplay.innerHTML = '';
+                errorDisplay.innerHTML = data.date;
             }
             if (data.error) {
                 errorDisplay.innerHTML = '';
@@ -582,6 +596,12 @@ async function manageReminder(){
 }
 manageReminder();
 
+function reloadList() {
+const selectElement = document.getElementById('listeFormSelect');
+    const idList = selectElement.value;
+    const listUser = document.querySelector(`.listUser_${idList}`);
+    listUser.click();
+}
 getListOfUsers(id).then(data => {
     for (let i = 0; i < data.length; i++) {
         listeFormSelect.innerHTML += `
@@ -822,13 +842,13 @@ async function dislpayReminder() {
                 containerModal.innerHTML = '';
                 containerModal.innerHTML = `
                     <dialog id="modalEditReminder" tabindex="-1" aria-labelledby="modalEditReminderLabel" aria-hidden="true" class="dialog_fixed">
-                        <div class="flex flex-col justify-between">
+                        <div class="flex flex-col justify-between h-full">
                         <div class="flex justify-between">
                                 <h2 id="modalEditReminderLabel">Modifier un rappel</h2>
                                 <button type="button" id="btnCloseEditReminder">X</button>
                             </div>
-                            <div>
-                                <form action="" method="post" id="formEditReminder_${data[i].task_id}">
+                            <div class="h-full">
+                                <form action="" method="post" id="formEditReminder_${data[i].task_id}" class="h-full flex flex-col justify-between">
                                     <div>
                                         <div class="flex flex-col bg-[#f1f2f3] border rounded-[10px] p-2 border-2 border-3-l border-[#fff]">
                                             <label for="name" class="relative">Titre du rappel</label>
@@ -876,21 +896,31 @@ async function dislpayReminder() {
                                     <div>
                                         <label for="status">Status</label>
                                         <select name="status" id="status">
-                                            <option value="0">Pas commencer</option>
-                                            <option value="1">En cours</option>
-                                            <option value="2">Terminé</option>
+                                            <option value="todo">Pas commencer</option>
+                                            <option value="inprogress">En cours</option>
+                                            <option value="done">Terminé</option>
                                         </select>
                                     </div>
                                     <div id="listsOfReminders" class="flex flex-wrap"></div>
                                     <p id="errorDisplay"></p>
                                     <div>
-                                        <button type="submit" id="btnEditReminder_${data[i].task_id}" class="w-full px-2 bg-green-500">Modifier votre rappel</button>
+                                        <button type="submit" id="btnEditReminder_${data[i].task_id}" class="w-full bg-green-500 text-white rounded-[10px] py-4">Modifier votre rappel</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </dialog>`;
                 // Modification
+                const selectStatus = document.getElementById('status');
+                if (data[i].status === 'todo') {
+                    selectStatus.value = 'todo';
+                }
+                if (data[i].status === 'inprogress') {
+                    selectStatus.value = 'inprogress';
+                }
+                if (data[i].status === 'done') {
+                    selectStatus.value = 'done';
+                }
                 const btnAddDate = document.getElementById('btnAddDate');
                 const textBtnAddDate = document.getElementById('textBtnAddDate');
                 if (data[i].start !== null) {
@@ -927,28 +957,27 @@ async function dislpayReminder() {
                             </button>
                         </div>
                             `;
-                        let sliceHoursStart = data[i].start.slice(11, 19);
-                        let sliceHoursEnd = data[i].end.slice(11, 19);
-                        let dateStart = data[i].start.slice(0, 10);
-                        let dateEnd = data[i].end.slice(0, 10);
+
                         const inputStart = document.getElementById('start');
                         const inputEnd = document.getElementById('end');
-                        if (data[i].start !== null && sliceHoursStart !== '00:00:00') {
+                        if (data[i].start !== null && data[i].start.slice(11, 19) !== '00:00:00') {
                             inputStart.setAttribute('type', 'datetime-local');
                             const start = document.getElementById('start');
                             start.setAttribute('value', data[i].start);
                         }
-                        if (data[i].end !== null && sliceHoursEnd !== '00:00:00') {
+                        if (data[i].end !== null && data[i].end.slice(11, 19) !== '00:00:00') {
                             inputEnd.setAttribute('type', 'datetime-local');
                             const end = document.getElementById('end');
                             end.setAttribute('value', data[i].end);
                         }
-                        if (data[i].start !== null && sliceHoursStart === '00:00:00') {
+                        if (data[i].start !== null && data[i].start.slice(11, 19) === '00:00:00') {
                             const start = document.getElementById('start');
+                            let dateStart = data[i].start.slice(0, 10);
                             start.setAttribute('value', dateStart);
                         }
-                        if (data[i].end !== null && sliceHoursEnd === '00:00:00') {
+                        if (data[i].end !== null && data[i].end.slice(11, 19) === '00:00:00') {
                             const end = document.getElementById('end');
+                            let dateEnd = data[i].end.slice(0, 10);
                             end.setAttribute('value', dateEnd);
                         }
                     } else {

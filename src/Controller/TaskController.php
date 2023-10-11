@@ -29,7 +29,9 @@ class TaskController
         $errors = [];
         $tags = [];
 
-        if ($_SESSION['user']['id'] !== $id) {
+        $sessionId = intval($_SESSION['user']['id']);
+
+        if ($sessionId !== $id) {
             $errors['right'] = 'Vous n\'avez pas le droit de faire ça';
         }
         if (!$name) {
@@ -45,7 +47,7 @@ class TaskController
         }
 
         if(empty($errors)) {
-            if ($_SESSION['user']['id'] !== $id) {
+            if ($sessionId !== $id) {
                 $errors['right'] = 'Vous n\'avez pas le droit de faire ça';
             } else {
                 if (!$description) {
@@ -134,14 +136,15 @@ class TaskController
      */
     public function editTask(int $id): void
     {
-        var_dump($_POST);
         $taskModel = new TaskModel();
         $task = $taskModel->getTaskById($id);
         $errors = [];
 
         $name = $this->ValidFieldForm2('name');
 
-        if ($_SESSION['user']['id'] !== $task['users_id']) {
+        $sessionId = intval($_SESSION['user']['id']);
+
+        if ($sessionId !== intval($task['users_id'])) {
             $errors['right'] = 'Vous n\'avez pas le droit de faire ça';
         }
         if (!$name) {
@@ -154,29 +157,39 @@ class TaskController
                 $taskModel->editTask($id, 'name', $name);
                 $errors['success']['name'] = 'Le titre a bien été modifié';
             }
-            if ($task['description'] !== $_POST['description']) {
-                $taskModel->editTask($id, 'description', $_POST['description']);
-                $errors['success']['description'] = 'La description a bien été modifié';
+            if (isset($_POST['description'])) {
+                if ($task['description'] !== $_POST['description']) {
+                    $taskModel->editTask($id, 'description', $_POST['description']);
+                    $errors['success']['description'] = 'La description a bien été modifié';
+                }
             }
-            if ($task['list_id'] !== $_POST['list']) {
-                $taskModel->editTask($id, 'list_id', $_POST['list']);
-                $errors['success']['list'] = 'La liste a bien été modifié';
+            if (isset($_POST['list'])) {
+                if ($task['list_id'] !== $_POST['list']) {
+                    $taskModel->editTask($id, 'list_id', $_POST['list']);
+                    $errors['success']['list'] = 'La liste a bien été modifié';
+                }
             }
             if ($task['status'] !== $_POST['status']) {
                 $taskModel->editTask($id, 'status', $_POST['status']);
                 $errors['success']['status'] = 'Le status a bien été modifié';
             }
-            if ($task['start'] !== $_POST['start']) {
-                $taskModel->editTask($id, 'start', $_POST['start']);
-                $errors['success']['start'] = 'La date de début a bien été modifié';
+            if (isset($_POST['start'])) {
+                if ($task['start'] !== $_POST['start']) {
+                    $taskModel->editTask($id, 'start', $_POST['start']);
+                    $errors['success']['start'] = 'La date de début a bien été modifié';
+                }
             }
-            if ($task['end'] !== $_POST['end']) {
-                $taskModel->editTask($id, 'end', $_POST['end']);
-                $errors['success']['end'] = 'La date de fin a bien été modifié';
+            if (isset($_POST['end'])) {
+                if ($task['end'] !== $_POST['end']) {
+                    $taskModel->editTask($id, 'end', $_POST['end']);
+                    $errors['success']['end'] = 'La date de fin a bien été modifié';
+                }
             }
-            if ($task['priority'] !== $_POST['priority']) {
-                $taskModel->editTask($id, 'priority', $_POST['priority']);
-                $errors['success']['priority'] = 'La priorité a bien été modifié';
+            if (isset($_POST['priority'])) {
+                if ($task['priority'] !== $_POST['priority']) {
+                    $taskModel->editTask($id, 'priority', $_POST['priority']);
+                    $errors['success']['priority'] = 'La priorité a bien été modifié';
+                }
             }
         }
         echo json_encode($errors);
@@ -187,7 +200,9 @@ class TaskController
         $taskModel = new TaskModel();
         $task = $taskModel->getTaskById($id);
         $errors = [];
-        if ($users_id !== $_SESSION['user']['id']) {
+        $sessionId = intval($_SESSION['user']['id']);
+
+        if ($users_id !== $sessionId) {
             $errors['error'] = 'Vous n\'avez pas le droit de faire ça';
         } else {
             if ($status === 'todo') {
@@ -236,7 +251,9 @@ class TaskController
         $usersToAdd = array_diff($_POST['users'], $taskUsers);
         $usersToRemove = array_diff($taskUsers, $_POST['users']);
 
-        if ($_SESSION['user']['id'] !== $id) {
+        $sessionId = intval($_SESSION['user']['id']);
+
+        if ($sessionId !== $id) {
             $errors['right'] = 'Vous n\'avez pas le droit de faire ça.';
         } else {
             foreach ($usersToAdd as $user) {
@@ -258,7 +275,7 @@ class TaskController
         $task = $taskModel->getTaskById($id);
         $errors = [];
 
-        if ($task['users_id'] !== $_SESSION['user']['id']) {
+        if (intval($task['users_id']) !== intval($_SESSION['user']['id'])) {
             $errors['error'] = 'Vous n\'avez pas le droit de faire ça';
         } else {
             $taskModel->deleteTask($id);
@@ -282,7 +299,6 @@ class TaskController
     public function changeStatusShareTask(int $id, string $status): void
     {
         $taskModel = new TaskModel();
-        $task = $taskModel->getShareTask($id);
         $errors = [];
 
         if ($status === 'todo') {
